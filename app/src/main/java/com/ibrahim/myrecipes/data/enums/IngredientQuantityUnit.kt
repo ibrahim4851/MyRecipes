@@ -1,7 +1,7 @@
 package com.ibrahim.myrecipes.data.enums
 
 enum class IngredientQuantityUnit(val value: String) {
-    GRAM("Gram"),
+    GRAM("Gr"),
     KILOGRAM("Kg"),
     LITER("Lt"),
     TEASPOON("Tspn"),

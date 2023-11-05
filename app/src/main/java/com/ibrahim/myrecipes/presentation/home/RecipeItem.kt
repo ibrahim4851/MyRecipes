@@ -39,14 +39,14 @@ fun RecipeItem(
     ElevatedCard(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp)
+            .padding(4.dp)
     ) {
         AsyncImage(
             model = Uri.parse("file://${recipe.recipePhotoUri}"),
             null
         )
         Column(modifier = Modifier.padding(8.dp)) {
-            Text(text = recipe.recipeTitle, fontWeight = FontWeight.Bold, style = Typography.titleLarge)
+            Text(text = recipe.recipeTitle, fontWeight = FontWeight.Bold, style = Typography.titleMedium)
 
             AssistChip(
                 onClick = { /*TODO*/ },
@@ -68,7 +68,7 @@ fun RecipeItem(
                 label = {
                     Text(
                         text = (recipe.recipeTime.toString() + " minutes"),
-                        style = Typography.labelMedium
+                        style = Typography.labelSmall
                     )
                 },
                 leadingIcon = {

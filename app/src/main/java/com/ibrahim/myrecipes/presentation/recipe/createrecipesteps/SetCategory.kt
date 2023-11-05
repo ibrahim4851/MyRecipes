@@ -92,8 +92,7 @@ fun SetCategory(navController: NavController) {
                     Spacer(modifier = Modifier.padding(8.dp))
 
                     FlowRow(
-                        modifier = Modifier.padding(8.dp),
-                        horizontalArrangement = Arrangement.SpaceBetween
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         val foodCategories = getAllFoodCategories()
                         if (selectedChipState.isEmpty()) {
@@ -105,7 +104,6 @@ fun SetCategory(navController: NavController) {
                             FilterChip(
                                 selected = selectedChipState[foodCategory] == true,
                                 onClick = {
-
                                     if (selectedChipState[foodCategory] == false && isChipSelected.value == false) {
                                         selectedChipState[foodCategory] = true
                                         isChipSelected.value = true

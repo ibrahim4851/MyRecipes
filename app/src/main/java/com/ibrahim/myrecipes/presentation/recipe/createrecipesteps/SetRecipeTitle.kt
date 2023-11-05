@@ -75,7 +75,7 @@ fun RecipeTitle(navController: NavController) {
                 {
                     Row(modifier = Modifier.fillMaxWidth()) {
                         IconButton(onClick = {
-                            navController.currentBackStack
+                            navController.popBackStack()
                         }) {
                             Icon(
                                 imageVector = Icons.Filled.ArrowBack,

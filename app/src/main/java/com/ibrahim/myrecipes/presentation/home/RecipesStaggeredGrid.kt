@@ -1,7 +1,5 @@
 package com.ibrahim.myrecipes.presentation.home
 
-import android.util.Log
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,7 +11,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ibrahim.myrecipes.domain.model.Recipe
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 @Preview
 fun RecipesStaggeredGrid(recipes: List<Recipe> = dummyRecipeList){
@@ -26,7 +23,6 @@ fun RecipesStaggeredGrid(recipes: List<Recipe> = dummyRecipeList){
         verticalItemSpacing = 4.dp
     ){
         items(recipes.size) { itemIndex ->
-            Log.i("adfasf", recipes[itemIndex].recipePhotoUri.toString())
             RecipeItem(recipes[itemIndex])
         }
     }

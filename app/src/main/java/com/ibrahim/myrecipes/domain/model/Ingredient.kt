@@ -9,7 +9,7 @@ import java.math.BigDecimal
 data class Ingredient(
     val ingredientId: Long?,
     val recipeId: Int?,
-    val ingredientName: String,
-    val ingredientQuantity: BigDecimal?,
+    var ingredientName: String,
+    var ingredientQuantity: BigDecimal?,
     var ingredientQuantityUnit: IngredientQuantityUnit
 ) : Parcelable
