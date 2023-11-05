@@ -2,8 +2,12 @@ package com.ibrahim.myrecipes.presentation.home
 
 import android.net.Uri
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -45,39 +49,50 @@ fun RecipeItem(
             model = Uri.parse("file://${recipe.recipePhotoUri}"),
             null
         )
-        Column(modifier = Modifier.padding(8.dp)) {
-            Text(text = recipe.recipeTitle, fontWeight = FontWeight.Bold, style = Typography.titleMedium)
+        Column(
+            modifier = Modifier.padding(8.dp)
+        ) {
+            Text(
+                text = recipe.recipeTitle,
+                fontWeight = FontWeight.Bold,
+                style = Typography.titleMedium
+            )
 
-            AssistChip(
-                onClick = { /*TODO*/ },
-                label = {
-                    Text(
-                        text = (recipe.recipeServings.toString() + " servings"),
-                        style = Typography.labelSmall
-                    )
-                },
-                leadingIcon = {
-                    Icon(
-                        painterResource(id = R.drawable.baseline_serving_24),
-                        contentDescription = null
-                    )
-                }
-            )
-            AssistChip(
-                onClick = { /*TODO*/ },
-                label = {
-                    Text(
-                        text = (recipe.recipeTime.toString() + " minutes"),
-                        style = Typography.labelSmall
-                    )
-                },
-                leadingIcon = {
-                    Icon(
-                        painterResource(id = R.drawable.baseline_watch_later_24),
-                        contentDescription = null
-                    )
-                }
-            )
+            Row {
+
+                AssistChip(
+                    modifier = Modifier.padding(bottom = 0.dp),
+                    onClick = { /*TODO*/ },
+                    label = {
+                        Text(
+                            text = (recipe.recipeServings.toString() + " sv.")
+                        )
+                    },
+                    leadingIcon = {
+                        Icon(
+                            painterResource(id = R.drawable.baseline_serving_24),
+                            contentDescription = null,
+                            modifier = Modifier.size(20.dp)
+                        )
+                    }
+                )
+                AssistChip(
+                    modifier = Modifier.width(IntrinsicSize.Min),
+                    onClick = { /*TODO*/ },
+                    label = {
+                        Text(
+                            text = (recipe.recipeTime.toString() + " mn.")
+                        )
+                    },
+                    leadingIcon = {
+                        Icon(
+                            painterResource(id = R.drawable.baseline_watch_later_24),
+                            contentDescription = null,
+                            modifier = Modifier.size(20.dp)
+                        )
+                    }
+                )
+            }
 
         }
 

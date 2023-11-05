@@ -35,8 +35,9 @@ private val LightColorScheme = lightColorScheme(
     primary = Green600,
     secondary = Green400,
     tertiary = Pink40,
-    background = Green50,
-    surface = Green200,
+    background = Color.White,
+    surface = Green50,
+    surfaceTint = Green900,
     onPrimary = Color.White,
     onSecondary = Color.White,
     onTertiary = Color.White,
@@ -53,7 +54,6 @@ private val LightColorScheme = lightColorScheme(
 @Composable
 fun MyRecipesTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
     dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {

@@ -106,6 +106,7 @@ fun RecipeTitle(navController: NavController) {
                         OutlinedTextField(
                             value = recipeTitle,
                             onValueChange = { recipeTitle = it },
+                            singleLine = true,
                             placeholder = {
                                 Text(text = "e.g. Hamburger")
                             }
