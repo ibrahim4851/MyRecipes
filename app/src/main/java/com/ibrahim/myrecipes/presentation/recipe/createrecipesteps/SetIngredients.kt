@@ -19,7 +19,6 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
-import androidx.compose.material3.ExposedDropdownMenuDefaults.TrailingIcon
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedButton
@@ -27,9 +26,9 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -51,6 +50,9 @@ import java.math.BigDecimal
 @Composable
 fun SetIngredients(navController: NavController) {
 
+    val quantityUnits = getAllIngredientQuantityUnits()
+    val ingredientDropdownExpanded = remember { mutableStateMapOf<Int, Boolean>() }
+
     var ingredients by remember {
         mutableStateOf(
             listOf(
@@ -65,11 +67,7 @@ fun SetIngredients(navController: NavController) {
         )
     }
 
-    val quantityUnits = getAllIngredientQuantityUnits()
-    var ingredientDropdownExpanded by remember { mutableStateOf(false) }
-    var selectedQuantity by remember {
-        mutableStateOf(quantityUnits[0])
-    }
+    ingredientDropdownExpanded.put(0, false)
 
     Surface(modifier = Modifier.fillMaxSize()) {
 
@@ -144,6 +142,7 @@ fun SetIngredients(navController: NavController) {
                                 BigDecimal.ZERO,
                                 IngredientQuantityUnit.GRAM
                             )
+                            ingredientDropdownExpanded.put(ingredients.size - 1, false)
                         },
                         enabled = ingredients.last().ingredientName.isNotBlank()
                     ) {
@@ -158,7 +157,6 @@ fun SetIngredients(navController: NavController) {
                         verticalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
                         items(ingredients.size) { index ->
-                            var ingredientQuantity by remember { mutableStateOf("") }
                             Row {
                                 OutlinedTextField(
                                     modifier = Modifier.weight(6f),
@@ -200,36 +198,37 @@ fun SetIngredients(navController: NavController) {
 
                                 ExposedDropdownMenuBox(
                                     modifier = Modifier.weight(4f),
-                                    expanded = ingredientDropdownExpanded,
+                                    expanded = ingredientDropdownExpanded[index]!!,
                                     onExpandedChange = {
-                                        ingredientDropdownExpanded = !ingredientDropdownExpanded
+                                        ingredientDropdownExpanded[index] =
+                                            !ingredientDropdownExpanded.get(index)!!
                                     }
                                 )
                                 {
-                                    TextField(
-                                        modifier = Modifier.menuAnchor(),
+                                    OutlinedTextField(
+                                        modifier = Modifier
+                                            .menuAnchor(),
                                         readOnly = true,
-                                        value = selectedQuantity.value,
+                                        value = ingredients[index].ingredientQuantityUnit.value,
                                         onValueChange = { },
-                                        trailingIcon = {
-                                            TrailingIcon(
-                                                expanded = ingredientDropdownExpanded
-                                            )
-                                        },
-                                        colors = ExposedDropdownMenuDefaults.textFieldColors()
+                                        singleLine = true,
+                                        colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(),
                                     )
                                     ExposedDropdownMenu(
-                                        expanded = ingredientDropdownExpanded,
-                                        onDismissRequest = { ingredientDropdownExpanded = false }
+                                        expanded = ingredientDropdownExpanded[index]!!,
+                                        onDismissRequest = {
+                                            ingredientDropdownExpanded[index] = false
+                                        }
                                     ) {
                                         quantityUnits.forEach { selectionOption ->
                                             DropdownMenuItem(
                                                 text = { Text(text = selectionOption.value) },
                                                 onClick = {
-                                                    selectedQuantity = selectionOption
-                                                    ingredients[index].ingredientQuantityUnit =
-                                                        selectionOption
-                                                    ingredientDropdownExpanded = false
+                                                    ingredients = ingredients.toMutableList().also {
+                                                        it[index] =
+                                                            it[index].copy(ingredientQuantityUnit = selectionOption)
+                                                    }
+                                                    ingredientDropdownExpanded[index] = false
                                                 })
                                         }
                                     }

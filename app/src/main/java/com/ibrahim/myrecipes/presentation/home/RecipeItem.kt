@@ -2,12 +2,9 @@ package com.ibrahim.myrecipes.presentation.home
 
 import android.net.Uri
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -58,7 +55,7 @@ fun RecipeItem(
                 style = Typography.titleMedium
             )
 
-            Row {
+            Column {
 
                 AssistChip(
                     modifier = Modifier.padding(bottom = 0.dp),
@@ -77,7 +74,6 @@ fun RecipeItem(
                     }
                 )
                 AssistChip(
-                    modifier = Modifier.width(IntrinsicSize.Min),
                     onClick = { /*TODO*/ },
                     label = {
                         Text(

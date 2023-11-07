@@ -131,9 +131,6 @@ fun SetCategory(navController: NavController) {
                                                 modifier = Modifier.size(FilterChipDefaults.IconSize)
                                             )
                                         }
-                                        else{
-                                            null
-                                        }
                                     }
                                 }
                             )
