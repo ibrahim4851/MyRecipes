@@ -54,7 +54,30 @@ fun SetCategory(navController: NavController) {
 
         Scaffold(
             modifier = Modifier.fillMaxSize(),
+            bottomBar = {
 
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 8.dp, bottom = 8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalAlignment = Alignment.Bottom
+                ) {
+                    OutlinedButton(
+                        modifier = Modifier.weight(1f),
+                        onClick = { }
+                    ) {
+                        Text(text = "Cancel")
+                    }
+                    Button(
+                        onClick = { navController.navigate(Screen.RecipeIngredients.route) },
+                        modifier = Modifier.weight(1f),
+                        enabled = isChipSelected.value
+                    ) {
+                        Text(text = "Next")
+                    }
+                }
+            }
             ) { values ->
             Column(
                 modifier = Modifier
@@ -136,32 +159,7 @@ fun SetCategory(navController: NavController) {
                             )
                         }
                     }
-
-
                 }
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .weight(1f)
-                        .padding(start = 8.dp),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    verticalAlignment = Alignment.Bottom
-                ) {
-                    OutlinedButton(
-                        modifier = Modifier.weight(1f),
-                        onClick = { }
-                    ) {
-                        Text(text = "Cancel")
-                    }
-                    Button(
-                        onClick = { navController.navigate(Screen.RecipeIngredients.route) },
-                        modifier = Modifier.weight(1f),
-                        enabled = isChipSelected.value
-                    ) {
-                        Text(text = "Next")
-                    }
-                }
-
             }
         }
     }

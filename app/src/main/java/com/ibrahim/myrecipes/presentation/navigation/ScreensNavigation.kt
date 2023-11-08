@@ -14,7 +14,6 @@ import com.ibrahim.myrecipes.presentation.recipe.createrecipesteps.RecipeTitle
 import com.ibrahim.myrecipes.presentation.recipe.createrecipesteps.SetCategory
 import com.ibrahim.myrecipes.presentation.recipe.createrecipesteps.SetIngredients
 import com.ibrahim.myrecipes.presentation.recipe.createrecipesteps.SetInstructions
-import com.ibrahim.myrecipes.presentation.recipe.createrecipesteps.SetServingsTime
 
 @Composable
 fun ScreensNavigation(){
@@ -48,10 +47,6 @@ fun ScreensNavigation(){
 
         composable(route = Screen.RecipeInstructions.route) {
             SetInstructions(navController = navController)
-        }
-
-        composable(route = Screen.RecipeServingsAndTime.route) {
-            SetServingsTime(navController = navController)
         }
 
     }
