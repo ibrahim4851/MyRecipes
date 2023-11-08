@@ -67,7 +67,7 @@ fun SetIngredients(navController: NavController) {
         )
     }
 
-    ingredientDropdownExpanded.put(0, false)
+    ingredientDropdownExpanded[0] = false
 
     Surface(modifier = Modifier.fillMaxSize()) {
 
@@ -142,7 +142,7 @@ fun SetIngredients(navController: NavController) {
                                 BigDecimal.ZERO,
                                 IngredientQuantityUnit.GRAM
                             )
-                            ingredientDropdownExpanded.put(ingredients.size - 1, false)
+                            ingredientDropdownExpanded[ingredients.size - 1] = false
                         },
                         enabled = ingredients.last().ingredientName.isNotBlank()
                     ) {
