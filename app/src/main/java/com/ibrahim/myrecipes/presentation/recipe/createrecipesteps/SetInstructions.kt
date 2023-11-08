@@ -56,7 +56,7 @@ fun SetInstructions(navController: NavController) {
                         Text(text = "Cancel")
                     }
                     Button(
-                        onClick = { navController.navigate(Screen.RecipeServingsAndTime.route) },
+                        onClick = { navController.navigate(Screen.RecipeImage.route) },
                         modifier = Modifier.weight(1f)
                     ) {
                         Text(text = "Next")
