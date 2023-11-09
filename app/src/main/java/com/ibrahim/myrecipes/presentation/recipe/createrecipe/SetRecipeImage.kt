@@ -32,14 +32,19 @@ import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.ibrahim.myrecipes.Screen
+import com.ibrahim.myrecipes.presentation.recipe.RecipeViewModel
 import com.ibrahim.myrecipes.presentation.ui.theme.Typography
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddRecipeImage(navController: NavController) {
+fun AddRecipeImage(
+    navController: NavController,
+    viewModel: RecipeViewModel = hiltViewModel()
+) {
 
     var uri by remember { mutableStateOf<Uri?>(null) }
 

@@ -5,26 +5,28 @@ import com.ibrahim.myrecipes.domain.model.Ingredient
 import com.ibrahim.myrecipes.domain.model.Recipe
 import kotlinx.coroutines.flow.Flow
 
+typealias Recipes = List<Recipe>
+typealias Ingredients = List<Ingredient>
 interface RecipeRepository {
 
-    fun insertRecipes(recipes: List<Recipe>)
+    fun getAllRecipes(): Flow<Recipes>
 
-    fun insertIngredients(ingredients: List<Ingredient>)
+    suspend fun insertRecipes(recipes: Recipes)
 
-    fun updateRecipe(recipe: Recipe)
+    suspend fun insertIngredients(ingredients: Ingredients)
 
-    fun updateIngredient(ingredient: Ingredient)
+    suspend fun updateRecipe(recipe: Recipe)
 
-    fun deleteRecipe(recipe: Recipe)
+    suspend fun updateIngredient(ingredient: Ingredient)
 
-    fun deleteIngredient(ingredient: Ingredient)
+    suspend fun deleteRecipe(recipe: Recipe)
 
-    fun getAllRecipes(): Flow<List<Recipe>>
+    suspend fun deleteIngredient(ingredient: Ingredient)
 
-    fun getAllIngredients(): Flow<List<Ingredient>>
+    suspend fun getAllIngredients(): Ingredients
 
-    fun searchRecipe(query: String): Flow<List<Recipe>>
+    suspend fun searchRecipe(query: String): Recipes
 
-    fun filterRecipe(foodCategory: FoodCategory): Flow<List<Recipe>>
+    suspend fun filterRecipe(foodCategory: FoodCategory): Recipes
 
 }

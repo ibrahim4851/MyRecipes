@@ -20,29 +20,17 @@ interface RecipeDao {
     fun getAllRecipes(): Flow<List<RecipeEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertRecipe(recipeEntity: RecipeEntity): Long
+    suspend fun insertRecipe(recipeEntity: RecipeEntity)
 
     @Delete
-    fun deleteRecipe(recipeEntity: RecipeEntity)
+    suspend fun deleteRecipe(recipeEntity: RecipeEntity)
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    fun updateRecipe(recipeEntity: RecipeEntity)
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertIngredient(ingredientEntity: IngredientEntity): Long
-
-    @Delete
-    fun deleteIngredient(ingredientEntity: IngredientEntity)
-
-    @Update(onConflict = OnConflictStrategy.REPLACE)
-    fun updateIngredient(ingredientEntity: IngredientEntity)
-
-    @Query("SELECT * FROM ingredients")
-    fun getAllIngredients(): Flow<List<IngredientEntity>>
+    suspend fun updateRecipe(recipeEntity: RecipeEntity)
 
     @Transaction
     @Query("SELECT * FROM recipes WHERE recipeId = :recipeId")
-    fun getRecipeWithIngredients(recipeId: Int): Flow<RecipeIngredients?>
+    suspend fun getRecipeWithIngredients(recipeId: Int): RecipeIngredients?
 
 
     @Query(
@@ -51,11 +39,25 @@ interface RecipeDao {
                 "WHERE r.recipeTitle LIKE '%' || :query || '%' " +
                 "OR i.ingredientName LIKE '%' || :query || '%'"
     )
-    fun searchRecipes(query: String): Flow<List<RecipeEntity>>
+    suspend fun searchRecipes(query: String): List<RecipeEntity>
 
     @Transaction
     @Query("SELECT * FROM recipes WHERE foodCategory = :foodCategory")
-    fun getRecipesByFoodType(foodCategory: FoodCategory): Flow<List<RecipeEntity>>
+    suspend fun getRecipesByFoodType(foodCategory: FoodCategory): List<RecipeEntity>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertIngredient(ingredientEntity: IngredientEntity): Long
+
+    @Delete
+    suspend fun deleteIngredient(ingredientEntity: IngredientEntity)
+
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun updateIngredient(ingredientEntity: IngredientEntity)
+
+    @Query("SELECT * FROM ingredients")
+    suspend fun getAllIngredients(): List<IngredientEntity>
+
+
 
 
 }
