@@ -16,4 +16,6 @@ sealed class CreateRecipeEvent {
 
     data class SetImage(val uri: Uri): CreateRecipeEvent()
 
+    data object SaveRecipe : CreateRecipeEvent()
+
 }
