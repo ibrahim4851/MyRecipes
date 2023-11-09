@@ -1,4 +1,4 @@
-package com.ibrahim.myrecipes.presentation.recipe.createrecipesteps
+package com.ibrahim.myrecipes.presentation.recipe.createrecipe
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.keyframes
@@ -37,7 +37,7 @@ import com.ibrahim.myrecipes.presentation.ui.theme.Typography
 @Composable
 fun SetInstructions(navController: NavController) {
 
-    var instructions = remember { mutableStateListOf("") }
+    val instructions = remember { mutableStateListOf("") }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),

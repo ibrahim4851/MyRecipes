@@ -1,10 +1,10 @@
 package com.ibrahim.myrecipes
 
 sealed class Screen(val route: String){
-    object HomeScreen: Screen(route = "home_screen")
-    object RecipeTitle: Screen(route = "recipe_title")
-    object RecipeImage: Screen(route = "recipe_image")
-    object RecipeCategory: Screen(route = "recipe_category")
-    object RecipeIngredients: Screen(route = "recipe_ingredients")
-    object RecipeInstructions: Screen(route = "recipe_instructions")
+    data object HomeScreen: Screen(route = "home_screen")
+    data object RecipeTitle: Screen(route = "recipe_title")
+    data object RecipeImage: Screen(route = "recipe_image")
+    data object RecipeCategory: Screen(route = "recipe_category")
+    data object RecipeIngredients: Screen(route = "recipe_ingredients")
+    data object RecipeInstructions: Screen(route = "recipe_instructions")
 }

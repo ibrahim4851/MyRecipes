@@ -1,4 +1,4 @@
-package com.ibrahim.myrecipes.presentation.recipe.createrecipesteps
+package com.ibrahim.myrecipes.presentation.recipe.createrecipe
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.keyframes
@@ -132,7 +132,7 @@ fun SetCategory(navController: NavController) {
                                         isChipSelected.value = true
                                     }
                                     else if (isChipSelected.value) {
-                                        var selectedChip = selectedChipState.filter { (key, value) -> value }
+                                        val selectedChip = selectedChipState.filter { (key, value) -> value }
                                         if(selectedChip.entries.first().key == foodCategory){
                                             isChipSelected.value = false
                                             selectedChipState[foodCategory] = false

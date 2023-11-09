@@ -14,28 +14,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.ibrahim.myrecipes.R
-import com.ibrahim.myrecipes.data.enums.FoodCategory
 import com.ibrahim.myrecipes.domain.model.Recipe
 import com.ibrahim.myrecipes.presentation.ui.theme.Typography
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-@Preview
 fun RecipeItem(
-    recipe: Recipe = Recipe(
-        recipeId = 1,
-        recipeTitle = "Delicious Burger",
-        recipeDescription = "A mouthwatering burger recipe",
-        recipeInstructions = "1. Grill the burger patties...\n2. Toast the buns...\n3. Assemble the burger...",
-        recipeTime = 30,
-        recipeServings = 2,
-        foodCategory = FoodCategory.BURGER,
-        recipePhotoUri = "https://example.com/burger.jpg" // URL to the recipe photo, can be null
-    )
+    recipe: Recipe
 ) {
     ElevatedCard(
         modifier = Modifier
@@ -59,7 +47,7 @@ fun RecipeItem(
 
                 AssistChip(
                     modifier = Modifier.padding(bottom = 0.dp),
-                    onClick = { /*TODO*/ },
+                    onClick = {  },
                     label = {
                         Text(
                             text = (recipe.recipeServings.toString() + " sv.")
@@ -74,7 +62,7 @@ fun RecipeItem(
                     }
                 )
                 AssistChip(
-                    onClick = { /*TODO*/ },
+                    onClick = {  },
                     label = {
                         Text(
                             text = (recipe.recipeTime.toString() + " mn.")

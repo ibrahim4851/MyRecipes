@@ -1,4 +1,4 @@
-package com.ibrahim.myrecipes.presentation.recipe.createrecipesteps
+package com.ibrahim.myrecipes.presentation.recipe.createrecipe
 
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
