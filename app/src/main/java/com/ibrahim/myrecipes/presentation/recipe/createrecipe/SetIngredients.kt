@@ -94,7 +94,8 @@ fun SetIngredients(
                         }
                         Button(
                             onClick = { navController.navigate(Screen.RecipeInstructions.route) },
-                            modifier = Modifier.weight(1f)
+                            modifier = Modifier.weight(1f),
+                            enabled = ingredients[0].ingredientName.isNotBlank()
                         ) {
                             Text(text = "Next")
                         }

@@ -65,6 +65,7 @@ dependencies {
     def room_version = "2.6.0"
     def hilt_version = "2.48.1"
     def nav_version = "2.7.5"
+    def maxkeppeler_version = "1.2.0"
 
 
     implementation 'androidx.core:core-ktx:1.12.0'
@@ -101,6 +102,10 @@ dependencies {
     implementation("io.coil-kt:coil-compose:2.4.0")
 
     implementation "com.google.accompanist:accompanist-permissions:0.33.2-alpha"
+
+
+    implementation "com.maxkeppeler.sheets-compose-dialogs:core:$maxkeppeler_version"
+    implementation "com.maxkeppeler.sheets-compose-dialogs:duration:$maxkeppeler_version"
 }
 
 kapt {

@@ -40,7 +40,7 @@ fun RecipeItem(
             Text(
                 text = recipe.recipeTitle,
                 fontWeight = FontWeight.Bold,
-                style = Typography.titleMedium
+                style = Typography.titleLarge
             )
 
             Column {

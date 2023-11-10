@@ -21,7 +21,9 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -35,6 +37,11 @@ import com.ibrahim.myrecipes.Screen
 import com.ibrahim.myrecipes.presentation.recipe.CreateRecipeEvent
 import com.ibrahim.myrecipes.presentation.recipe.RecipeViewModel
 import com.ibrahim.myrecipes.presentation.ui.theme.Typography
+import com.maxkeppeker.sheets.core.models.base.rememberUseCaseState
+import com.maxkeppeler.sheets.duration.DurationDialog
+import com.maxkeppeler.sheets.duration.models.DurationConfig
+import com.maxkeppeler.sheets.duration.models.DurationFormat
+import com.maxkeppeler.sheets.duration.models.DurationSelection
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -71,9 +78,14 @@ fun RecipeTitle(
                         onClick = {
                             viewModel.onEvent(
                                 CreateRecipeEvent
-                                    .SetTitleMinuteServings(recipeTitle, recipeTime.toInt(), recipeServings.toInt())
+                                    .SetTitleMinuteServings(
+                                        recipeTitle,
+                                        recipeTime.toInt(),
+                                        recipeServings.toInt()
+                                    )
                             )
-                            navController.navigate(Screen.RecipeCategory.route) },
+                            navController.navigate(Screen.RecipeCategory.route)
+                        },
                         modifier = Modifier.weight(1f),
                         enabled = recipeTitle.isNotEmpty()
                                 && recipeServings.isNotEmpty()
@@ -140,11 +152,14 @@ fun RecipeTitle(
 
                     OutlinedTextField(
                         value = recipeServings,
-                        onValueChange = { recipeServings = it },
+                        onValueChange = { value ->
+                            recipeServings = value.filter { it.isDigit() }
+                        },
                         singleLine = true,
                         placeholder = {
                             Text(text = "e.g. 2")
-                        }
+                        },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal)
                     )
 
                     Spacer(modifier = Modifier.padding(8.dp))
@@ -156,14 +171,32 @@ fun RecipeTitle(
 
                     Spacer(modifier = Modifier.padding(8.dp))
 
+                    val selectedTimeInSeconds = remember { mutableLongStateOf(240) }
+                    DurationDialog(
+                        state = rememberUseCaseState(
+                            visible = true,
+                            onCloseRequest = {  }
+                        ),
+                        selection = DurationSelection { newTimeInSeconds ->
+                            selectedTimeInSeconds.longValue = newTimeInSeconds
+                        },
+                        config = DurationConfig(
+                            timeFormat = DurationFormat.HH_MM,
+                            minTime = 30,
+                            maxTime = 240
+                        )
+                    )
+
                     OutlinedTextField(
                         value = recipeTime,
-                        onValueChange = { recipeTime = it },
+                        onValueChange = { value ->
+                            recipeTime = value.filter { it.isDigit() }
+                        },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         singleLine = true,
                         placeholder = {
-                            Text(text = "e.g. 13 min")
-                        }
+                            Text(text = "e.g. 1 hour and 15 minutes")
+                        },
                     )
 
                 }

@@ -33,7 +33,7 @@ private val DarkColorScheme = darkColorScheme(
 
 private val LightColorScheme = lightColorScheme(
     primary = Green600,
-    secondary = Green400,
+    secondary = Green700,
     tertiary = Pink40,
     background = Color.White,
     surface = Green50,
@@ -43,10 +43,11 @@ private val LightColorScheme = lightColorScheme(
     onTertiary = Color.White,
     onBackground = Color(0xFF1C1B1F),
     onSurface = Color(0xFF1C1B1F),
-    onPrimaryContainer = Color.Black, //fab icon color
+    onPrimaryContainer = Color.White, //fab icon color
     primaryContainer = Green400, //fab backgrond
-    secondaryContainer = Green400, //chip selected
+    secondaryContainer = Green200, //chip selected
     onSurfaceVariant = Color.Black,// chip text color
+    onSecondaryContainer = Color.Black, // selected chip text color
     surfaceVariant = Green200
 )
 
