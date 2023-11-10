@@ -29,13 +29,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.ibrahim.myrecipes.Screen
+import com.ibrahim.myrecipes.presentation.recipe.CreateRecipeEvent
+import com.ibrahim.myrecipes.presentation.recipe.RecipeViewModel
 import com.ibrahim.myrecipes.presentation.ui.theme.Typography
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RecipeTitle(navController: NavController) {
+fun RecipeTitle(
+    navController: NavController,
+    viewModel: RecipeViewModel = hiltViewModel()
+) {
 
     var recipeTitle by rememberSaveable { mutableStateOf("") }
     var recipeServings by rememberSaveable { mutableStateOf("") }
@@ -62,9 +68,16 @@ fun RecipeTitle(navController: NavController) {
                         Text(text = "Cancel")
                     }
                     Button(
-                        onClick = { navController.navigate(Screen.RecipeCategory.route) },
+                        onClick = {
+                            viewModel.onEvent(
+                                CreateRecipeEvent
+                                    .SetTitleMinuteServings(recipeTitle, recipeTime.toInt(), recipeServings.toInt())
+                            )
+                            navController.navigate(Screen.RecipeCategory.route) },
                         modifier = Modifier.weight(1f),
                         enabled = recipeTitle.isNotEmpty()
+                                && recipeServings.isNotEmpty()
+                                && recipeTime.isNotEmpty()
                     ) {
                         Text(text = "Next")
                     }

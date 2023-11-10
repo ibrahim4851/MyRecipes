@@ -24,7 +24,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.ibrahim.myrecipes.Screen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -63,7 +62,7 @@ fun HomeScreen(navController: NavController) {
             floatingActionButton = {
                 FloatingActionButton(
                     onClick = {
-                        navController.navigate(Screen.RecipeTitle.route)
+                        navController.navigate("create_recipe")
                     }
                 ) {
                     Icon(Icons.Filled.Add, null)

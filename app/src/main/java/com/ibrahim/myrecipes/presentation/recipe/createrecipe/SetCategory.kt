@@ -34,15 +34,21 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.ibrahim.myrecipes.Screen
 import com.ibrahim.myrecipes.data.enums.FoodCategory
 import com.ibrahim.myrecipes.data.enums.getAllFoodCategories
+import com.ibrahim.myrecipes.presentation.recipe.CreateRecipeEvent
+import com.ibrahim.myrecipes.presentation.recipe.RecipeViewModel
 import com.ibrahim.myrecipes.presentation.ui.theme.Typography
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
-fun SetCategory(navController: NavController) {
+fun SetCategory(
+    navController: NavController,
+    viewModel: RecipeViewModel = hiltViewModel()
+) {
 
     val selectedChipState = remember { mutableStateMapOf<FoodCategory, Boolean>() }
     val isChipSelected = remember { mutableStateOf(false) }
@@ -70,7 +76,11 @@ fun SetCategory(navController: NavController) {
                         Text(text = "Cancel")
                     }
                     Button(
-                        onClick = { navController.navigate(Screen.RecipeIngredients.route) },
+                        onClick = {
+                            val selectedFoodCategory = selectedChipState.entries.find { it.value }?.key
+                            viewModel.onEvent(CreateRecipeEvent.SetCategory(selectedFoodCategory!!))
+                            navController.navigate(Screen.RecipeIngredients.route)
+                                  },
                         modifier = Modifier.weight(1f),
                         enabled = isChipSelected.value
                     ) {
@@ -127,7 +137,7 @@ fun SetCategory(navController: NavController) {
                             FilterChip(
                                 selected = selectedChipState[foodCategory] == true,
                                 onClick = {
-                                    if (selectedChipState[foodCategory] == false && isChipSelected.value == false) {
+                                    if (selectedChipState[foodCategory] == false && !isChipSelected.value) {
                                         selectedChipState[foodCategory] = true
                                         isChipSelected.value = true
                                     }

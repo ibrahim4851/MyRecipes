@@ -37,18 +37,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.ibrahim.myrecipes.Screen
 import com.ibrahim.myrecipes.data.converter.DecimalFormatter
 import com.ibrahim.myrecipes.data.enums.IngredientQuantityUnit
 import com.ibrahim.myrecipes.data.enums.getAllIngredientQuantityUnits
 import com.ibrahim.myrecipes.domain.model.Ingredient
+import com.ibrahim.myrecipes.presentation.recipe.RecipeViewModel
 import com.ibrahim.myrecipes.presentation.ui.theme.Typography
 import java.math.BigDecimal
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SetIngredients(navController: NavController) {
+fun SetIngredients(
+    navController: NavController,
+    viewModel: RecipeViewModel = hiltViewModel()
+) {
 
     val quantityUnits = getAllIngredientQuantityUnits()
     val ingredientDropdownExpanded = remember { mutableStateMapOf<Int, Boolean>() }
