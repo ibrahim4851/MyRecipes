@@ -82,7 +82,7 @@ fun SetIngredients(
                 Column {
                     Row(
                         modifier = Modifier
-                            .padding(start = 8.dp, bottom = 8.dp),
+                            .padding(8.dp),
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
                         verticalAlignment = Alignment.Bottom
                     ) {
