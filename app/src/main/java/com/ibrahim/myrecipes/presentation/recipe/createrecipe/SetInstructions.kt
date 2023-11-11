@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.ibrahim.myrecipes.Screen
+import com.ibrahim.myrecipes.presentation.recipe.CreateRecipeEvent
 import com.ibrahim.myrecipes.presentation.recipe.RecipeViewModel
 import com.ibrahim.myrecipes.presentation.ui.theme.Typography
 
@@ -61,8 +62,14 @@ fun SetInstructions(
                         Text(text = "Cancel")
                     }
                     Button(
-                        onClick = { navController.navigate(Screen.RecipeImage.route) },
-                        modifier = Modifier.weight(1f)
+                        onClick = {
+                            viewModel.onEvent(
+                                CreateRecipeEvent
+                                    .SetInstructions(instructions)
+                            )
+                            navController.navigate(Screen.RecipeImage.route) },
+                        modifier = Modifier.weight(1f),
+                        enabled = instructions[0].isNotBlank()
                     ) {
                         Text(text = "Next")
                     }

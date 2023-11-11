@@ -44,6 +44,7 @@ import com.ibrahim.myrecipes.data.converter.DecimalFormatter
 import com.ibrahim.myrecipes.data.enums.IngredientQuantityUnit
 import com.ibrahim.myrecipes.data.enums.getAllIngredientQuantityUnits
 import com.ibrahim.myrecipes.domain.model.Ingredient
+import com.ibrahim.myrecipes.presentation.recipe.CreateRecipeEvent
 import com.ibrahim.myrecipes.presentation.recipe.RecipeViewModel
 import com.ibrahim.myrecipes.presentation.ui.theme.Typography
 import java.math.BigDecimal
@@ -93,9 +94,16 @@ fun SetIngredients(
                             Text(text = "Cancel")
                         }
                         Button(
-                            onClick = { navController.navigate(Screen.RecipeInstructions.route) },
+                            onClick = {
+                                viewModel.onEvent(
+                                    CreateRecipeEvent
+                                        .SetIngredients(ingredients)
+                                )
+                                navController.navigate(Screen.RecipeInstructions.route)
+                                      },
                             modifier = Modifier.weight(1f),
-                            enabled = ingredients[0].ingredientName.isNotBlank()
+                            enabled = ingredients[0].ingredientName.isNotBlank() &&
+                                    ingredients[0].ingredientQuantity!! > BigDecimal.ZERO
                         ) {
                             Text(text = "Next")
                         }

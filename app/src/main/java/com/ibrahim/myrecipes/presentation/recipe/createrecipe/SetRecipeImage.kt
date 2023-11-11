@@ -36,6 +36,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.ibrahim.myrecipes.Screen
+import com.ibrahim.myrecipes.presentation.recipe.CreateRecipeEvent
 import com.ibrahim.myrecipes.presentation.recipe.RecipeViewModel
 import com.ibrahim.myrecipes.presentation.ui.theme.Typography
 
@@ -55,7 +56,8 @@ fun AddRecipeImage(
         }
     )
 
-    val stroke = Stroke(width = 4f,
+    val stroke = Stroke(
+        width = 4f,
         pathEffect = PathEffect.dashPathEffect(floatArrayOf(20f, 20f), 0f)
     )
 
@@ -78,7 +80,18 @@ fun AddRecipeImage(
                         }
                         Button(
                             modifier = Modifier.weight(1f),
-                            onClick = { navController.navigate(Screen.HomeScreen.route) },
+                            onClick = {
+                                viewModel.onEvent(
+                                    CreateRecipeEvent
+                                        .SetImage(uri!!)
+                                )
+                                navController.navigate(Screen.HomeScreen.route) {
+                                    launchSingleTop = true
+                                    popUpTo(Screen.HomeScreen.route) {
+                                        inclusive = true
+                                    }
+                                }
+                            },
                             enabled = uri != null
                         ) {
                             Text(text = "Next")
@@ -87,9 +100,10 @@ fun AddRecipeImage(
                 }
             }
         ) { paddingValues ->
-            Column(modifier = Modifier
-                .padding(paddingValues)
-                .padding(32.dp)
+            Column(
+                modifier = Modifier
+                    .padding(paddingValues)
+                    .padding(32.dp)
             ) {
                 Column(
                     modifier = Modifier
@@ -124,9 +138,10 @@ fun AddRecipeImage(
                         )
                     }
                 }
-                Row(modifier = Modifier
-                    .weight(2f)
-                    .padding(top = 12.dp)
+                Row(
+                    modifier = Modifier
+                        .weight(2f)
+                        .padding(top = 12.dp)
                 ) {
                     Button(
                         modifier = Modifier.weight(5f),
