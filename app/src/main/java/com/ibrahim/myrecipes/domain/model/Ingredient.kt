@@ -7,8 +7,8 @@ import java.math.BigDecimal
 
 @Parcelize
 data class Ingredient(
-    val ingredientId: Long?,
-    val recipeId: Int?,
+    val ingredientId: Long,
+    val ownerRecipeId: Long?,
     var ingredientName: String,
     var ingredientQuantity: BigDecimal?,
     var ingredientQuantityUnit: IngredientQuantityUnit

@@ -10,7 +10,7 @@ fun IngredientEntity.toIngredient(): Ingredient {
         ingredientName = ingredientName,
         ingredientQuantity = ingredientQuantity,
         ingredientQuantityUnit = ingredientQuantityUnit,
-        recipeId = recipeId
+        ownerRecipeId = ownerRecipeId
     )
 
 }
@@ -18,11 +18,11 @@ fun IngredientEntity.toIngredient(): Ingredient {
 fun Ingredient.toIngredientEntity(): IngredientEntity {
 
     return IngredientEntity(
-        ingredientId = ingredientId!!.toLong(),
+        ingredientId = ingredientId,
         ingredientName = ingredientName,
         ingredientQuantity = ingredientQuantity,
         ingredientQuantityUnit = ingredientQuantityUnit,
-        recipeId = recipeId!!
+        ownerRecipeId = ownerRecipeId!!
     )
 
 }

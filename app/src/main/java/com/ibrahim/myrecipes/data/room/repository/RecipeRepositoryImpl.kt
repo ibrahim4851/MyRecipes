@@ -22,10 +22,8 @@ class RecipeRepositoryImpl(private val dao: RecipeDao) : RecipeRepository {
         }
     }
 
-    override suspend fun insertRecipes(recipes: Recipes) {
-        recipes.map { it.toRecipeEntity() }.forEach {
-            dao.insertRecipe(it)
-        }
+    override suspend fun insertRecipe(recipe: Recipe): Long {
+        return dao.insertRecipe(recipe.toRecipeEntity())
     }
 
     override suspend fun insertIngredients(ingredients: Ingredients) {
@@ -52,13 +50,13 @@ class RecipeRepositoryImpl(private val dao: RecipeDao) : RecipeRepository {
 
 
     override suspend fun getAllIngredients(): Ingredients {
-        return dao.getAllIngredients().map {
-                ingredientEntity -> ingredientEntity.toIngredient() }
+        return dao.getAllIngredients().map { ingredientEntity -> ingredientEntity.toIngredient() }
     }
 
     override suspend fun searchRecipe(query: String): Recipes {
         return dao.searchRecipes(query).map { recipeEntity ->
-            recipeEntity.toRecipe()  }
+            recipeEntity.toRecipe()
+        }
     }
 
     override suspend fun filterRecipe(foodCategory: FoodCategory): Recipes {

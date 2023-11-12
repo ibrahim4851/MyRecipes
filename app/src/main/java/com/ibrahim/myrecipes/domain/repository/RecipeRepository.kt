@@ -11,7 +11,7 @@ interface RecipeRepository {
 
     fun getAllRecipes(): Flow<Recipes>
 
-    suspend fun insertRecipes(recipes: Recipes)
+    suspend fun insertRecipe(recipe: Recipe): Long
 
     suspend fun insertIngredients(ingredients: Ingredients)
 

@@ -85,6 +85,10 @@ fun AddRecipeImage(
                                     CreateRecipeEvent
                                         .SetImage(uri!!)
                                 )
+                                viewModel.onEvent(
+                                    CreateRecipeEvent
+                                        .SaveRecipe
+                                )
                                 navController.navigate(Screen.HomeScreen.route) {
                                     launchSingleTop = true
                                     popUpTo(Screen.HomeScreen.route) {

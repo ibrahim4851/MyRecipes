@@ -20,7 +20,7 @@ interface RecipeDao {
     fun getAllRecipes(): Flow<List<RecipeEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertRecipe(recipeEntity: RecipeEntity)
+    suspend fun insertRecipe(recipeEntity: RecipeEntity): Long
 
     @Delete
     suspend fun deleteRecipe(recipeEntity: RecipeEntity)
@@ -35,7 +35,7 @@ interface RecipeDao {
 
     @Query(
         "SELECT DISTINCT r.* FROM recipes r " +
-                "LEFT JOIN ingredients i ON r.recipeId = i.recipeId " +
+                "LEFT JOIN ingredients i ON r.recipeId = i.ownerRecipeId " +
                 "WHERE r.recipeTitle LIKE '%' || :query || '%' " +
                 "OR i.ingredientName LIKE '%' || :query || '%'"
     )

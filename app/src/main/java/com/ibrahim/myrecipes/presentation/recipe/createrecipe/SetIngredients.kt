@@ -63,7 +63,7 @@ fun SetIngredients(
         mutableStateOf(
             listOf(
                 Ingredient(
-                    null,
+                    0L,
                     null,
                     "",
                     BigDecimal.ZERO,
@@ -150,7 +150,7 @@ fun SetIngredients(
                     IconButton(
                         onClick = {
                             ingredients = ingredients + Ingredient(
-                                null,
+                                0,
                                 null,
                                 "",
                                 BigDecimal.ZERO,

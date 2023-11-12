@@ -7,7 +7,7 @@ data class RecipeIngredients(
     @Embedded var recipe: RecipeEntity,
     @Relation(
         parentColumn = "recipeId",
-        entityColumn = "recipeId"
+        entityColumn = "ownerRecipeId"
     )
     var ingredients: List<IngredientEntity>
 )

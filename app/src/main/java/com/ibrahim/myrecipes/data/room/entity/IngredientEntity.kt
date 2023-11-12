@@ -8,7 +8,7 @@ import java.math.BigDecimal
 @Entity(tableName = "ingredients")
 data class IngredientEntity (
     @PrimaryKey(autoGenerate = true) val ingredientId: Long,
-    val recipeId: Int,
+    val ownerRecipeId: Long,
     val ingredientName: String,
     val ingredientQuantity: BigDecimal?,
     val ingredientQuantityUnit: IngredientQuantityUnit
