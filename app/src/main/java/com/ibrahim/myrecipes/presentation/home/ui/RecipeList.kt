@@ -1,4 +1,4 @@
-package com.ibrahim.myrecipes.presentation.home
+package com.ibrahim.myrecipes.presentation.home.ui
 
 import com.ibrahim.myrecipes.data.enums.FoodCategory
 import com.ibrahim.myrecipes.domain.model.Recipe

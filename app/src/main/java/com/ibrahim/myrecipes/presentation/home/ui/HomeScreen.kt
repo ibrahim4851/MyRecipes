@@ -1,4 +1,4 @@
-package com.ibrahim.myrecipes.presentation.home
+package com.ibrahim.myrecipes.presentation.home.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -23,11 +23,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.ibrahim.myrecipes.presentation.home.viewmodel.HomeViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(navController: NavController) {
+fun HomeScreen(
+    navController: NavController,
+    viewModel: HomeViewModel = hiltViewModel()
+) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     Surface(
         modifier = Modifier.fillMaxSize()
@@ -73,11 +78,13 @@ fun HomeScreen(navController: NavController) {
                 modifier = Modifier
                     .padding(values)
                     .padding(start = 0.dp, end = 0.dp)
-                    .background(color = MaterialTheme.colorScheme.background,
-                        RoundedCornerShape(topStart = 36.dp))
+                    .background(
+                        color = MaterialTheme.colorScheme.background,
+                        RoundedCornerShape(topStart = 36.dp)
+                    )
             ) {
                 MyChipGroup()
-                RecipesStaggeredGrid()
+                RecipesStaggeredGrid(viewModel.state.value.recipes)
             }
 
         }

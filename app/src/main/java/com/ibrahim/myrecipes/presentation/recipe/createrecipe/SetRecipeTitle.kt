@@ -141,7 +141,7 @@ fun RecipeTitle(
                                 CreateRecipeEvent
                                     .SetTitleMinuteServings(
                                         recipeTitle,
-                                        selectedMinute + selectedHour,
+                                        selectedMinute + selectedHour * 60,
                                         recipeServings.toInt()
                                     )
                             )

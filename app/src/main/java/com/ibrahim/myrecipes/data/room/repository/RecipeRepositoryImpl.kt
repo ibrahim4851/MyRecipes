@@ -1,5 +1,6 @@
 package com.ibrahim.myrecipes.data.room.repository
 
+import android.util.Log
 import com.ibrahim.myrecipes.data.enums.FoodCategory
 import com.ibrahim.myrecipes.data.room.dao.RecipeDao
 import com.ibrahim.myrecipes.data.room.mapper.toIngredient
@@ -18,6 +19,7 @@ class RecipeRepositoryImpl(private val dao: RecipeDao) : RecipeRepository {
 
     override fun getAllRecipes(): Flow<Recipes> {
         return dao.getAllRecipes().map { recipeEntities ->
+            Log.i("getlllreciesd", recipeEntities.toString())
             recipeEntities.map { it.toRecipe() }
         }
     }
