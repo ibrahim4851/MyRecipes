@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.ElevatedCard
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,18 +19,18 @@ import com.ibrahim.myrecipes.R
 import com.ibrahim.myrecipes.domain.model.Recipe
 import com.ibrahim.myrecipes.presentation.ui.theme.Typography
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RecipeItem(
     recipe: Recipe
 ) {
+    val uri = Uri.parse(recipe.recipePhotoUri)
     ElevatedCard(
         modifier = Modifier
             .fillMaxWidth()
             .padding(4.dp)
     ) {
         AsyncImage(
-            model = Uri.parse("file://${recipe.recipePhotoUri}"),
+            model = uri,
             null
         )
         Column(
