@@ -1,6 +1,8 @@
 package com.ibrahim.myrecipes.presentation.recipe.createrecipe
 
+import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -29,6 +31,7 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -46,11 +49,17 @@ fun AddRecipeImage(
 ) {
 
     var uri by remember { mutableStateOf<Uri?>(null) }
+    val context = LocalContext.current
+    val contentResolver = context.contentResolver
 
     val photoPicker = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
         onResult = {
             uri = it
+            contentResolver.takePersistableUriPermission(
+                it!!,
+                Intent.FLAG_GRANT_READ_URI_PERMISSION
+            )
         }
     )
 
@@ -131,13 +140,21 @@ fun AddRecipeImage(
                             fontWeight = FontWeight.Bold
                         )
                     } else {
-                        AsyncImage(
-                            modifier = Modifier
-                                .align(Alignment.CenterHorizontally)
-                                .fillMaxSize(),
-                            model = uri,
-                            contentDescription = null
-                        )
+                        val hasPermission = runCatching {
+                            context.contentResolver.persistedUriPermissions.any { permission ->
+                                permission.uri == uri
+                            }
+                        }.getOrDefault(false)
+
+                        if (hasPermission) {
+                            AsyncImage(
+                                modifier = Modifier
+                                    .align(Alignment.CenterHorizontally)
+                                    .fillMaxSize(),
+                                model = uri,
+                                contentDescription = null
+                            )
+                        }
                     }
                 }
                 Row(
@@ -151,6 +168,7 @@ fun AddRecipeImage(
                             photoPicker.launch(
                                 PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
                             )
+                            Log.i("pickerlog", uri.toString())
                         }
                     ) {
                         Text(text = "Pick Photo")

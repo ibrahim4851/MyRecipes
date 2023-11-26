@@ -1,7 +1,6 @@
 package com.ibrahim.myrecipes.presentation.recipe
 
 import android.net.Uri
-import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -68,32 +67,22 @@ class RecipeViewModel @Inject constructor(
         when (event) {
             is CreateRecipeEvent.SetTitleMinuteServings -> {
                 setTitleMinuteServings(event.title, event.minute, event.servings)
-                Log.i("recipevalues", _state.value.recipe.toString())
-                Log.i("ingredientvalues", _state.value.ingredients.toString())
             }
 
             is CreateRecipeEvent.SetCategory -> {
                 setCategory(event.category)
-                Log.i("recipevalues", _state.value.recipe.toString())
-                Log.i("ingredientvalues", _state.value.ingredients.toString())
             }
 
             is CreateRecipeEvent.SetIngredients -> {
                 setIngredients(event.ingredients)
-                Log.i("recipevalues", _state.value.recipe.toString())
-                Log.i("ingredientvalues", _state.value.ingredients.toString())
             }
 
             is CreateRecipeEvent.SetInstructions -> {
                 setInstructions(event.instructions)
-                Log.i("recipevalues", _state.value.recipe.toString())
-                Log.i("ingredientvalues", _state.value.ingredients.toString())
             }
 
             is CreateRecipeEvent.SetImage -> {
                 setImage(event.uri)
-                Log.i("recipevalues", _state.value.recipe.toString())
-                Log.i("ingredientvalues", _state.value.ingredients.toString())
             }
 
             is CreateRecipeEvent.SaveRecipe -> {
