@@ -1,13 +1,10 @@
 package com.ibrahim.myrecipes.presentation.navigation
 
 import android.os.Build
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavBackStackEntry
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
@@ -46,28 +43,76 @@ fun ScreensNavigation() {
                 )
             }
 
-            composable(route = Screen.RecipeImage.route) {
+            composable(route = Screen.RecipeImage.route,
+                enterTransition = {
+                    slideIntoContainer(
+                        AnimatedContentTransitionScope.SlideDirection.Left,
+                        animationSpec = tween(700)
+                    )
+                },
+                exitTransition = {
+                    slideOutOfContainer(
+                        AnimatedContentTransitionScope.SlideDirection.Right,
+                        animationSpec = tween(700)
+                    )
+                }) {
                 AddRecipeImage(
                     navController = navController,
                     viewModel = viewModel
                 )
             }
 
-            composable(route = Screen.RecipeCategory.route) {
+            composable(route = Screen.RecipeCategory.route,
+                enterTransition = {
+                    slideIntoContainer(
+                        AnimatedContentTransitionScope.SlideDirection.Left,
+                        animationSpec = tween(700)
+                    )
+                },
+                exitTransition = {
+                    slideOutOfContainer(
+                        AnimatedContentTransitionScope.SlideDirection.Right,
+                        animationSpec = tween(700)
+                    )
+                }) {
                 SetCategory(
                     navController = navController,
                     viewModel = viewModel
                 )
             }
 
-            composable(route = Screen.RecipeIngredients.route) {
+            composable(route = Screen.RecipeIngredients.route,
+                enterTransition = {
+                    slideIntoContainer(
+                        AnimatedContentTransitionScope.SlideDirection.Left,
+                        animationSpec = tween(700)
+                    )
+                },
+                exitTransition = {
+                    slideOutOfContainer(
+                        AnimatedContentTransitionScope.SlideDirection.Right,
+                        animationSpec = tween(700)
+                    )
+                }) {
                 SetIngredients(
                     navController = navController,
                     viewModel = viewModel
                 )
             }
 
-            composable(route = Screen.RecipeInstructions.route) {
+            composable(route = Screen.RecipeInstructions.route,
+                enterTransition = {
+                    slideIntoContainer(
+                        AnimatedContentTransitionScope.SlideDirection.Left,
+                        animationSpec = tween(700)
+                    )
+                },
+                exitTransition = {
+                    slideOutOfContainer(
+                        AnimatedContentTransitionScope.SlideDirection.Right,
+                        animationSpec = tween(700)
+                    )
+                }) {
                 SetInstructions(
                     navController = navController,
                     viewModel = viewModel
@@ -80,14 +125,4 @@ fun ScreensNavigation() {
             HomeScreen(navController = navController)
         }
     }
-}
-
-@Composable
-inline fun <reified T : ViewModel> NavBackStackEntry.sharedViewModel(
-    navHostController: NavHostController): T {
-    val navGraphRoute = destination.parent?.route ?: return viewModel()
-    val parentEntry = remember(this) {
-        navHostController.getBackStackEntry(navGraphRoute)
-    }
-    return viewModel(parentEntry)
 }
