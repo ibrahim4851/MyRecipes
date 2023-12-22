@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,15 +20,20 @@ import com.ibrahim.myrecipes.R
 import com.ibrahim.myrecipes.domain.model.Recipe
 import com.ibrahim.myrecipes.presentation.ui.theme.Typography
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RecipeItem(
-    recipe: Recipe
+    recipe: Recipe,
+    onRecipeItemClick: (Recipe) -> Unit
 ) {
     val uri = Uri.parse(recipe.recipePhotoUri)
     ElevatedCard(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(4.dp)
+            .padding(4.dp),
+        onClick = {
+            onRecipeItemClick(recipe)
+        }
     ) {
         AsyncImage(
             model = uri,
@@ -46,7 +52,7 @@ fun RecipeItem(
 
                 AssistChip(
                     modifier = Modifier.padding(bottom = 0.dp),
-                    onClick = {  },
+                    onClick = { },
                     label = {
                         Text(
                             text = (recipe.recipeServings.toString() + " sv.")
@@ -61,7 +67,7 @@ fun RecipeItem(
                     }
                 )
                 AssistChip(
-                    onClick = {  },
+                    onClick = { },
                     label = {
                         Text(
                             text = (recipe.recipeTime.toString() + " mn.")

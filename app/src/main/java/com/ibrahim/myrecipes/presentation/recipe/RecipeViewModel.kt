@@ -90,6 +90,8 @@ class RecipeViewModel @Inject constructor(
                     saveRecipe()
                 }
             }
+
+            else -> {}
         }
     }
 

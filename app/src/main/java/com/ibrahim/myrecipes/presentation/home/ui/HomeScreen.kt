@@ -84,7 +84,11 @@ fun HomeScreen(
                     )
             ) {
                 MyChipGroup()
-                RecipesStaggeredGrid(viewModel.state.value.recipes)
+                RecipesStaggeredGrid(
+                    viewModel.state.value.recipes,
+                    onRecipeItemClick = { recipe ->
+                        navController.navigate("recipe_detail/" + recipe.recipeId)
+                    })
             }
 
         }

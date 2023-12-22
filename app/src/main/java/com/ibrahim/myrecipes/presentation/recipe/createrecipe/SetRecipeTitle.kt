@@ -49,6 +49,7 @@ import com.ibrahim.myrecipes.Screen
 import com.ibrahim.myrecipes.presentation.recipe.CreateRecipeEvent
 import com.ibrahim.myrecipes.presentation.recipe.RecipeViewModel
 import com.ibrahim.myrecipes.presentation.ui.theme.Typography
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -140,7 +141,11 @@ fun RecipeTitle(
                             viewModel.onEvent(
                                 CreateRecipeEvent
                                     .SetTitleMinuteServings(
-                                        recipeTitle,
+                                        recipeTitle.replaceFirstChar {
+                                            if (it.isLowerCase()) it.titlecase(
+                                                Locale.ROOT
+                                            ) else it.toString()
+                                        },
                                         selectedMinute + selectedHour * 60,
                                         recipeServings.toInt()
                                     )
