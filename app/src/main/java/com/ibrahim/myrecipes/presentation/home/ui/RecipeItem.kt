@@ -17,6 +17,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.ibrahim.myrecipes.R
+import com.ibrahim.myrecipes.data.converter.minutesToHourMinuteString
 import com.ibrahim.myrecipes.domain.model.Recipe
 import com.ibrahim.myrecipes.presentation.ui.theme.Typography
 
@@ -70,7 +71,7 @@ fun RecipeItem(
                     onClick = { },
                     label = {
                         Text(
-                            text = (recipe.recipeTime.toString() + " mn.")
+                            text = (recipe.recipeTime.minutesToHourMinuteString())
                         )
                     },
                     leadingIcon = {

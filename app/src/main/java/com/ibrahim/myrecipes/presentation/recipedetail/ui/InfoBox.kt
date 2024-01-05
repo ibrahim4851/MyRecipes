@@ -14,19 +14,26 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ibrahim.myrecipes.R
 
 @Composable
 fun InfoBox(backgroundColor: Color, infoIcon: Painter, infoTitle: String, infoContent: String) {
+
+    val configuration = LocalConfiguration.current
+    val screenWidth = configuration.screenWidthDp.dp
+    val boxWidth = screenWidth * 0.30f
+
     Box(
         modifier = Modifier
-            .size(200.dp)
+            .size(boxWidth)
             .background(
                 color = backgroundColor,
-                shape = RoundedCornerShape(50.dp)
+                shape = RoundedCornerShape(30.dp)
             )
 
     ) {
@@ -41,11 +48,11 @@ fun InfoBox(backgroundColor: Color, infoIcon: Painter, infoTitle: String, infoCo
                 infoIcon,
                 null,
                 modifier = Modifier
-                    .size(130.dp),
+                    .size(boxWidth * 0.5f),
                 tint = Color.White
                 )
             Text(text = infoTitle, color = Color.White)
-            Text(text = infoContent, color = Color.White)
+            Text(text = infoContent, color = Color.White, fontWeight = FontWeight.Bold)
         }
     }
 }
