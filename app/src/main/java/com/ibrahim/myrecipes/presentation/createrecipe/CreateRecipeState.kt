@@ -1,4 +1,4 @@
-package com.ibrahim.myrecipes.presentation.recipe
+package com.ibrahim.myrecipes.presentation.createrecipe
 
 import com.ibrahim.myrecipes.data.enums.FoodCategory
 import com.ibrahim.myrecipes.domain.model.Recipe
@@ -9,7 +9,7 @@ data class CreateRecipeState(
         0L,
         "",
         "",
-        "",
+        listOf(""),
         0,
         0,
         FoodCategory.BURGER,

@@ -9,7 +9,7 @@ data class Recipe(
     val recipeId: Long,
     val recipeTitle: String,
     val recipeDescription: String,
-    val recipeInstructions: String,
+    val recipeInstructions: List<String>,
     val recipeTime: Int,
     val recipeServings: Int,
     val foodCategory: FoodCategory,

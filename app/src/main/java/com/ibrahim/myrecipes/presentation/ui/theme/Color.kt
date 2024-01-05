@@ -20,3 +20,6 @@ val Green600 = Color(0xFF43A047)
 val Green700 = Color(0xFF388E3C)
 val Green800 = Color(0xFF2E7D32)
 val Green900 = Color(0xFF1B5E20)
+
+val Pistachio = Color(0xFFC9E2C5)
+val Lime = Color(0xFFBFFF00)

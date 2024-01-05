@@ -9,7 +9,7 @@ data class RecipeDetailState(
         0L,
         "",
         "",
-        "",
+        listOf(""),
         0,
         0,
         FoodCategory.BURGER,

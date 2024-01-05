@@ -1,4 +1,4 @@
-package com.ibrahim.myrecipes.presentation.recipe
+package com.ibrahim.myrecipes.presentation.createrecipe
 
 import android.net.Uri
 import androidx.compose.runtime.State
@@ -45,7 +45,7 @@ class RecipeViewModel @Inject constructor(
     private fun setInstructions(instructions: List<String>) {
         val currentState = _state.value
         val updatedRecipe =
-            currentState.recipe.copy(recipeInstructions = instructions.joinToString("\n"))
+            currentState.recipe.copy(recipeInstructions = instructions)
         _state.value = currentState.copy(recipe = updatedRecipe)
     }
 

@@ -1,4 +1,4 @@
-package com.ibrahim.myrecipes.presentation.recipe.createrecipe
+package com.ibrahim.myrecipes.presentation.createrecipe.ui
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.keyframes
@@ -32,8 +32,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.ibrahim.myrecipes.Screen
-import com.ibrahim.myrecipes.presentation.recipe.CreateRecipeEvent
-import com.ibrahim.myrecipes.presentation.recipe.RecipeViewModel
+import com.ibrahim.myrecipes.presentation.createrecipe.CreateRecipeEvent
+import com.ibrahim.myrecipes.presentation.createrecipe.RecipeViewModel
 import com.ibrahim.myrecipes.presentation.ui.theme.Typography
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -75,7 +75,6 @@ fun SetInstructions(
                     }
                 }
             }
-
         }
     ) { paddingValues ->
         Column(

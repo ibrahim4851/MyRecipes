@@ -1,4 +1,4 @@
-package com.ibrahim.myrecipes.presentation.recipe
+package com.ibrahim.myrecipes.presentation.createrecipe
 
 import android.net.Uri
 import com.ibrahim.myrecipes.data.enums.FoodCategory

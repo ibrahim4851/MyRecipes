@@ -1,4 +1,4 @@
-package com.ibrahim.myrecipes.presentation.recipe.createrecipe
+package com.ibrahim.myrecipes.presentation.createrecipe.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -46,8 +46,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.ibrahim.myrecipes.Screen
-import com.ibrahim.myrecipes.presentation.recipe.CreateRecipeEvent
-import com.ibrahim.myrecipes.presentation.recipe.RecipeViewModel
+import com.ibrahim.myrecipes.presentation.createrecipe.CreateRecipeEvent
+import com.ibrahim.myrecipes.presentation.createrecipe.RecipeViewModel
 import com.ibrahim.myrecipes.presentation.ui.theme.Typography
 import java.util.Locale
 

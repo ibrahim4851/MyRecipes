@@ -1,4 +1,4 @@
-package com.ibrahim.myrecipes.presentation.recipe.createrecipe
+package com.ibrahim.myrecipes.presentation.createrecipe.ui
 
 import android.content.Intent
 import android.net.Uri
@@ -38,8 +38,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.ibrahim.myrecipes.Screen
-import com.ibrahim.myrecipes.presentation.recipe.CreateRecipeEvent
-import com.ibrahim.myrecipes.presentation.recipe.RecipeViewModel
+import com.ibrahim.myrecipes.presentation.createrecipe.CreateRecipeEvent
+import com.ibrahim.myrecipes.presentation.createrecipe.RecipeViewModel
 import com.ibrahim.myrecipes.presentation.ui.theme.Typography
 
 @Composable
