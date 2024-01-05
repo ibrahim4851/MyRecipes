@@ -2,6 +2,7 @@ package com.ibrahim.myrecipes.data.room.repository
 
 import com.ibrahim.myrecipes.data.enums.FoodCategory
 import com.ibrahim.myrecipes.data.room.dao.RecipeDao
+import com.ibrahim.myrecipes.data.room.entity.RecipeIngredients
 import com.ibrahim.myrecipes.data.room.mapper.toIngredient
 import com.ibrahim.myrecipes.data.room.mapper.toIngredientEntity
 import com.ibrahim.myrecipes.data.room.mapper.toRecipe
@@ -63,5 +64,9 @@ class RecipeRepositoryImpl(private val dao: RecipeDao) : RecipeRepository {
         return dao.getRecipesByFoodType(foodCategory).map { recipeEntity ->
             recipeEntity.toRecipe()
         }
+    }
+
+    override suspend fun getRecipeWithIngredients(recipeId: Int): RecipeIngredients {
+        return dao.getRecipeWithIngredients(recipeId)!!
     }
 }

@@ -25,7 +25,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ibrahim.myrecipes.presentation.ui.theme.Green900
-import com.ibrahim.myrecipes.presentation.ui.theme.Pistachio
+import com.ibrahim.myrecipes.presentation.ui.theme.Lime
 import com.ibrahim.myrecipes.presentation.ui.theme.Typography
 
 @Composable
@@ -39,7 +39,7 @@ fun ExpandableCard(
     AnimatedBorderCard(
         modifier = Modifier
         .fillMaxWidth(),
-        gradient = Brush.linearGradient(listOf(Green900, Pistachio))
+        gradient = Brush.linearGradient(listOf(Green900, Lime))
     ) {
         Column(modifier = Modifier
             .fillMaxWidth()

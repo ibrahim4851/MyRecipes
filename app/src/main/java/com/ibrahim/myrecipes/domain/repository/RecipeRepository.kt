@@ -1,6 +1,7 @@
 package com.ibrahim.myrecipes.domain.repository
 
 import com.ibrahim.myrecipes.data.enums.FoodCategory
+import com.ibrahim.myrecipes.data.room.entity.RecipeIngredients
 import com.ibrahim.myrecipes.domain.model.Ingredient
 import com.ibrahim.myrecipes.domain.model.Recipe
 import kotlinx.coroutines.flow.Flow
@@ -28,5 +29,7 @@ interface RecipeRepository {
     suspend fun searchRecipe(query: String): Recipes
 
     suspend fun filterRecipe(foodCategory: FoodCategory): Recipes
+
+    suspend fun getRecipeWithIngredients(recipeId: Int): RecipeIngredients
 
 }
