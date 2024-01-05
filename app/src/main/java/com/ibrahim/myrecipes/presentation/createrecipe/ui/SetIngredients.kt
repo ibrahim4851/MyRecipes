@@ -102,8 +102,9 @@ fun SetIngredients(
                                 navController.navigate(Screen.RecipeInstructions.route)
                                       },
                             modifier = Modifier.weight(1f),
-                            enabled = ingredients[0].ingredientName.isNotBlank() &&
-                                    ingredients[0].ingredientQuantity!! > BigDecimal.ZERO
+                            enabled = ingredients[0].ingredientName.isNotBlank()
+                                    && ingredients[0].ingredientQuantity != null
+                                    &&ingredients[0].ingredientQuantity!! > BigDecimal.ZERO
                         ) {
                             Text(text = "Next")
                         }
