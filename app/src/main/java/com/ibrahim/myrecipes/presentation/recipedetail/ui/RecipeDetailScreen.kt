@@ -28,12 +28,14 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ExperimentalMotionApi
 import androidx.constraintlayout.compose.MotionLayout
 import androidx.constraintlayout.compose.MotionScene
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.ibrahim.myrecipes.R
 import com.ibrahim.myrecipes.data.converter.minutesToHourMinuteString
@@ -100,6 +102,7 @@ fun RecipeDetailScreen(
             ) {
 
                 InfoBoxGroup(recipe)
+                Spacer(Modifier.size(8.dp))
                 Row(modifier = Modifier.fillMaxWidth()) {
                     Text(
                         "Ingredients",
@@ -107,6 +110,7 @@ fun RecipeDetailScreen(
                         style = Typography.headlineSmall
                     )
                 }
+                Spacer(Modifier.size(8.dp))
                 LazyColumn(content = {
                     itemsIndexed(ingredients) { index, ingredient ->
                         Row(modifier = Modifier.fillMaxWidth()) {
@@ -123,9 +127,11 @@ fun RecipeDetailScreen(
                         style = Typography.headlineSmall
                     )
                 }
+                Spacer(Modifier.size(8.dp))
                 LazyColumn(content = {
                     itemsIndexed(recipe.recipeInstructions) { index, instruction ->
                         ExpandableCard(title = "${(index + 1)}. step", description = instruction)
+                        Spacer(Modifier.size(8.dp))
                     }
                 })
             }
@@ -180,4 +186,10 @@ fun RecipeDetailHeader(progress: Float) {
     ) {
 
     }
+}
+
+@Preview
+@Composable
+fun RecipeDetailScreenPreview() {
+    RecipeDetailScreen(navController = rememberNavController())
 }
