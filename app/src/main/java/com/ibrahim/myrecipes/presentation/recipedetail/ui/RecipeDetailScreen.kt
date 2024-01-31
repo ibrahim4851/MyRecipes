@@ -1,7 +1,9 @@
 package com.ibrahim.myrecipes.presentation.recipedetail.ui
 
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -13,9 +15,9 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -39,7 +41,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.lerp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
-import androidx.constraintlayout.compose.ExperimentalMotionApi
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -47,6 +48,7 @@ import coil.compose.AsyncImage
 import com.ibrahim.myrecipes.R
 import com.ibrahim.myrecipes.data.converter.minutesToHourMinuteString
 import com.ibrahim.myrecipes.domain.model.Recipe
+import com.ibrahim.myrecipes.domain.repository.Ingredients
 import com.ibrahim.myrecipes.presentation.recipedetail.viewmodel.RecipeDetailViewModel
 import com.ibrahim.myrecipes.presentation.ui.theme.Green300
 import com.ibrahim.myrecipes.presentation.ui.theme.Green900
@@ -73,6 +75,7 @@ fun RecipeDetailScreen(
     viewModel: RecipeDetailViewModel = hiltViewModel()
 ) {
 
+    val scrollState = rememberScrollState(0)
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
     val imageSize = screenWidth * 0.5f
@@ -87,51 +90,73 @@ fun RecipeDetailScreen(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(paddingValues)
-                    .padding(10.dp)
+                .padding(paddingValues)
             ) {
-
-                InfoBoxGroup(recipe)
-                Spacer(Modifier.size(8.dp))
-                Row(modifier = Modifier.fillMaxWidth()) {
-                    Text(
-                        "Ingredients",
-                        fontWeight = FontWeight.Bold,
-                        style = Typography.headlineSmall
-                    )
+                Box(Modifier.fillMaxWidth()) {
+                    Body(scroll = scrollState, recipe = recipe, ingredients = ingredients)
+                    RecipeDetailHeader()
+                    RecipeTitleObject(scrollProvider = { scrollState.value }, recipe = recipe)
+                    RecipeImageObject(scrollProvider = { scrollState.value }, recipe = recipe)
                 }
-                Spacer(Modifier.size(8.dp))
-                LazyColumn(content = {
-                    itemsIndexed(ingredients) { index, ingredient ->
-                        Row(modifier = Modifier.fillMaxWidth()) {
-                            Text(text = "${(index + 1)}")
-                            Spacer(modifier = Modifier.padding(4.dp))
-                            Text(text = ingredient.ingredientName)
-                        }
-                    }
-                })
-                Row(modifier = Modifier.fillMaxWidth()) {
-                    Text(
-                        "Instructions",
-                        fontWeight = FontWeight.Bold,
-                        style = Typography.headlineSmall
-                    )
-                }
-                Spacer(Modifier.size(8.dp))
-                LazyColumn(content = {
-                    itemsIndexed(recipe.recipeInstructions) { index, instruction ->
-                        ExpandableCard(title = "${(index + 1)}. step", description = instruction)
-                        Spacer(Modifier.size(8.dp))
-                    }
-                })
             }
         }
     }
 }
 
-@OptIn(ExperimentalMotionApi::class)
 @Composable
-fun RecipeDetailHeader(progress: Float) {
+fun Body(scroll: ScrollState, recipe: Recipe, ingredients: Ingredients) {
+    Column {
+        Spacer(
+            modifier = Modifier
+                .fillMaxWidth()
+                .statusBarsPadding()
+                .height(MinTitleOffset)
+        )
+        Column(
+            modifier = Modifier
+                .verticalScroll(scroll)
+                .fillMaxWidth()
+                .padding(10.dp)
+        ) {
+            Spacer(Modifier.height(GradientScroll))
+            Spacer(Modifier.height(ImageOverlap))
+            Spacer(Modifier.height(TitleHeight))
+            Spacer(Modifier.height(16.dp))
+            Spacer(Modifier.height(TitleHeight))
+            Spacer(Modifier.size(8.dp))
+            Row(modifier = Modifier.fillMaxWidth()) {
+                Text(
+                    "Ingredients",
+                    fontWeight = FontWeight.Bold,
+                    style = Typography.headlineSmall
+                )
+            }
+            Spacer(Modifier.size(8.dp))
+            repeat(ingredients.size) {
+                Row(modifier = Modifier.fillMaxWidth()) {
+                    Text(text = "${(it + 1)}")
+                    Spacer(modifier = Modifier.padding(4.dp))
+                    Text(text = ingredients[it].ingredientName)
+                }
+            }
+            Row(modifier = Modifier.fillMaxWidth()) {
+                Text(
+                    "Instructions",
+                    fontWeight = FontWeight.Bold,
+                    style = Typography.headlineSmall
+                )
+            }
+            Spacer(Modifier.size(8.dp))
+            repeat(recipe.recipeInstructions.size) {
+                ExpandableCard(title = "${(it + 1)}. step", description = recipe.recipeInstructions[it])
+                Spacer(Modifier.size(8.dp))
+            }
+        }
+    }
+}
+
+@Composable
+fun RecipeDetailHeader() {
     Spacer(
         modifier = Modifier
             .height(280.dp)
@@ -181,6 +206,7 @@ fun RecipeTitleObject(scrollProvider: () -> Int, recipe: Recipe) {
                 val offset = (maxOffset - scroll).coerceAtLeast(minOffset)
                 IntOffset(x = 0, y = offset.toInt())
             }
+            .padding(10.dp)
             .background(Color.White)
     ) {
         Spacer(Modifier.height(16.dp))
@@ -201,38 +227,9 @@ fun RecipeTitleObject(scrollProvider: () -> Int, recipe: Recipe) {
             style = MaterialTheme.typography.titleSmall,
             modifier = HzPadding
         )
-
-        Spacer(Modifier.height(MinTitleOffset + 42.dp))
+        InfoBoxGroup(recipe)
+        //Spacer(Modifier.height(MinTitleOffset + 60.dp))
         Divider()
-    }
-}
-
-@Composable
-private fun InfoBoxGroup(recipe: Recipe) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 8.dp),
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        InfoBox(
-            backgroundColor = Color(0xFFED6E3A),
-            infoIcon = painterResource(id = R.drawable.baseline_restaurant_menu_24),
-            infoTitle = "Servings",
-            infoContent = recipe.recipeServings.toString()
-        )
-        InfoBox(
-            backgroundColor = Color(0xFF0189C5),
-            infoIcon = painterResource(id = R.drawable.outline_watch_24),
-            infoTitle = "Time",
-            infoContent = recipe.recipeTime.minutesToHourMinuteString()
-        )
-        InfoBox(
-            backgroundColor = Color(0xFF8759AC),
-            infoIcon = painterResource(id = R.drawable.baseline_restaurant_menu_24),
-            infoTitle = "Category",
-            infoContent = recipe.foodCategory.value
-        )
     }
 }
 
@@ -267,6 +264,35 @@ private fun CollapsingImageLayout(
         ) {
             imagePlaceable.placeRelative(imageX, imageY)
         }
+    }
+}
+
+@Composable
+private fun InfoBoxGroup(recipe: Recipe) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 8.dp),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        InfoBox(
+            backgroundColor = Color(0xFFED6E3A),
+            infoIcon = painterResource(id = R.drawable.baseline_restaurant_menu_24),
+            infoTitle = "Servings",
+            infoContent = recipe.recipeServings.toString()
+        )
+        InfoBox(
+            backgroundColor = Color(0xFF0189C5),
+            infoIcon = painterResource(id = R.drawable.outline_watch_24),
+            infoTitle = "Time",
+            infoContent = recipe.recipeTime.minutesToHourMinuteString()
+        )
+        InfoBox(
+            backgroundColor = Color(0xFF8759AC),
+            infoIcon = painterResource(id = R.drawable.baseline_restaurant_menu_24),
+            infoTitle = "Category",
+            infoContent = recipe.foodCategory.value
+        )
     }
 }
 
