@@ -90,7 +90,7 @@ fun RecipeDetailScreen(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                .padding(paddingValues)
+                    .padding(paddingValues)
             ) {
                 Box(Modifier.fillMaxWidth()) {
                     Body(scroll = scrollState, recipe = recipe, ingredients = ingredients)
@@ -105,7 +105,7 @@ fun RecipeDetailScreen(
 
 @Composable
 fun Body(scroll: ScrollState, recipe: Recipe, ingredients: Ingredients) {
-    Column {
+    Column(Modifier.fillMaxWidth()) {
         Spacer(
             modifier = Modifier
                 .fillMaxWidth()
@@ -124,6 +124,7 @@ fun Body(scroll: ScrollState, recipe: Recipe, ingredients: Ingredients) {
             Spacer(Modifier.height(16.dp))
             Spacer(Modifier.height(TitleHeight))
             Spacer(Modifier.size(8.dp))
+            InfoBoxGroup(recipe)
             Row(modifier = Modifier.fillMaxWidth()) {
                 Text(
                     "Ingredients",
@@ -206,30 +207,31 @@ fun RecipeTitleObject(scrollProvider: () -> Int, recipe: Recipe) {
                 val offset = (maxOffset - scroll).coerceAtLeast(minOffset)
                 IntOffset(x = 0, y = offset.toInt())
             }
-            .padding(10.dp)
+            .fillMaxWidth()
             .background(Color.White)
     ) {
-        Spacer(Modifier.height(16.dp))
-        Text(
-            text = recipe.recipeTitle,
-            style = MaterialTheme.typography.displayMedium,
-            modifier = HzPadding
-        )
-        Text(
-            text = "Test Tagline",
-            style = MaterialTheme.typography.headlineSmall,
-            fontSize = 20.sp,
-            modifier = HzPadding
-        )
-        Spacer(Modifier.height(4.dp))
-        Text(
-            text = recipe.foodCategory.name,
-            style = MaterialTheme.typography.titleSmall,
-            modifier = HzPadding
-        )
-        InfoBoxGroup(recipe)
-        //Spacer(Modifier.height(MinTitleOffset + 60.dp))
-        Divider()
+        Column(Modifier.fillMaxWidth().padding(10.dp)) {
+            Spacer(Modifier.height(16.dp))
+            Text(
+                text = recipe.recipeTitle,
+                style = MaterialTheme.typography.displayMedium,
+                modifier = HzPadding
+            )
+            Text(
+                text = "Test Tagline",
+                style = MaterialTheme.typography.headlineSmall,
+                fontSize = 20.sp,
+                modifier = HzPadding
+            )
+            Spacer(Modifier.height(4.dp))
+            Text(
+                text = recipe.foodCategory.name,
+                style = MaterialTheme.typography.titleSmall,
+                modifier = HzPadding
+            )
+            Spacer(Modifier.height(MinTitleOffset + 60.dp))
+            Divider()
+        }
     }
 }
 
