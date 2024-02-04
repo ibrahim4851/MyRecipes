@@ -56,6 +56,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.ibrahim.myrecipes.R
 import com.ibrahim.myrecipes.Screen
+import com.ibrahim.myrecipes.presentation.home.viewmodel.HomeScreenEvent
 import com.ibrahim.myrecipes.presentation.home.viewmodel.HomeViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -67,6 +68,7 @@ fun HomeScreen(
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     var expandSearchBar by remember { mutableStateOf(false) }
     var expandLanguageDropdown by remember { mutableStateOf(false) }
+    var searchQuery by remember { mutableStateOf("") }
     val context = LocalContext.current
     Surface(
         modifier = Modifier.fillMaxSize()
@@ -91,7 +93,16 @@ fun HomeScreen(
                                 )
                         ) {
                             if (expandSearchBar) {
-                                OutlinedTextField(value = "", onValueChange = {})
+                                OutlinedTextField(
+                                    value = searchQuery,
+                                    onValueChange = { searchValue ->
+                                        searchQuery = searchValue
+                                        viewModel.onEvent(
+                                            HomeScreenEvent.SearchFoodsByTitleAndIngredient(
+                                                searchQuery
+                                            )
+                                        )
+                                    })
                             }
                         }
                         DropdownMenu(

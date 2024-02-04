@@ -14,7 +14,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val repository: RecipeRepository
-): ViewModel() {
+) : ViewModel() {
 
     private val _state = mutableStateOf(HomeScreenState())
     val state: State<HomeScreenState> = _state
@@ -27,6 +27,18 @@ class HomeViewModel @Inject constructor(
         repository.getAllRecipes().onEach {
             _state.value = HomeScreenState(recipes = it)
         }.launchIn(viewModelScope)
+    }
+
+    private fun searchFoodsByTitleAndIngredient(query: String) = viewModelScope.launch {
+        _state.value = HomeScreenState(recipes = repository.searchRecipe(query))
+    }
+
+    fun onEvent(event: HomeScreenEvent) {
+        when(event) {
+            is HomeScreenEvent.SearchFoodsByTitleAndIngredient -> {
+                searchFoodsByTitleAndIngredient(event.query)
+            }
+        }
     }
 
 }
