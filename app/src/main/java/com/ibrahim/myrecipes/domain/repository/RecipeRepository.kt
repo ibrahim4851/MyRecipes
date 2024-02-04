@@ -28,7 +28,7 @@ interface RecipeRepository {
 
     suspend fun searchRecipe(query: String): Recipes
 
-    suspend fun filterRecipe(foodCategory: FoodCategory): Recipes
+    suspend fun getRecipesByFoodType(foodCategories: List<FoodCategory>): Recipes
 
     suspend fun getRecipeWithIngredients(recipeId: Int): RecipeIngredients
 

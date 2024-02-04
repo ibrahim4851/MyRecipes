@@ -42,8 +42,9 @@ interface RecipeDao {
     suspend fun searchRecipes(query: String): List<RecipeEntity>
 
     @Transaction
-    @Query("SELECT * FROM recipes WHERE foodCategory = :foodCategory")
-    suspend fun getRecipesByFoodType(foodCategory: FoodCategory): List<RecipeEntity>
+    @Query("SELECT * FROM recipes WHERE foodCategory IN (:foodCategories)")
+    suspend fun getRecipesByFoodType(foodCategories: List<FoodCategory>): List<RecipeEntity>
+
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertIngredient(ingredientEntity: IngredientEntity): Long
@@ -56,8 +57,5 @@ interface RecipeDao {
 
     @Query("SELECT * FROM ingredients")
     suspend fun getAllIngredients(): List<IngredientEntity>
-
-
-
 
 }

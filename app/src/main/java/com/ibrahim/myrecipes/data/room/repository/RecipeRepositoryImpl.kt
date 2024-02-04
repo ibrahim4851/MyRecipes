@@ -60,8 +60,8 @@ class RecipeRepositoryImpl(private val dao: RecipeDao) : RecipeRepository {
         }
     }
 
-    override suspend fun filterRecipe(foodCategory: FoodCategory): Recipes {
-        return dao.getRecipesByFoodType(foodCategory).map { recipeEntity ->
+    override suspend fun getRecipesByFoodType(foodCategories: List<FoodCategory>): Recipes {
+        return dao.getRecipesByFoodType(foodCategories).map { recipeEntity ->
             recipeEntity.toRecipe()
         }
     }
@@ -69,4 +69,5 @@ class RecipeRepositoryImpl(private val dao: RecipeDao) : RecipeRepository {
     override suspend fun getRecipeWithIngredients(recipeId: Int): RecipeIngredients {
         return dao.getRecipeWithIngredients(recipeId)!!
     }
+
 }
