@@ -4,6 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ibrahim.myrecipes.data.enums.FoodCategory
 import com.ibrahim.myrecipes.domain.repository.RecipeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -33,12 +34,23 @@ class HomeViewModel @Inject constructor(
         _state.value = HomeScreenState(recipes = repository.searchRecipe(query))
     }
 
+    private fun filterFoodsByCategory(categories: List<FoodCategory>) = viewModelScope.launch {
+        _state.value = HomeScreenState(recipes = repository.getRecipesByFoodType(categories))
+    }
+
     fun onEvent(event: HomeScreenEvent) {
         when(event) {
             is HomeScreenEvent.SearchFoodsByTitleAndIngredient -> {
                 searchFoodsByTitleAndIngredient(event.query)
             }
+
+            is HomeScreenEvent.FilterFoodsByCategory -> {
+                filterFoodsByCategory(event.categories)
+            }
+
+            is HomeScreenEvent.ResetCategoryFilter -> {
+                getRecipes()
+            }
         }
     }
-
 }

@@ -1,8 +1,5 @@
 package com.ibrahim.myrecipes.presentation.home.ui
 
-import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.core.keyframes
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -26,8 +23,7 @@ import com.ibrahim.myrecipes.data.enums.getLabel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyChipGroup() {
-
+fun MyChipGroup(onChipSelected: (selectedCategories: List<FoodCategory>) -> Unit) {
     val categoryList: List<FoodCategory> = getAllFoodCategories()
     val selectedChipState = remember { mutableStateMapOf<FoodCategory, Boolean>() }
 
@@ -37,22 +33,23 @@ fun MyChipGroup() {
             .padding(top = 10.dp)
     ) {
         items(categoryList) { category ->
-
             FilterChip(
                 selected = selectedChipState[category] ?: false,
-                onClick = { selectedChipState[category] = !(selectedChipState[category] ?: false) },
+                onClick = {
+                    // Toggle the selected state for this category
+                    selectedChipState[category] = !(selectedChipState[category] ?: false)
+                    // Immediately update the list of selected categories
+                    val selectedCategories = selectedChipState.filter { it.value }.keys.toList()
+                    onChipSelected(selectedCategories)
+                },
                 label = { Text(text = category.getLabel()) },
                 leadingIcon = {
-                    Box(modifier = Modifier.animateContentSize(keyframes {
-                        durationMillis = 100
-                    })) {
-                        if (selectedChipState[category] == true) {
-                            Icon(
-                                imageVector = Icons.Filled.Done,
-                                contentDescription = null,
-                                modifier = Modifier.size(FilterChipDefaults.IconSize)
-                            )
-                        }
+                    if (selectedChipState[category] == true) {
+                        Icon(
+                            imageVector = Icons.Filled.Done,
+                            contentDescription = null,
+                            modifier = Modifier.size(FilterChipDefaults.IconSize)
+                        )
                     }
                 },
                 modifier = Modifier.padding(start = 10.dp)
