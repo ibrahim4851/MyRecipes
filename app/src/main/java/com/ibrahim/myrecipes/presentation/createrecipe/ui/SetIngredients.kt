@@ -34,15 +34,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.OffsetMapping
+import androidx.compose.ui.text.input.TransformedText
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.ibrahim.myrecipes.R
 import com.ibrahim.myrecipes.Screen
-import com.ibrahim.myrecipes.data.converter.DecimalFormatter
 import com.ibrahim.myrecipes.data.enums.IngredientQuantityUnit
 import com.ibrahim.myrecipes.data.enums.getAllIngredientQuantityUnits
 import com.ibrahim.myrecipes.data.enums.getLabel
@@ -76,6 +81,12 @@ fun SetIngredients(
         )
     }
 
+    var ingredientQuantities by remember {
+        mutableStateOf(
+            listOf("")
+        )
+    }
+
     ingredientDropdownExpanded[0] = false
 
     Surface(modifier = Modifier.fillMaxSize()) {
@@ -98,19 +109,21 @@ fun SetIngredients(
                         }
                         Button(
                             onClick = {
-                                viewModel.onEvent(
-                                    CreateRecipeEvent
-                                        .SetIngredients(ingredients)
-                                )
+                                ingredients = ingredients.mapIndexed { index, ingredient ->
+                                    val quantityStr = ingredientQuantities[index]
+                                    val quantity =
+                                        quantityStr.toBigDecimalOrNull() ?: BigDecimal.ZERO
+                                    ingredient.copy(ingredientQuantity = quantity)
+                                }
+                                viewModel.onEvent(CreateRecipeEvent.SetIngredients(ingredients))
                                 navController.navigate(Screen.RecipeInstructions.route)
-                                      },
+                            },
                             modifier = Modifier.weight(1f),
-                            enabled = ingredients[0].ingredientName.isNotBlank()
-                                    && ingredients[0].ingredientQuantity != null
-                                    &&ingredients[0].ingredientQuantity!! > BigDecimal.ZERO
+                            enabled = ingredients.all { it.ingredientName.isNotBlank() } && ingredientQuantities.all { it.isNotEmpty() }
                         ) {
                             Text(text = stringResource(id = R.string.next))
                         }
+
                     }
                 }
             }
@@ -160,6 +173,7 @@ fun SetIngredients(
                                 IngredientQuantityUnit.GRAM
                             )
                             ingredientDropdownExpanded[ingredients.size - 1] = false
+                            ingredientQuantities = ingredientQuantities + ""
                         },
                         enabled = ingredients.last().ingredientName.isNotBlank()
                     ) {
@@ -175,6 +189,7 @@ fun SetIngredients(
                     ) {
                         items(ingredients.size) { index ->
                             Row {
+                                var text by remember { mutableStateOf(ingredientQuantities[index]) }
                                 OutlinedTextField(
                                     modifier = Modifier.weight(6f),
                                     value = ingredients[index].ingredientName,
@@ -192,19 +207,17 @@ fun SetIngredients(
 
                                 OutlinedTextField(
                                     modifier = Modifier.weight(3f),
-                                    value = ingredients[index].ingredientQuantity?.toString() ?: "",
-                                    onValueChange = { newValue ->
-                                        val decimalFormatter = DecimalFormatter()
-                                        val formattedValue = decimalFormatter.cleanup(newValue)
-                                        ingredients = ingredients.toMutableList().also {
-                                            it[index] = if (formattedValue.isBlank()) {
-                                                it[index].copy(ingredientQuantity = null)
-                                            } else {
-                                                val quantity = formattedValue.toBigDecimal()
-                                                it[index].copy(ingredientQuantity = quantity)
-                                            }
+                                    value = text,
+                                    onValueChange = {
+                                        if (it.isEmpty() || it.toDoubleOrNull() != null) {
+                                            text = it
+                                            ingredientQuantities =
+                                                ingredientQuantities.toMutableList().apply {
+                                                    set(index, it)
+                                                }
                                         }
                                     },
+                                    singleLine = true,
                                     placeholder = {
                                         Text(text = stringResource(R.string.e_g_2))
                                     },
@@ -259,3 +272,21 @@ fun SetIngredients(
         }
     }
 }
+
+fun DecimalInputVisualTransformation(): VisualTransformation {
+    return VisualTransformation { text ->
+        val transformed = AnnotatedString.Builder()
+        var decimalAdded = false
+        text.forEach { char ->
+            if (!decimalAdded && char.isDigit()) {
+                transformed.pushStyle(SpanStyle(color = Color.Transparent))
+                transformed.append(".")
+                transformed.pop()
+                decimalAdded = true
+            }
+            transformed.append(char)
+        }
+        TransformedText(transformed.toAnnotatedString(), OffsetMapping.Identity)
+    }
+}
+
