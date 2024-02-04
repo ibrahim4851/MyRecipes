@@ -10,7 +10,6 @@ import androidx.compose.animation.core.keyframes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -23,7 +22,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.Button
+import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -65,6 +66,7 @@ fun HomeScreen(
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     var expandSearchBar by remember { mutableStateOf(false) }
+    var expandLanguageDropdown by remember { mutableStateOf(false) }
     val context = LocalContext.current
     Surface(
         modifier = Modifier.fillMaxSize()
@@ -80,30 +82,43 @@ fun HomeScreen(
                         Text(text = stringResource(id = R.string.app_name))
                     },
                     actions = {
-                        IconButton(onClick = { expandSearchBar = !expandSearchBar }) {
-                            Icon(
-                                imageVector = Icons.Filled.Search,
-                                contentDescription = null
-                            )
-                        }
                         Box(
                             Modifier
                                 .width(150.dp)
                                 .animateContentSize(keyframes {
                                     durationMillis = 100
                                 }
-                                )) {
+                                )
+                        ) {
                             if (expandSearchBar) {
                                 OutlinedTextField(value = "", onValueChange = {})
                             }
                         }
-                        Row {
-                            Button(onClick = { changeLocale(context, "en") }) {
-                                Text("en")
-                            }
-                            Button(onClick = { changeLocale(context, "tr") }) {
-                                Text("tr")
-                            }
+                        DropdownMenu(
+                            expanded = expandLanguageDropdown,
+                            onDismissRequest = { expandLanguageDropdown = false },
+                        ) {
+                            DropdownMenuItem(
+                                text = {
+                                    Text("Türkçe")
+                                },
+                                onClick = { changeLocale(context, "tr") },
+                            )
+                            DropdownMenuItem(
+                                text = {
+                                    Text("English")
+                                },
+                                onClick = { changeLocale(context, "en") },
+                            )
+                        }
+                        IconButton(onClick = { expandSearchBar = !expandSearchBar }) {
+                            Icon(
+                                imageVector = Icons.Filled.Search,
+                                contentDescription = null
+                            )
+                        }
+                        IconButton(onClick = { expandLanguageDropdown = !expandLanguageDropdown }) {
+                            Icon(imageVector = Icons.Outlined.Settings, contentDescription = null)
                         }
                     },
                     scrollBehavior = scrollBehavior
