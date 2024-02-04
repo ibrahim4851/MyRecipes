@@ -2,6 +2,7 @@ package com.ibrahim.myrecipes.presentation.createrecipe.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -243,6 +244,7 @@ fun RecipeTitle(
                         modifier = Modifier
                             .width(280.dp)
                             .height(IntrinsicSize.Max)
+                            .clickable(onClick = { showTimeDialog = !showTimeDialog })
                     )
                     {
                         Text(

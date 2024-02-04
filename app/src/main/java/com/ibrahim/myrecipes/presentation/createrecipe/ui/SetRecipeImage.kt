@@ -57,10 +57,13 @@ fun AddRecipeImage(
         contract = ActivityResultContracts.PickVisualMedia(),
         onResult = {
             uri = it
-            contentResolver.takePersistableUriPermission(
-                it!!,
-                Intent.FLAG_GRANT_READ_URI_PERMISSION
-            )
+            uri?.let {
+                contentResolver.takePersistableUriPermission(
+                    it,
+                    Intent.FLAG_GRANT_READ_URI_PERMISSION
+                )
+            }
+
         }
     )
 
