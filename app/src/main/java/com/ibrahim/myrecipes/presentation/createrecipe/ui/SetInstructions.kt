@@ -27,16 +27,17 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.ibrahim.myrecipes.R
 import com.ibrahim.myrecipes.Screen
 import com.ibrahim.myrecipes.presentation.createrecipe.CreateRecipeEvent
 import com.ibrahim.myrecipes.presentation.createrecipe.RecipeViewModel
 import com.ibrahim.myrecipes.presentation.ui.theme.Typography
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SetInstructions(
     navController: NavController,
@@ -59,7 +60,7 @@ fun SetInstructions(
                         modifier = Modifier.weight(1f),
                         onClick = { navController.popBackStack() }
                     ) {
-                        Text(text = "Cancel")
+                        Text(text = stringResource(id = R.string.cancel))
                     }
                     Button(
                         onClick = {
@@ -71,7 +72,7 @@ fun SetInstructions(
                         modifier = Modifier.weight(1f),
                         enabled = instructions[0].isNotBlank()
                     ) {
-                        Text(text = "Next")
+                        Text(text = stringResource(id = R.string.next))
                     }
                 }
             }
@@ -100,14 +101,14 @@ fun SetInstructions(
             ) {
 
                 Text(
-                    text = "Here's Your Instructions",
+                    text = stringResource(R.string.here_s_your_instructions),
                     fontWeight = FontWeight.Bold,
                     style = Typography.displaySmall
                 )
                 Spacer(modifier = Modifier.padding(8.dp))
 
                 Text(
-                    text = "Define the Steps of Creating This Masterpiece",
+                    text = stringResource(R.string.define_the_steps_of_creating_this_masterpiece),
                     style = Typography.titleLarge
                 )
                 Spacer(modifier = Modifier.padding(8.dp))
@@ -149,7 +150,6 @@ fun SetInstructions(
                         }
                     }
                 }
-
             }
         }
     }

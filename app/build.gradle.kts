@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId = "com.ibrahim.myrecipes"
-        minSdk = 30
+        minSdk = 24
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -88,6 +88,7 @@ dependencies {
     implementation(libs.hiltNavigation)
     implementation(libs.hiltWork)
     implementation(libs.androidWork)
+    implementation(libs.androidAppcompat)
 
     implementation(libs.roomruntime)
     implementation(libs.roomktx)

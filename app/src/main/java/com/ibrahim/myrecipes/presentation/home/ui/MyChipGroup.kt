@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.ibrahim.myrecipes.data.enums.FoodCategory
 import com.ibrahim.myrecipes.data.enums.getAllFoodCategories
+import com.ibrahim.myrecipes.data.enums.getLabel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -40,7 +41,7 @@ fun MyChipGroup() {
             FilterChip(
                 selected = selectedChipState[category] ?: false,
                 onClick = { selectedChipState[category] = !(selectedChipState[category] ?: false) },
-                label = { Text(text = category.value) },
+                label = { Text(text = category.getLabel()) },
                 leadingIcon = {
                     Box(modifier = Modifier.animateContentSize(keyframes {
                         durationMillis = 100

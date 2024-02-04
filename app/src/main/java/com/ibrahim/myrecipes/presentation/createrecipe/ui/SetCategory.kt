@@ -32,13 +32,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.ibrahim.myrecipes.R
 import com.ibrahim.myrecipes.Screen
 import com.ibrahim.myrecipes.data.enums.FoodCategory
 import com.ibrahim.myrecipes.data.enums.getAllFoodCategories
+import com.ibrahim.myrecipes.data.enums.getLabel
 import com.ibrahim.myrecipes.presentation.createrecipe.CreateRecipeEvent
 import com.ibrahim.myrecipes.presentation.createrecipe.RecipeViewModel
 import com.ibrahim.myrecipes.presentation.ui.theme.Typography
@@ -73,7 +76,7 @@ fun SetCategory(
                         modifier = Modifier.weight(1f),
                         onClick = { }
                     ) {
-                        Text(text = "Cancel")
+                        Text(text = stringResource(R.string.cancel))
                     }
                     Button(
                         onClick = {
@@ -84,7 +87,7 @@ fun SetCategory(
                         modifier = Modifier.weight(1f),
                         enabled = isChipSelected.value
                     ) {
-                        Text(text = "Next")
+                        Text(text = stringResource(R.string.next))
                     }
                 }
             }
@@ -112,14 +115,14 @@ fun SetCategory(
                 )
                 {
                     Text(
-                        text = "What's Your Recipe's Category?",
+                        text = stringResource(R.string.what_s_your_recipe_s_category),
                         fontWeight = FontWeight.Bold,
                         style = Typography.displaySmall
                     )
                     Spacer(modifier = Modifier.padding(8.dp))
 
                     Text(
-                        text = "What kind of deliciousness do you bring to the table?",
+                        text = stringResource(R.string.what_kind_of_deliciousness_do_you_bring_to_the_table),
                         style = Typography.titleLarge
                     )
                     Spacer(modifier = Modifier.padding(8.dp))
@@ -152,7 +155,7 @@ fun SetCategory(
                                         }
                                     }
                                 },
-                                label = { Text(text = foodCategory.name) },
+                                label = { Text(text = foodCategory.getLabel()) },
                                 leadingIcon = {
                                     Box(modifier = Modifier.animateContentSize(keyframes {
                                         durationMillis = 100

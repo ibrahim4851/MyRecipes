@@ -19,6 +19,7 @@ composeConstraint = "1.0.1"
 hilt = "2.49"
 hiltNavigation = "1.1.0"
 androidWork = "2.9.0"
+appcompat = "1.6.1"
 
 [libraries]
 android-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "ktxversion" }
@@ -46,6 +47,7 @@ hiltCompiler = { group = "com.google.dagger", name = "hilt-compiler", version.re
 hiltNavigation = {group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavigation"}
 hiltWork = {group = "androidx.hilt", name = "hilt-work", version.ref = "hiltNavigation"}
 androidWork = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "androidWork" }
+androidAppcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

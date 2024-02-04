@@ -40,11 +40,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.ibrahim.myrecipes.R
 import com.ibrahim.myrecipes.Screen
 import com.ibrahim.myrecipes.presentation.createrecipe.CreateRecipeEvent
 import com.ibrahim.myrecipes.presentation.createrecipe.RecipeViewModel
@@ -103,7 +105,7 @@ fun RecipeTitle(
                     ) {
 
                         TextButton(onClick = { showTimeDialog = false }) {
-                            Text(text = "Dismiss")
+                            Text(text = stringResource(R.string.dismiss))
                         }
 
                         TextButton(
@@ -113,7 +115,7 @@ fun RecipeTitle(
                                 selectedMinute = timePickerState.minute
                             }
                         ) {
-                            Text(text = "Confirm")
+                            Text(text = stringResource(R.string.confirm))
                         }
                     }
                 }
@@ -134,7 +136,7 @@ fun RecipeTitle(
                         modifier = Modifier.weight(1f),
                         onClick = { navController.popBackStack() }
                     ) {
-                        Text(text = "Cancel")
+                        Text(text = stringResource(R.string.cancel))
                     }
                     Button(
                         onClick = {
@@ -157,7 +159,7 @@ fun RecipeTitle(
                                 && recipeServings.isNotEmpty()
                                 && selectedMinute + selectedHour > 0
                     ) {
-                        Text(text = "Next")
+                        Text(text = stringResource(R.string.next))
                     }
                 }
             }
@@ -186,14 +188,14 @@ fun RecipeTitle(
                 )
                 {
                     Text(
-                        text = "Let's Create Your Recipe",
+                        text = stringResource(R.string.let_s_create_your_recipe),
                         fontWeight = FontWeight.Bold,
                         style = Typography.displaySmall
                     )
                     Spacer(modifier = Modifier.padding(8.dp))
 
                     Text(
-                        text = "Keep the Title Short and Precise",
+                        text = stringResource(R.string.keep_the_title_short_and_precise),
                         style = Typography.titleLarge
                     )
                     Spacer(modifier = Modifier.padding(8.dp))
@@ -203,14 +205,14 @@ fun RecipeTitle(
                         onValueChange = { recipeTitle = it },
                         singleLine = true,
                         placeholder = {
-                            Text(text = "e.g. Hamburger")
+                            Text(text = stringResource(R.string.e_g_hamburger))
                         }
                     )
 
                     Spacer(modifier = Modifier.padding(8.dp))
 
                     Text(
-                        text = "How many servings does your recipe contain?",
+                        text = stringResource(R.string.how_many_servings_does_your_recipe_contain),
                         style = Typography.titleLarge
                     )
 
@@ -223,7 +225,7 @@ fun RecipeTitle(
                         },
                         singleLine = true,
                         placeholder = {
-                            Text(text = "e.g. 2")
+                            Text(text = stringResource(R.string.e_g_2))
                         },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal)
                     )
@@ -231,7 +233,7 @@ fun RecipeTitle(
                     Spacer(modifier = Modifier.padding(8.dp))
 
                     Text(
-                        text = "How long does it take to create this masterpiece?",
+                        text = stringResource(R.string.how_long_does_it_take_to_create_this_masterpiece),
                         style = Typography.titleLarge
                     )
 
@@ -261,7 +263,7 @@ fun RecipeTitle(
                             modifier = Modifier
                                 .height(40.dp)
                                 .align(Alignment.Bottom),
-                            text = "hours"
+                            text = stringResource(R.string.hours)
                         )
 
                         Spacer(modifier = Modifier.padding(8.dp))
@@ -284,7 +286,7 @@ fun RecipeTitle(
                             modifier = Modifier
                                 .height(40.dp)
                                 .align(Alignment.Bottom),
-                            text = "minutes"
+                            text = stringResource(R.string.minutes)
                         )
                     }
 
@@ -296,7 +298,7 @@ fun RecipeTitle(
                             showTimeDialog = !showTimeDialog
                         }
                     ) {
-                        Text(text = "Set the Time")
+                        Text(text = stringResource(R.string.set_the_time))
                     }
                 }
             }

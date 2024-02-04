@@ -34,15 +34,18 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.ibrahim.myrecipes.R
 import com.ibrahim.myrecipes.Screen
 import com.ibrahim.myrecipes.data.converter.DecimalFormatter
 import com.ibrahim.myrecipes.data.enums.IngredientQuantityUnit
 import com.ibrahim.myrecipes.data.enums.getAllIngredientQuantityUnits
+import com.ibrahim.myrecipes.data.enums.getLabel
 import com.ibrahim.myrecipes.domain.model.Ingredient
 import com.ibrahim.myrecipes.presentation.createrecipe.CreateRecipeEvent
 import com.ibrahim.myrecipes.presentation.createrecipe.RecipeViewModel
@@ -91,7 +94,7 @@ fun SetIngredients(
                             modifier = Modifier.weight(1f),
                             onClick = { navController.popBackStack() }
                         ) {
-                            Text(text = "Cancel")
+                            Text(text = stringResource(id = R.string.cancel))
                         }
                         Button(
                             onClick = {
@@ -106,11 +109,10 @@ fun SetIngredients(
                                     && ingredients[0].ingredientQuantity != null
                                     &&ingredients[0].ingredientQuantity!! > BigDecimal.ZERO
                         ) {
-                            Text(text = "Next")
+                            Text(text = stringResource(id = R.string.next))
                         }
                     }
                 }
-
             }
         ) { values ->
 
@@ -134,7 +136,7 @@ fun SetIngredients(
                         .weight(1f)
                 ) {
                     Text(
-                        text = "Add Your Ingredients",
+                        text = stringResource(R.string.add_your_ingredients),
                         fontWeight = FontWeight.Bold,
                         style = Typography.displaySmall
                     )
@@ -142,7 +144,7 @@ fun SetIngredients(
                     Spacer(modifier = Modifier.padding(8.dp))
 
                     Text(
-                        text = "What Are the Key Players?",
+                        text = stringResource(R.string.what_are_the_key_players),
                         style = Typography.titleLarge
                     )
 
@@ -182,7 +184,7 @@ fun SetIngredients(
                                         }
                                     },
                                     placeholder = {
-                                        Text(text = "e.g. Flour")
+                                        Text(text = stringResource(R.string.e_g_flour))
                                     }
                                 )
 
@@ -204,7 +206,7 @@ fun SetIngredients(
                                         }
                                     },
                                     placeholder = {
-                                        Text(text = "e.g. 2")
+                                        Text(text = stringResource(R.string.e_g_2))
                                     },
                                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal)
                                 )
@@ -224,7 +226,7 @@ fun SetIngredients(
                                         modifier = Modifier
                                             .menuAnchor(),
                                         readOnly = true,
-                                        value = ingredients[index].ingredientQuantityUnit.value,
+                                        value = ingredients[index].ingredientQuantityUnit.getLabel(),
                                         onValueChange = { },
                                         singleLine = true,
                                         colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(),
@@ -237,25 +239,23 @@ fun SetIngredients(
                                     ) {
                                         quantityUnits.forEach { selectionOption ->
                                             DropdownMenuItem(
-                                                text = { Text(text = selectionOption.value) },
+                                                text = { Text(text = selectionOption.getLabel()) },
                                                 onClick = {
                                                     ingredients = ingredients.toMutableList().also {
                                                         it[index] =
                                                             it[index].copy(ingredientQuantityUnit = selectionOption)
                                                     }
                                                     ingredientDropdownExpanded[index] = false
-                                                })
+                                                }
+                                            )
                                         }
                                     }
                                 }
-
                             }
-
                         }
                     }
                 }
             }
-
         }
     }
 }

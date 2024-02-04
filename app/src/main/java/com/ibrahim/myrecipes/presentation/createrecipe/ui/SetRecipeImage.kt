@@ -2,7 +2,6 @@ package com.ibrahim.myrecipes.presentation.createrecipe.ui
 
 import android.content.Intent
 import android.net.Uri
-import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -32,11 +31,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.ibrahim.myrecipes.R
 import com.ibrahim.myrecipes.Screen
 import com.ibrahim.myrecipes.presentation.createrecipe.CreateRecipeEvent
 import com.ibrahim.myrecipes.presentation.createrecipe.RecipeViewModel
@@ -83,7 +84,7 @@ fun AddRecipeImage(
                             modifier = Modifier.weight(1f),
                             onClick = { navController.popBackStack() }
                         ) {
-                            Text(text = "Cancel")
+                            Text(text = stringResource(id = R.string.cancel))
                         }
                         Button(
                             modifier = Modifier.weight(1f),
@@ -105,7 +106,7 @@ fun AddRecipeImage(
                             },
                             enabled = uri != null
                         ) {
-                            Text(text = "Next")
+                            Text(text = stringResource(id = R.string.next))
                         }
                     }
                 }
@@ -135,7 +136,7 @@ fun AddRecipeImage(
                         Text(
                             modifier = Modifier
                                 .align(Alignment.CenterHorizontally),
-                            text = "Pick Your Image",
+                            text = stringResource(R.string.pick_your_image),
                             style = Typography.headlineLarge,
                             fontWeight = FontWeight.Bold
                         )
@@ -168,17 +169,16 @@ fun AddRecipeImage(
                             photoPicker.launch(
                                 PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
                             )
-                            Log.i("pickerlog", uri.toString())
                         }
                     ) {
-                        Text(text = "Pick Photo")
+                        Text(text = stringResource(R.string.pick_photo))
                     }
                     Spacer(modifier = Modifier.weight(0.1f))
                     OutlinedButton(
                         modifier = Modifier.weight(5f),
                         onClick = { uri = null }
                     ) {
-                        Text(text = "Remove Photo")
+                        Text(text = stringResource(R.string.remove_photo))
                     }
                 }
             }

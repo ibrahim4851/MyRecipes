@@ -31,8 +31,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Constraints
@@ -47,6 +49,7 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.ibrahim.myrecipes.R
 import com.ibrahim.myrecipes.data.converter.minutesToHourMinuteString
+import com.ibrahim.myrecipes.data.enums.getLabel
 import com.ibrahim.myrecipes.domain.model.Recipe
 import com.ibrahim.myrecipes.domain.repository.Ingredients
 import com.ibrahim.myrecipes.presentation.recipedetail.viewmodel.RecipeDetailViewModel
@@ -210,7 +213,10 @@ fun RecipeTitleObject(scrollProvider: () -> Int, recipe: Recipe) {
             .fillMaxWidth()
             .background(Color.White)
     ) {
-        Column(Modifier.fillMaxWidth().padding(10.dp)) {
+        Column(
+            Modifier
+                .fillMaxWidth()
+                .padding(10.dp)) {
             Spacer(Modifier.height(16.dp))
             Text(
                 text = recipe.recipeTitle,
@@ -280,20 +286,20 @@ private fun InfoBoxGroup(recipe: Recipe) {
         InfoBox(
             backgroundColor = Color(0xFFED6E3A),
             infoIcon = painterResource(id = R.drawable.baseline_restaurant_menu_24),
-            infoTitle = "Servings",
+            infoTitle = stringResource(R.string.servings),
             infoContent = recipe.recipeServings.toString()
         )
         InfoBox(
             backgroundColor = Color(0xFF0189C5),
             infoIcon = painterResource(id = R.drawable.outline_watch_24),
-            infoTitle = "Time",
-            infoContent = recipe.recipeTime.minutesToHourMinuteString()
+            infoTitle = stringResource(R.string.time),
+            infoContent = recipe.recipeTime.minutesToHourMinuteString(LocalContext.current)
         )
         InfoBox(
             backgroundColor = Color(0xFF8759AC),
             infoIcon = painterResource(id = R.drawable.baseline_restaurant_menu_24),
-            infoTitle = "Category",
-            infoContent = recipe.foodCategory.value
+            infoTitle = stringResource(R.string.category),
+            infoContent = recipe.foodCategory.getLabel()
         )
     }
 }

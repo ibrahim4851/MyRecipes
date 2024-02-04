@@ -10,6 +10,7 @@ import com.ibrahim.myrecipes.domain.repository.Ingredients
 import com.ibrahim.myrecipes.domain.repository.RecipeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
@@ -37,10 +38,16 @@ class RecipeViewModel @Inject constructor(
     }
 
     private fun setIngredients(ingredients: Ingredients) {
+        val capitalizedIngredients = ingredients.map { ingredient ->
+            ingredient.copy(ingredientName = ingredient.ingredientName.replaceFirstChar {
+                if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString()
+            })
+        }
         val currentState = _state.value
-        val updatedState = currentState.copy(ingredients = ingredients)
+        val updatedState = currentState.copy(ingredients = capitalizedIngredients)
         _state.value = updatedState
     }
+
 
     private fun setInstructions(instructions: List<String>) {
         val currentState = _state.value
