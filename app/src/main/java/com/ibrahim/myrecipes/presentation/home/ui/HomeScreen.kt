@@ -155,8 +155,8 @@ fun HomeScreen(
     }
 }
 
-fun changeLocale(context: Context, localeString: String){
-    if (Build.VERSION. SDK_INT >= Build.VERSION_CODES. TIRAMISU) {
+fun changeLocale(context: Context, localeString: String) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         context.getSystemService(LocaleManager::class.java)
             .applicationLocales = LocaleList.forLanguageTags(localeString)
     } else {
