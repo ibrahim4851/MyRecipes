@@ -59,4 +59,5 @@
     <string name="servings">Servings</string>
     <string name="time">Time</string>
     <string name="category">Category</string>
+    <string name="ok">OK</string>
 </resources>
