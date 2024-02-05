@@ -90,6 +90,7 @@ dependencies {
     implementation(libs.androidWork)
     implementation(libs.androidAppcompat)
 
+    implementation(libs.lottie)
     implementation(libs.roomruntime)
     implementation(libs.roomktx)
     ksp(libs.kspRoomCompiler)
