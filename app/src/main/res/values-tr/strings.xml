@@ -17,8 +17,8 @@
     <string name="food_category_vegetarian">Vejetaryen</string>
     <string name="food_category_barbecue">Barbekü</string>
     <string name="food_category_other">Diğer</string>
-    <string name="recipe_recipe_servings">" sv."</string>
-    <string name="time_converter_hours">" h"</string>
+    <string name="recipe_recipe_servings">" ps."</string>
+    <string name="time_converter_hours">" s"</string>
     <string name="time_converter_minutes">" dk"</string>
     <string name="cancel">İptal</string>
     <string name="confirm">Onayla</string>
