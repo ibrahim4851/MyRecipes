@@ -63,9 +63,10 @@ fun OnBoardingScreen(navController: NavController) {
                         Modifier
                             .height(horizontalPagerHeight.dp)
                             .width(horizontalPagerWidth.dp)
-                            .align(Alignment.CenterHorizontally)
+                            .align(Alignment.CenterHorizontally),
+                        beyondBoundsPageCount = 1
                     ) {
-                        when (horizontalPagerState.currentPage) {
+                        when (horizontalPagerState.settledPage) {
                             0 -> {
                                 Column(Modifier.fillMaxWidth()) {
 
