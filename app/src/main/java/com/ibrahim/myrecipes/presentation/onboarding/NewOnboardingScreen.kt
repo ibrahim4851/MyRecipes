@@ -82,7 +82,12 @@ fun OnBoardingScreen(navController: NavController) {
                     onClick = {
                         scope.launch {
                             if (pagerState.currentPage == 3) {
-                                navController.navigate(Screen.HomeScreen.route)
+                                navController.navigate(Screen.HomeScreen.route) {
+                                    launchSingleTop = true
+                                    popUpTo(Screen.HomeScreen.route) {
+                                        inclusive = true
+                                    }
+                                }
                             } else {
                                 pagerState.animateScrollToPage(
                                     page = pagerState.currentPage + 1
