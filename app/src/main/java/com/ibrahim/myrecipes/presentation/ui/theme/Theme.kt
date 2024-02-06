@@ -17,18 +17,22 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Green800,
+    primary = Green900,
     secondary = PurpleGrey80,
     tertiary = Pink80,
-    background = Green900,
-    surface = Green700,
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
+    background = Color.Black,
+    surface = GreenDarkBackground,
+    onPrimary = Pistachio,
+    onSecondary = Pistachio,
+    onTertiary = Pistachio,
+    onBackground = Pistachio,
+    onSurface = Pistachio,
     onPrimaryContainer = Green200, //fab icon color
-    primaryContainer = Green600 //fab backgrond
+    primaryContainer = GreenDarkerBackground, //fab backgrond
+    secondaryContainer = Green200, //chip selected
+    onSurfaceVariant = Pistachio,// chip text color
+    onSecondaryContainer = Color.Black, // selected chip text color
+    surfaceVariant = Green200
 )
 
 private val LightColorScheme = lightColorScheme(

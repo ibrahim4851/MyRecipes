@@ -14,6 +14,7 @@ import androidx.compose.material3.AssistChip
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -98,7 +99,8 @@ fun RecipeItem(
                         Icon(
                             painterResource(id = R.drawable.baseline_serving_24),
                             contentDescription = null,
-                            modifier = Modifier.size(20.dp)
+                            modifier = Modifier.size(20.dp),
+                            tint = MaterialTheme.colorScheme.secondaryContainer
                         )
                     }
                 )
@@ -113,7 +115,8 @@ fun RecipeItem(
                         Icon(
                             painterResource(id = R.drawable.baseline_watch_later_24),
                             contentDescription = null,
-                            modifier = Modifier.size(20.dp)
+                            modifier = Modifier.size(20.dp),
+                            tint = MaterialTheme.colorScheme.secondaryContainer
                         )
                     }
                 )
