@@ -8,5 +8,5 @@ sealed class Screen(val route: String){
     data object RecipeIngredients: Screen(route = "recipe_ingredients")
     data object RecipeInstructions: Screen(route = "recipe_instructions")
     data object RecipeDetail: Screen(route = "recipe_detail")
-    data object OnBoardingScreen: Screen(route = "onboarding")
+    data object OnBoardingScreen: Screen(route = "onboarding_screen")
 }

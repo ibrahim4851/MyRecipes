@@ -81,10 +81,9 @@ fun OnBoardingScreen(navController: NavController) {
                 Button(
                     onClick = {
                         scope.launch {
-                            if (pagerState.currentPage == 3) {
+                            if (pagerState.currentPage == pages.size - 1) {
                                 navController.navigate(Screen.HomeScreen.route) {
-                                    launchSingleTop = true
-                                    popUpTo(Screen.HomeScreen.route) {
+                                    popUpTo(Screen.OnBoardingScreen.route) {
                                         inclusive = true
                                     }
                                 }
@@ -95,10 +94,10 @@ fun OnBoardingScreen(navController: NavController) {
                             }
                         }
                     }
-
                 ) {
                     Text(text = buttonsState.value[1])
                 }
+
             }
         }
         Spacer(modifier = Modifier.weight(0.5f))

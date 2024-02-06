@@ -29,6 +29,7 @@ private val DarkColorScheme = darkColorScheme(
     onSurface = Pistachio,
     onPrimaryContainer = Green200, //fab icon color
     primaryContainer = GreenDarkerBackground, //fab backgrond
+    outline = Pistachio,
     secondaryContainer = Green200, //chip selected
     onSurfaceVariant = Pistachio,// chip text color
     onSecondaryContainer = Color.Black, // selected chip text color
