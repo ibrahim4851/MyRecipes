@@ -15,7 +15,7 @@
     <string name="food_category_seafood">Deniz Ürünleri</string>
     <string name="food_category_chicken">Tavuk</string>
     <string name="food_category_vegetarian">Vejetaryen</string>
-    <string name="food_category_barbecue">Barbekü</string>
+    <string name="food_category_barbecue">Mangal</string>
     <string name="food_category_other">Diğer</string>
     <string name="recipe_recipe_servings">" ps."</string>
     <string name="time_converter_hours">" s"</string>
