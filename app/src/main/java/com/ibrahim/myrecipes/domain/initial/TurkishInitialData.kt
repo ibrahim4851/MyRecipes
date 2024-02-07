@@ -18,7 +18,7 @@ val turkishRecipes = listOf(
         recipeTime = 30,
         recipeServings = 4,
         foodCategory = FoodCategory.BURGER,
-        recipePhotoUri = "file:///android_asset/images/tr/klasik_hamburger.jpg"
+        recipePhotoUri = "file:///android_asset/images/tr/klasik_hamburger.jpeg"
     ),
     Recipe(
         recipeId = 2L,
@@ -35,7 +35,7 @@ val turkishRecipes = listOf(
         recipeTime = 45,
         recipeServings = 4,
         foodCategory = FoodCategory.SOUP,
-        recipePhotoUri = "file:///android_asset/images/tr/mercimek_corbasi.jpg"
+        recipePhotoUri = "file:///android_asset/images/tr/mercimek_corbasi.jpeg"
     ),
     Recipe(
         recipeId = 3L,
@@ -52,7 +52,7 @@ val turkishRecipes = listOf(
         recipeTime = 30,
         recipeServings = 4,
         foodCategory = FoodCategory.PASTA,
-        recipePhotoUri = "file:///android_asset/images/tr/kiymali_makarna.jpg"
+        recipePhotoUri = "file:///android_asset/images/tr/kiymali_makarna.jpeg"
     ),
     Recipe(
         recipeId = 4L,
@@ -70,7 +70,7 @@ val turkishRecipes = listOf(
         recipeTime = 120,
         recipeServings = 8,
         foodCategory = FoodCategory.DESSERT,
-        recipePhotoUri = "file:///android_asset/images/tr/biskuvi_pastasi.jpg"
+        recipePhotoUri = "file:///android_asset/images/tr/biskuvi_pastasi.jpeg"
     ),
     Recipe(
         recipeId = 5L,
@@ -85,7 +85,7 @@ val turkishRecipes = listOf(
         recipeTime = 15,
         recipeServings = 4,
         foodCategory = FoodCategory.SALAD,
-        recipePhotoUri = "file:///android_asset/images/tr/coban_salatasi.jpg"
+        recipePhotoUri = "file:///android_asset/images/tr/coban_salatasi.jpeg"
     ),
     Recipe(
         recipeId = 6L,
@@ -101,7 +101,7 @@ val turkishRecipes = listOf(
         recipeTime = 15,
         recipeServings = 1,
         foodCategory = FoodCategory.SANDWICH,
-        recipePhotoUri = "file:///android_asset/images/tr/ayvalik_tostu.jpg"
+        recipePhotoUri = "file:///android_asset/images/tr/ayvalik_tostu.jpeg"
     ),
     Recipe(
         recipeId = 7L,
@@ -119,7 +119,7 @@ val turkishRecipes = listOf(
         recipeTime = 10,
         recipeServings = 1,
         foodCategory = FoodCategory.BEVERAGE,
-        recipePhotoUri = "file:///android_asset/images/tr/turk_kahvesi.jpg"
+        recipePhotoUri = "file:///android_asset/images/tr/turk_kahvesi.jpeg"
     ),
     Recipe(
         recipeId = 8L,
@@ -138,7 +138,7 @@ val turkishRecipes = listOf(
         recipeTime = 120,
         recipeServings = 6,
         foodCategory = FoodCategory.VEGETARIAN,
-        recipePhotoUri = "file:///android_asset/images/tr/kuru_fasulye.jpg"
+        recipePhotoUri = "file:///android_asset/images/tr/kuru_fasulye.jpeg"
     ),
     Recipe(
         recipeId = 9L,
@@ -157,7 +157,7 @@ val turkishRecipes = listOf(
         recipeTime = 20,
         recipeServings = 4,
         foodCategory = FoodCategory.SEAFOOD,
-        recipePhotoUri = "file:///android_asset/images/tr/tavada_hamsi.jpg"
+        recipePhotoUri = "file:///android_asset/images/tr/tavada_hamsi.jpeg"
     ),
     Recipe(
         recipeId = 10L,
@@ -175,7 +175,7 @@ val turkishRecipes = listOf(
         recipeTime = 40,
         recipeServings = 4,
         foodCategory = FoodCategory.VEGETABLE,
-        recipePhotoUri = "file:///android_asset/images/tr/kabak_yemegi.jpg"
+        recipePhotoUri = "file:///android_asset/images/tr/kabak_yemegi.jpeg"
     ),
     Recipe(
         recipeId = 11L,
@@ -192,7 +192,7 @@ val turkishRecipes = listOf(
         recipeTime = 30,
         recipeServings = 4,
         foodCategory = FoodCategory.CHICKEN,
-        recipePhotoUri = "file:///android_asset/images/tr/tavuk_tantuni.jpg"
+        recipePhotoUri = "file:///android_asset/images/tr/tavuk_tantuni.jpeg"
     ),
     Recipe(
         recipeId = 12L,
@@ -209,7 +209,7 @@ val turkishRecipes = listOf(
         recipeTime = 45,
         recipeServings = 4,
         foodCategory = FoodCategory.BBQ,
-        recipePhotoUri = "file:///android_asset/images/tr/sis_kebab.jpg"
+        recipePhotoUri = "file:///android_asset/images/tr/sis_kebab.jpeg"
     ),
     Recipe(
         recipeId = 13L,
@@ -225,7 +225,7 @@ val turkishRecipes = listOf(
         recipeTime = 20,
         recipeServings = 4,
         foodCategory = FoodCategory.STEAK,
-        recipePhotoUri = "file:///android_asset/images/tr/tavada_pirzola.jpg"
+        recipePhotoUri = "file:///android_asset/images/tr/tavada_pirzola.jpeg"
     )
 )
 
