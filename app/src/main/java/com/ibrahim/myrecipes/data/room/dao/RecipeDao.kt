@@ -32,7 +32,6 @@ interface RecipeDao {
     @Query("SELECT * FROM recipes WHERE recipeId = :recipeId")
     suspend fun getRecipeWithIngredients(recipeId: Int): RecipeIngredients?
 
-
     @Query(
         "SELECT DISTINCT r.* FROM recipes r " +
                 "LEFT JOIN ingredients i ON r.recipeId = i.ownerRecipeId " +
@@ -40,6 +39,9 @@ interface RecipeDao {
                 "OR i.ingredientName LIKE '%' || :query || '%'"
     )
     suspend fun searchRecipes(query: String): List<RecipeEntity>
+
+    @Query("SELECT COUNT(*) FROM recipes")
+    suspend fun countRecipes(): Int
 
     @Transaction
     @Query("SELECT * FROM recipes WHERE foodCategory IN (:foodCategories)")
