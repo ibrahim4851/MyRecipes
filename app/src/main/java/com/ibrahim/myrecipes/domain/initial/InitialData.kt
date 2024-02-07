@@ -22,7 +22,7 @@ val englishRecipes = listOf(
         recipeTime = 22,
         recipeServings = 4,
         foodCategory = FoodCategory.PIZZA,
-        recipePhotoUri = "file:///android_asset/images/en/margherita_pizza.jpg"
+        recipePhotoUri = "file:///android_asset/images/en/margherita_pizza.jpeg"
     ),
     Recipe(
         recipeId = 2L,
@@ -37,7 +37,7 @@ val englishRecipes = listOf(
         recipeTime = 5,
         recipeServings = 2,
         foodCategory = FoodCategory.BEVERAGE,
-        recipePhotoUri = "file:///android_asset/images/en/strawberry_banana_smoothie.jpg"
+        recipePhotoUri = "file:///android_asset/images/en/strawberry_banana_smoothie.jpeg"
     ),
     Recipe(
         recipeId = 3L,
@@ -54,7 +54,7 @@ val englishRecipes = listOf(
         recipeTime = 90, // Including preparation, baking, and assembly
         recipeServings = 6,
         foodCategory = FoodCategory.DESSERT,
-        recipePhotoUri = "file:///android_asset/images/en/eclair.jpg"
+        recipePhotoUri = "file:///android_asset/images/en/eclair.jpeg"
     ),
     Recipe(
         recipeId = 4L,
@@ -72,7 +72,7 @@ val englishRecipes = listOf(
         recipeTime = 20,
         recipeServings = 4,
         foodCategory = FoodCategory.BURGER,
-        recipePhotoUri = "file:///android_asset/images/en/cheeseburger.jpg"
+        recipePhotoUri = "file:///android_asset/images/en/cheeseburger.jpeg"
     ),
     Recipe(
         recipeId = 5L,
@@ -88,7 +88,7 @@ val englishRecipes = listOf(
         recipeTime = 20,
         recipeServings = 4,
         foodCategory = FoodCategory.PASTA,
-        recipePhotoUri = "file:///android_asset/images/en/fettuccine_alfredo.jpg"
+        recipePhotoUri = "file:///android_asset/images/en/fettuccine_alfredo.jpeg"
     ),
     Recipe(
         recipeId = 6L,
@@ -106,7 +106,7 @@ val englishRecipes = listOf(
         recipeTime = 30,
         recipeServings = 2,
         foodCategory = FoodCategory.SUSHI,
-        recipePhotoUri = "file:///android_asset/images/en/california_roll.jpg"
+        recipePhotoUri = "file:///android_asset/images/en/california_roll.jpeg"
     ),
     Recipe(
         recipeId = 7L,
@@ -122,7 +122,7 @@ val englishRecipes = listOf(
         recipeTime = 45,
         recipeServings = 4,
         foodCategory = FoodCategory.VEGETABLE,
-        recipePhotoUri = "file:///android_asset/images/en/ratatouille.jpg"
+        recipePhotoUri = "file:///android_asset/images/en/ratatouille.jpeg"
     ),
     Recipe(
         recipeId = 8L,
@@ -137,7 +137,7 @@ val englishRecipes = listOf(
         recipeTime = 10,
         recipeServings = 1,
         foodCategory = FoodCategory.SANDWICH,
-        recipePhotoUri = "file:///android_asset/images/en/grilled_cheese.jpg"
+        recipePhotoUri = "file:///android_asset/images/en/grilled_cheese.jpeg"
     ),
     Recipe(
         recipeId = 9L,
@@ -153,7 +153,7 @@ val englishRecipes = listOf(
         recipeTime = 20,
         recipeServings = 4,
         foodCategory = FoodCategory.SALAD,
-        recipePhotoUri = "file:///android_asset/images/en/caesar_salad.jpg"
+        recipePhotoUri = "file:///android_asset/images/en/caesar_salad.jpeg"
     ),
     Recipe(
         recipeId = 10L,
@@ -171,7 +171,7 @@ val englishRecipes = listOf(
         recipeTime = 45,
         recipeServings = 4,
         foodCategory = FoodCategory.SOUP,
-        recipePhotoUri = "file:///android_asset/images/en/mushroom_soup.jpg"
+        recipePhotoUri = "file:///android_asset/images/en/mushroom_soup.jpeg"
     ),
     Recipe(
         recipeId = 11L,
@@ -188,7 +188,7 @@ val englishRecipes = listOf(
         recipeTime = 60, // Including resting time
         recipeServings = 2,
         foodCategory = FoodCategory.BBQ,
-        recipePhotoUri = "file:///android_asset/images/en/tomahawk_ribeye.jpg"
+        recipePhotoUri = "file:///android_asset/images/en/tomahawk_ribeye.jpeg"
     ),
     Recipe(
         recipeId = 12L,
@@ -206,7 +206,7 @@ val englishRecipes = listOf(
         recipeTime = 60,
         recipeServings = 6,
         foodCategory = FoodCategory.VEGETABLE,
-        recipePhotoUri = "file:///android_asset/images/en/flamiche.jpg"
+        recipePhotoUri = "file:///android_asset/images/en/flamiche.jpeg"
     ),
     Recipe(
         recipeId = 13L,
@@ -222,7 +222,7 @@ val englishRecipes = listOf(
         recipeTime = 25,
         recipeServings = 2,
         foodCategory = FoodCategory.BREAKFAST,
-        recipePhotoUri = "file:///android_asset/images/en/quinoa_breakfast_bowl.jpg"
+        recipePhotoUri = "file:///android_asset/images/en/quinoa_breakfast_bowl.jpeg"
     )
 )
 
