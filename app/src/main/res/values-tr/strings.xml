@@ -7,7 +7,9 @@
     <string name="food_category_salad">Salata</string>
     <string name="food_category_dessert">Tatlı</string>
     <string name="food_category_soup">Çorba</string>
+    <string name="food_category_vegetable">Sebze Yemeği</string>
     <string name="food_category_sandwich">Sandviç</string>
+    <string name="food_category_legumes">Baklagiller</string>
     <string name="food_category_breakfast">Kahvaltı</string>
     <string name="food_category_beverage">İçecek</string>
     <string name="food_category_sushi">Suşi</string>
@@ -44,9 +46,9 @@
     <string name="ingredient_quantity_unit_tablespoon">Ymk k</string>
     <string name="ingredient_quantity_unit_cup">Bardk</string>
     <string name="ingredient_quantity_unit_piece">Adet</string>
-    <string name="ingredient_quantity_unit_pinch">Avuç</string>
-    <string name="ingredient_quantity_unit_dash">Tutam</string>
-    <string name="ingredient_quantity_unit_ounce">Kupa</string>
+    <string name="ingredient_quantity_unit_slice">Dilim</string>
+    <string name="ingredient_quantity_unit_pinch">Tutam</string>
+    <string name="ingredient_quantity_unit_milliliter">Mililitre</string>
     <string name="ingredient_quantity_unit_pound">Pound</string>
     <string name="ingredient_quantity_unit_gallon">Galon</string>
     <string name="ingredient_quantity_unit_quart">Çay b</string>

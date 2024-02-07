@@ -7,6 +7,7 @@
     <string name="food_category_dessert">Dessert</string>
     <string name="food_category_soup">Soup</string>
     <string name="food_category_sandwich">Sandwich</string>
+    <string name="food_category_legumes">Legumes</string>
     <string name="food_category_breakfast">Breakfast</string>
     <string name="food_category_beverage">Beverage</string>
     <string name="food_category_sushi">Sushi</string>
@@ -43,9 +44,9 @@
     <string name="ingredient_quantity_unit_tablespoon">Tblspn</string>
     <string name="ingredient_quantity_unit_cup">Cup</string>
     <string name="ingredient_quantity_unit_piece">Piece</string>
+    <string name="ingredient_quantity_unit_slice">Slice</string>
     <string name="ingredient_quantity_unit_pinch">Pinch</string>
-    <string name="ingredient_quantity_unit_dash">Dash</string>
-    <string name="ingredient_quantity_unit_ounce">Ounce</string>
+    <string name="ingredient_quantity_unit_milliliter">Mi. lt</string>
     <string name="ingredient_quantity_unit_pound">Pound</string>
     <string name="ingredient_quantity_unit_gallon">Gallon</string>
     <string name="ingredient_quantity_unit_quart">Quart</string>
@@ -60,4 +61,5 @@
     <string name="time">Time</string>
     <string name="category">Category</string>
     <string name="ok">OK</string>
+    <string name="food_category_vegetable">Vegetable Food</string>
 </resources>
