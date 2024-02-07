@@ -12,8 +12,8 @@ fun Int.minutesToHourMinuteString(context: Context): String {
                 context.getString(R.string.time_converter_hours) +
                 " $minutes" +
                 context.getString(R.string.time_converter_minutes)
-        hours > 0 -> "$hours " + context.getString(R.string.time_converter_hours)
-        minutes > 0 -> "$minutes " + context.getString(R.string.time_converter_minutes)
+        hours > 0 -> "$hours" + context.getString(R.string.time_converter_hours)
+        minutes > 0 -> "$minutes" + context.getString(R.string.time_converter_minutes)
         else -> "0 min"
     }
 }
