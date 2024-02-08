@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Tariflerim</string>
+    <string name="app_name">Recipy</string>
     <string name="food_category_burger">Hamburger</string>
     <string name="food_category_pizza">Pizza</string>
     <string name="food_category_pasta">Makarna</string>
@@ -63,4 +63,11 @@
     <string name="time">Süre</string>
     <string name="category">Kategori</string>
     <string name="ok">Tamam</string>
+    <string name="onboarding_content_1">Parmaklarınızın ucunda bir lezzet dünyasını keşfedin! Bir sonraki mutfak maceranıza ilham verecek sonsuz sayıdaki tariflere dalmaya hazır olun.</string>
+    <string name="onboarding_title_1">Recipy\'e hoşgeldiniz!</string>
+    <string name="onboarding_title_2">Adım Adım Pişirme Rehberi</string>
+    <string name="onboarding_content_2">Ayrıntılı talimatları ve yüksek kaliteli fotoğrafları takip edin. Acemi aşçılardan tecrübeli şeflere kadar rehberlerimiz yemek yapmayı basit ve keyifli hale getiriyor.</string>
+    <string name="onboarding_title_3">Sıradaki Favori Yemeğinizi Bulun</string>
+    <string name="onboarding_content_3">Tarifleri malzemelere, mutfağa veya ruh halinize göre kolayca arayın. İster hızlı bir öğle yemeği ister gurme bir akşam yemeği arıyor olun, mükemmel tarifi bulmak sadece bir dokunuş uzağınızda.</string>
+
 </resources>
