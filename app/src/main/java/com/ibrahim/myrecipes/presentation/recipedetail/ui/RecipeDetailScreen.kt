@@ -55,6 +55,7 @@ import com.ibrahim.myrecipes.domain.repository.Ingredients
 import com.ibrahim.myrecipes.presentation.recipedetail.viewmodel.RecipeDetailViewModel
 import com.ibrahim.myrecipes.presentation.ui.theme.Green300
 import com.ibrahim.myrecipes.presentation.ui.theme.Green900
+import com.ibrahim.myrecipes.presentation.ui.theme.Pistachio
 import com.ibrahim.myrecipes.presentation.ui.theme.Typography
 import kotlin.math.max
 import kotlin.math.min
@@ -96,8 +97,8 @@ fun RecipeDetailScreen(
                     .padding(paddingValues)
             ) {
                 Box(Modifier.fillMaxWidth()) {
-                    Body(scroll = scrollState, recipe = recipe, ingredients = ingredients)
                     RecipeDetailHeader()
+                    Body(scroll = scrollState, recipe = recipe, ingredients = ingredients)
                     RecipeTitleObject(scrollProvider = { scrollState.value }, recipe = recipe)
                     RecipeImageObject(scrollProvider = { scrollState.value }, recipe = recipe)
                 }
@@ -118,36 +119,44 @@ fun Body(scroll: ScrollState, recipe: Recipe, ingredients: Ingredients) {
         Column(
             modifier = Modifier
                 .verticalScroll(scroll)
-                .fillMaxWidth()
                 .padding(10.dp)
+                .fillMaxWidth()
+                .background(MaterialTheme.colorScheme.background)
         ) {
             Spacer(Modifier.height(GradientScroll))
             Spacer(Modifier.height(ImageOverlap))
             Spacer(Modifier.height(TitleHeight))
             Spacer(Modifier.height(16.dp))
-            Spacer(Modifier.height(TitleHeight))
+            Spacer(Modifier.height(60.dp))
             Spacer(Modifier.size(8.dp))
             InfoBoxGroup(recipe)
             Row(modifier = Modifier.fillMaxWidth()) {
                 Text(
-                    "Ingredients",
+                    stringResource(R.string.ingredients),
                     fontWeight = FontWeight.Bold,
-                    style = Typography.headlineSmall
+                    style = Typography.headlineLarge
                 )
             }
             Spacer(Modifier.size(8.dp))
-            repeat(ingredients.size) {
-                Row(modifier = Modifier.fillMaxWidth()) {
-                    Text(text = "${(it + 1)}")
-                    Spacer(modifier = Modifier.padding(4.dp))
-                    Text(text = ingredients[it].ingredientName)
+            AnimatedBorderCard(gradient = Brush.linearGradient(listOf(Pistachio, Green900))) {
+                Column(Modifier.padding(8.dp)) {
+                    repeat(ingredients.size) {
+                        Row(modifier = Modifier.fillMaxWidth()) {
+                            Text(text = ingredients[it].ingredientQuantity.toString() +
+                                    " " +
+                                    ingredients[it].ingredientQuantityUnit.getLabel() +
+                                    " " +
+                                    ingredients[it].ingredientName,
+                                style = Typography.titleLarge)
+                        }
+                    }
                 }
             }
             Row(modifier = Modifier.fillMaxWidth()) {
                 Text(
-                    "Instructions",
+                    text = stringResource(R.string.instructions),
                     fontWeight = FontWeight.Bold,
-                    style = Typography.headlineSmall
+                    style = Typography.headlineLarge
                 )
             }
             Spacer(Modifier.size(8.dp))
@@ -235,7 +244,7 @@ fun RecipeTitleObject(scrollProvider: () -> Int, recipe: Recipe) {
                 style = MaterialTheme.typography.titleSmall,
                 modifier = HzPadding
             )
-            Spacer(Modifier.height(MinTitleOffset + 60.dp))
+            Spacer(Modifier.height(7.dp))
             Divider()
         }
     }

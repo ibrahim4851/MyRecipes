@@ -40,7 +40,10 @@ fun ExpandableCard(
     AnimatedBorderCard(
         modifier = Modifier
         .fillMaxWidth(),
-        gradient = Brush.linearGradient(listOf(Lime, Pistachio, Purple40))
+        gradient = Brush.linearGradient(listOf(Lime, Pistachio, Purple40)),
+        onCardClick = {
+            expanded = !expanded
+        }
     ) {
         Column(modifier = Modifier
             .fillMaxWidth()
@@ -79,7 +82,7 @@ fun ExpandableCard(
                 if (expanded) {
                     Text(
                         text = description,
-                        style = Typography.labelLarge
+                        style = Typography.titleLarge
                     )
                 }
             }

@@ -68,4 +68,6 @@
     <string name="onboarding_content_2">Follow along with detailed instructions and high-quality photos. From novice cooks to seasoned chefs, our guides make cooking simple and enjoyable.</string>
     <string name="onboarding_title_3">Find Your Next Favorite Dish</string>
     <string name="onboarding_content_3">Easily search for recipes by ingredients, cuisine, or mood. Whether you\'re looking for a quick lunch or a gourmet dinner, finding the perfect recipe is just a tap away.</string>
+    <string name="ingredients">Ingredients</string>
+    <string name="instructions">Instructions</string>
 </resources>

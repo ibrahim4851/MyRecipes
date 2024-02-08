@@ -69,5 +69,7 @@
     <string name="onboarding_content_2">Ayrıntılı talimatları ve yüksek kaliteli fotoğrafları takip edin. Acemi aşçılardan tecrübeli şeflere kadar rehberlerimiz yemek yapmayı basit ve keyifli hale getiriyor.</string>
     <string name="onboarding_title_3">Sıradaki Favori Yemeğinizi Bulun</string>
     <string name="onboarding_content_3">Tarifleri malzemelere, mutfağa veya ruh halinize göre kolayca arayın. İster hızlı bir öğle yemeği ister gurme bir akşam yemeği arıyor olun, mükemmel tarifi bulmak sadece bir dokunuş uzağınızda.</string>
+    <string name="ingredients">Malzemeler</string>
+    <string name="instructions">Talimatlar</string>
 
 </resources>
