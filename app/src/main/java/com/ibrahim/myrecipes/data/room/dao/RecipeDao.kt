@@ -22,6 +22,9 @@ interface RecipeDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertRecipe(recipeEntity: RecipeEntity): Long
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAllRecipes(recipes: List<RecipeEntity>)
+
     @Delete
     suspend fun deleteRecipe(recipeEntity: RecipeEntity)
 
@@ -50,6 +53,9 @@ interface RecipeDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertIngredient(ingredientEntity: IngredientEntity): Long
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAllIngredients(ingredients: List<IngredientEntity>)
 
     @Delete
     suspend fun deleteIngredient(ingredientEntity: IngredientEntity)
