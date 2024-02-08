@@ -1,5 +1,6 @@
 package com.ibrahim.myrecipes.data.di
 
+import android.app.Application
 import android.content.Context
 import androidx.room.Room
 import com.ibrahim.myrecipes.data.room.dao.RecipeDao
@@ -34,5 +35,9 @@ object AppModule {
     @Provides
     @Singleton
     fun provideRecipeDao(recipeDatabase: RecipeDatabase) = recipeDatabase.dao
+
+    @Provides
+    @Singleton
+    fun provideApplicationContext(application: Application) = application.applicationContext
 
 }
