@@ -1,6 +1,8 @@
 package com.ibrahim.myrecipes.domain.repository
 
 import com.ibrahim.myrecipes.data.enums.FoodCategory
+import com.ibrahim.myrecipes.data.room.entity.IngredientEntity
+import com.ibrahim.myrecipes.data.room.entity.RecipeEntity
 import com.ibrahim.myrecipes.data.room.entity.RecipeIngredients
 import com.ibrahim.myrecipes.domain.model.Ingredient
 import com.ibrahim.myrecipes.domain.model.Recipe
@@ -14,6 +16,8 @@ interface RecipeRepository {
 
     suspend fun insertRecipe(recipe: Recipe): Long
 
+    suspend fun insertAllRecipes(recipeEntities: List<RecipeEntity>)
+
     suspend fun insertIngredients(ingredients: Ingredients)
 
     suspend fun updateRecipe(recipe: Recipe)
@@ -23,6 +27,8 @@ interface RecipeRepository {
     suspend fun deleteRecipe(recipe: Recipe)
 
     suspend fun deleteIngredient(ingredient: Ingredient)
+
+    suspend fun insertAllIngredients(ingredientEntities: List<IngredientEntity>)
 
     suspend fun getAllIngredients(): Ingredients
 
