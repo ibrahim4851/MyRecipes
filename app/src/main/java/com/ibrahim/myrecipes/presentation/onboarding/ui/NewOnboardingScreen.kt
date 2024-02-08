@@ -40,6 +40,7 @@ fun OnBoardingScreen(
     val context = LocalContext.current
     val locale = context.resources.configuration.locales[0].language
     val isTurkish = locale.startsWith("tr")
+    val pages = getPages(context)
 
     LaunchedEffect(key1 = true) {
         viewModel.prepopulateData(isTurkish)
