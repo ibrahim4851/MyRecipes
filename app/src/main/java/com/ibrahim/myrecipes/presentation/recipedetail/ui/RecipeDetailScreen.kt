@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
@@ -24,8 +25,13 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -36,6 +42,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.IntOffset
@@ -121,7 +128,6 @@ fun Body(scroll: ScrollState, recipe: Recipe, ingredients: Ingredients) {
                 .verticalScroll(scroll)
                 .padding(10.dp)
                 .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.background)
         ) {
             Spacer(Modifier.height(GradientScroll))
             Spacer(Modifier.height(ImageOverlap))
@@ -142,12 +148,14 @@ fun Body(scroll: ScrollState, recipe: Recipe, ingredients: Ingredients) {
                 Column(Modifier.padding(8.dp)) {
                     repeat(ingredients.size) {
                         Row(modifier = Modifier.fillMaxWidth()) {
-                            Text(text = ingredients[it].ingredientQuantity.toString() +
-                                    " " +
-                                    ingredients[it].ingredientQuantityUnit.getLabel() +
-                                    " " +
-                                    ingredients[it].ingredientName,
-                                style = Typography.titleLarge)
+                            Text(
+                                text = ingredients[it].ingredientQuantity.toString() +
+                                        " " +
+                                        ingredients[it].ingredientQuantityUnit.getLabel() +
+                                        " " +
+                                        ingredients[it].ingredientName,
+                                style = Typography.titleLarge
+                            )
                         }
                     }
                 }
@@ -161,7 +169,10 @@ fun Body(scroll: ScrollState, recipe: Recipe, ingredients: Ingredients) {
             }
             Spacer(Modifier.size(8.dp))
             repeat(recipe.recipeInstructions.size) {
-                ExpandableCard(title = "${(it + 1)}. step", description = recipe.recipeInstructions[it])
+                ExpandableCard(
+                    title = "${(it + 1)}. step",
+                    description = recipe.recipeInstructions[it]
+                )
                 Spacer(Modifier.size(8.dp))
             }
         }
@@ -172,7 +183,7 @@ fun Body(scroll: ScrollState, recipe: Recipe, ingredients: Ingredients) {
 fun RecipeDetailHeader() {
     Spacer(
         modifier = Modifier
-            .height(280.dp)
+            .height(240.dp)
             .fillMaxWidth()
             .background(
                 Brush.horizontalGradient(
@@ -208,6 +219,9 @@ fun RecipeImageObject(scrollProvider: () -> Int, recipe: Recipe) {
 fun RecipeTitleObject(scrollProvider: () -> Int, recipe: Recipe) {
     val maxOffset = with(LocalDensity.current) { MaxTitleOffset.toPx() }
     val minOffset = with(LocalDensity.current) { MinTitleOffset.toPx() }
+    val textStyleHeadline1 = MaterialTheme.typography.headlineSmall.copy(fontSize = 42.sp, lineHeight = 45.sp)
+    var textStyle by remember { mutableStateOf(textStyleHeadline1) }
+    var readyToDraw by remember { mutableStateOf(false) }
 
     Column(
         verticalArrangement = Arrangement.Bottom,
@@ -225,12 +239,28 @@ fun RecipeTitleObject(scrollProvider: () -> Int, recipe: Recipe) {
         Column(
             Modifier
                 .fillMaxWidth()
-                .padding(10.dp)) {
+                .padding(10.dp)
+        ) {
             Spacer(Modifier.height(16.dp))
             Text(
                 text = recipe.recipeTitle,
-                style = MaterialTheme.typography.displayMedium,
-                modifier = HzPadding
+                style = textStyle,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis,
+                fontWeight = FontWeight.Bold,
+                onTextLayout = { textLayoutResult ->
+                    if (textLayoutResult.didOverflowWidth) {
+                        textStyle = textStyle.copy(fontSize = textStyle.fontSize * 0.9)
+                    } else {
+                        readyToDraw = true
+                    }
+                },
+                modifier = Modifier
+                    .padding(horizontal = 24.dp)
+                    .width((LocalConfiguration.current.screenWidthDp * 0.55).dp)
+                    .drawWithContent {
+                        if(readyToDraw) drawContent()
+                    }
             )
             Text(
                 text = "Test Tagline",
