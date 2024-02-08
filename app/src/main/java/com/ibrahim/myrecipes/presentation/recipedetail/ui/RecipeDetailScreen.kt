@@ -234,7 +234,7 @@ fun RecipeTitleObject(scrollProvider: () -> Int, recipe: Recipe) {
                 IntOffset(x = 0, y = offset.toInt())
             }
             .fillMaxWidth()
-            .background(Color.White)
+            .background(MaterialTheme.colorScheme.background)
     ) {
         Column(
             Modifier
