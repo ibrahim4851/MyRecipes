@@ -222,6 +222,7 @@ fun RecipeTitleObject(scrollProvider: () -> Int, recipe: Recipe) {
     val textStyleHeadline1 = MaterialTheme.typography.headlineSmall.copy(fontSize = 42.sp, lineHeight = 45.sp)
     var textStyle by remember { mutableStateOf(textStyleHeadline1) }
     var readyToDraw by remember { mutableStateOf(false) }
+    var recipeTitle by remember { mutableStateOf(recipe.recipeTitle) }
 
     Column(
         verticalArrangement = Arrangement.Bottom,
@@ -243,12 +244,15 @@ fun RecipeTitleObject(scrollProvider: () -> Int, recipe: Recipe) {
         ) {
             Spacer(Modifier.height(16.dp))
             Text(
-                text = recipe.recipeTitle,
+                text = recipeTitle,
                 style = textStyle,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
                 fontWeight = FontWeight.Bold,
                 onTextLayout = { textLayoutResult ->
+                    if(textLayoutResult.lineCount == 1 && recipe.recipeTitle.isNotEmpty()) {
+                        recipeTitle = recipe.recipeTitle + "\n"
+                    }
                     if (textLayoutResult.didOverflowWidth) {
                         textStyle = textStyle.copy(fontSize = textStyle.fontSize * 0.9)
                     } else {
