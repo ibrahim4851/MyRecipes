@@ -2,6 +2,8 @@ package com.ibrahim.myrecipes.data.room.repository
 
 import com.ibrahim.myrecipes.data.enums.FoodCategory
 import com.ibrahim.myrecipes.data.room.dao.RecipeDao
+import com.ibrahim.myrecipes.data.room.entity.IngredientEntity
+import com.ibrahim.myrecipes.data.room.entity.RecipeEntity
 import com.ibrahim.myrecipes.data.room.entity.RecipeIngredients
 import com.ibrahim.myrecipes.data.room.mapper.toIngredient
 import com.ibrahim.myrecipes.data.room.mapper.toIngredientEntity
@@ -25,6 +27,10 @@ class RecipeRepositoryImpl(private val dao: RecipeDao) : RecipeRepository {
 
     override suspend fun insertRecipe(recipe: Recipe): Long {
         return dao.insertRecipe(recipe.toRecipeEntity())
+    }
+
+    override suspend fun insertAllRecipes(recipeEntities: List<RecipeEntity>) {
+        dao.insertAllRecipes(recipeEntities)
     }
 
     override suspend fun insertIngredients(ingredients: Ingredients) {
@@ -58,6 +64,10 @@ class RecipeRepositoryImpl(private val dao: RecipeDao) : RecipeRepository {
         return dao.searchRecipes(query).map { recipeEntity ->
             recipeEntity.toRecipe()
         }
+    }
+
+    override suspend fun insertAllIngredients(ingredientEntities: List<IngredientEntity>) {
+        dao.insertAllIngredients(ingredientEntities)
     }
 
     override suspend fun getRecipesByFoodType(foodCategories: List<FoodCategory>): Recipes {

@@ -1,9 +1,11 @@
 package com.ibrahim.myrecipes.presentation.navigation
 
+import android.content.Context
 import android.os.Build
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -19,7 +21,7 @@ import com.ibrahim.myrecipes.presentation.createrecipe.ui.SetCategory
 import com.ibrahim.myrecipes.presentation.createrecipe.ui.SetIngredients
 import com.ibrahim.myrecipes.presentation.createrecipe.ui.SetInstructions
 import com.ibrahim.myrecipes.presentation.home.ui.HomeScreen
-import com.ibrahim.myrecipes.presentation.onboarding.OnBoardingScreen
+import com.ibrahim.myrecipes.presentation.onboarding.ui.OnBoardingScreen
 import com.ibrahim.myrecipes.presentation.recipedetail.ui.RecipeDetailScreen
 
 @Composable
@@ -33,8 +35,10 @@ fun ScreensNavigation() {
     }
 
     val viewModel: RecipeViewModel = hiltViewModel()
+    val context = LocalContext.current
+    val startDestination = if (isFirstRun(context)) Screen.OnBoardingScreen.route else Screen.HomeScreen.route
 
-    NavHost(navController = navController, startDestination = Screen.HomeScreen.route) {
+    NavHost(navController = navController, startDestination = startDestination) {
 
         navigation(startDestination = Screen.RecipeTitle.route, route = "create_recipe") {
 
@@ -136,3 +140,18 @@ fun ScreensNavigation() {
         }
     }
 }
+
+
+fun isFirstRun(context: Context): Boolean {
+    val sharedPreferences = context.getSharedPreferences("MyAppPreferences", Context.MODE_PRIVATE)
+    val isFirstRun = sharedPreferences.getBoolean("isFirstRun", true)
+    if (isFirstRun) {
+        with(sharedPreferences.edit()) {
+            putBoolean("isFirstRun", false)
+            apply()
+        }
+    }
+    return isFirstRun
+}
+
+
