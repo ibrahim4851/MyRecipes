@@ -1,4 +1,4 @@
-package com.ibrahim.myrecipes.presentation.onboarding
+package com.ibrahim.myrecipes.presentation.onboarding.ui
 
 import androidx.annotation.DrawableRes
 import com.ibrahim.myrecipes.R
