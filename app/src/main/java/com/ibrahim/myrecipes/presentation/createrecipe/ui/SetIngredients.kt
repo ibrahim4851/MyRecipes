@@ -55,6 +55,7 @@ import com.ibrahim.myrecipes.domain.model.Ingredient
 import com.ibrahim.myrecipes.presentation.createrecipe.CreateRecipeEvent
 import com.ibrahim.myrecipes.presentation.createrecipe.RecipeViewModel
 import com.ibrahim.myrecipes.presentation.ui.theme.Typography
+import com.ibrahim.myrecipes.util.SwipeToDeleteContainer
 import java.math.BigDecimal
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -188,79 +189,91 @@ fun SetIngredients(
                         verticalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
                         items(ingredients.size) { index ->
-                            Row {
-                                var text by remember { mutableStateOf(ingredientQuantities[index]) }
-                                OutlinedTextField(
-                                    modifier = Modifier.weight(6f),
-                                    value = ingredients[index].ingredientName,
-                                    onValueChange = { newValue ->
-                                        ingredients = ingredients.toMutableList().also {
-                                            it[index] = it[index].copy(ingredientName = newValue)
-                                        }
-                                    },
-                                    placeholder = {
-                                        Text(text = stringResource(R.string.e_g_flour))
+                            SwipeToDeleteContainer(
+                                item = ingredients[index],
+                                onDelete = {
+                                    if (index > 0) {
+                                        ingredients -= ingredients[index]
                                     }
-                                )
-
-                                Spacer(modifier = Modifier.weight(0.5f))
-
-                                OutlinedTextField(
-                                    modifier = Modifier.weight(3f),
-                                    value = text,
-                                    onValueChange = {
-                                        if (it.isEmpty() || it.toDoubleOrNull() != null) {
-                                            text = it
-                                            ingredientQuantities =
-                                                ingredientQuantities.toMutableList().apply {
-                                                    set(index, it)
-                                                }
-                                        }
-                                    },
-                                    singleLine = true,
-                                    placeholder = {
-                                        Text(text = stringResource(R.string.e_g_2))
-                                    },
-                                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal)
-                                )
-
-                                Spacer(modifier = Modifier.weight(0.5f))
-
-                                ExposedDropdownMenuBox(
-                                    modifier = Modifier.weight(4f),
-                                    expanded = ingredientDropdownExpanded[index]!!,
-                                    onExpandedChange = {
-                                        ingredientDropdownExpanded[index] =
-                                            !ingredientDropdownExpanded.get(index)!!
-                                    }
-                                )
-                                {
+                                }) {
+                                Row {
+                                    var text by remember { mutableStateOf(ingredientQuantities[index]) }
                                     OutlinedTextField(
-                                        modifier = Modifier
-                                            .menuAnchor(),
-                                        readOnly = true,
-                                        value = ingredients[index].ingredientQuantityUnit.getLabel(),
-                                        onValueChange = { },
-                                        singleLine = true,
-                                        colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(),
-                                    )
-                                    ExposedDropdownMenu(
-                                        expanded = ingredientDropdownExpanded[index]!!,
-                                        onDismissRequest = {
-                                            ingredientDropdownExpanded[index] = false
+                                        modifier = Modifier.weight(6f),
+                                        value = ingredients[index].ingredientName,
+                                        onValueChange = { newValue ->
+                                            ingredients = ingredients.toMutableList().also {
+                                                it[index] =
+                                                    it[index].copy(ingredientName = newValue)
+                                            }
+                                        },
+                                        placeholder = {
+                                            Text(text = stringResource(R.string.e_g_flour))
                                         }
-                                    ) {
-                                        quantityUnits.forEach { selectionOption ->
-                                            DropdownMenuItem(
-                                                text = { Text(text = selectionOption.getLabel()) },
-                                                onClick = {
-                                                    ingredients = ingredients.toMutableList().also {
-                                                        it[index] =
-                                                            it[index].copy(ingredientQuantityUnit = selectionOption)
+                                    )
+
+                                    Spacer(modifier = Modifier.weight(0.5f))
+
+                                    OutlinedTextField(
+                                        modifier = Modifier.weight(3f),
+                                        value = text,
+                                        onValueChange = {
+                                            if (it.isEmpty() || it.toDoubleOrNull() != null) {
+                                                text = it
+                                                ingredientQuantities =
+                                                    ingredientQuantities.toMutableList().apply {
+                                                        set(index, it)
                                                     }
-                                                    ingredientDropdownExpanded[index] = false
-                                                }
-                                            )
+                                            }
+                                        },
+                                        singleLine = true,
+                                        placeholder = {
+                                            Text(text = stringResource(R.string.e_g_2))
+                                        },
+                                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal)
+                                    )
+
+                                    Spacer(modifier = Modifier.weight(0.5f))
+
+                                    ExposedDropdownMenuBox(
+                                        modifier = Modifier.weight(4f),
+                                        expanded = ingredientDropdownExpanded[index]!!,
+                                        onExpandedChange = {
+                                            ingredientDropdownExpanded[index] =
+                                                !ingredientDropdownExpanded.get(index)!!
+                                        }
+                                    )
+                                    {
+                                        OutlinedTextField(
+                                            modifier = Modifier
+                                                .menuAnchor(),
+                                            readOnly = true,
+                                            value = ingredients[index].ingredientQuantityUnit.getLabel(),
+                                            onValueChange = { },
+                                            singleLine = true,
+                                            colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(),
+                                        )
+                                        ExposedDropdownMenu(
+                                            expanded = ingredientDropdownExpanded[index]!!,
+                                            onDismissRequest = {
+                                                ingredientDropdownExpanded[index] = false
+                                            }
+                                        ) {
+                                            quantityUnits.forEach { selectionOption ->
+                                                DropdownMenuItem(
+                                                    text = { Text(text = selectionOption.getLabel()) },
+                                                    onClick = {
+                                                        ingredients =
+                                                            ingredients.toMutableList().also {
+                                                                it[index] =
+                                                                    it[index].copy(
+                                                                        ingredientQuantityUnit = selectionOption
+                                                                    )
+                                                            }
+                                                        ingredientDropdownExpanded[index] = false
+                                                    }
+                                                )
+                                            }
                                         }
                                     }
                                 }
