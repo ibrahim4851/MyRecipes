@@ -56,6 +56,7 @@ import com.ibrahim.myrecipes.presentation.createrecipe.CreateRecipeEvent
 import com.ibrahim.myrecipes.presentation.createrecipe.RecipeViewModel
 import com.ibrahim.myrecipes.presentation.ui.theme.Typography
 import com.ibrahim.myrecipes.util.SwipeToDeleteContainer
+import com.ibrahim.myrecipes.util.canGoBack
 import java.math.BigDecimal
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -104,7 +105,11 @@ fun SetIngredients(
                     ) {
                         OutlinedButton(
                             modifier = Modifier.weight(1f),
-                            onClick = { navController.popBackStack() }
+                            onClick = {
+                                if (navController.canGoBack) {
+                                    navController.popBackStack()
+                                }
+                            }
                         ) {
                             Text(text = stringResource(id = R.string.cancel))
                         }
