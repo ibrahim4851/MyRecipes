@@ -31,6 +31,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.ibrahim.myrecipes.R
 import com.ibrahim.myrecipes.data.converter.minutesToHourMinuteString
 import com.ibrahim.myrecipes.domain.model.Recipe
@@ -63,7 +64,10 @@ fun RecipeItem(
     ) {
         Box {
             AsyncImage(
-                model = uri,
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(uri)
+                    .allowHardware(false)
+                    .build(),
                 null
             )
             if(showDeleteButton) {

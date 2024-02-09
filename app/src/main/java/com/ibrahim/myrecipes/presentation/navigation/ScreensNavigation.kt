@@ -22,7 +22,7 @@ import com.ibrahim.myrecipes.presentation.createrecipe.ui.SetIngredients
 import com.ibrahim.myrecipes.presentation.createrecipe.ui.SetInstructions
 import com.ibrahim.myrecipes.presentation.home.ui.HomeScreen
 import com.ibrahim.myrecipes.presentation.onboarding.ui.OnBoardingScreen
-import com.ibrahim.myrecipes.presentation.recipedetail.ui.RecipeDetailScreen
+import com.ibrahim.myrecipes.presentation.recipedetail.ui.SnackDetail
 
 @Composable
 fun ScreensNavigation() {
@@ -132,7 +132,7 @@ fun ScreensNavigation() {
         }
 
         composable(route = Screen.RecipeDetail.route + "/{recipeId}") {
-            RecipeDetailScreen(navController = navController)
+            SnackDetail(navController = navController)
         }
 
         composable(route = Screen.OnBoardingScreen.route) {
