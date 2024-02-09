@@ -14,7 +14,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -37,6 +36,7 @@ import com.ibrahim.myrecipes.Screen
 import com.ibrahim.myrecipes.presentation.createrecipe.CreateRecipeEvent
 import com.ibrahim.myrecipes.presentation.createrecipe.RecipeViewModel
 import com.ibrahim.myrecipes.presentation.ui.theme.Typography
+import com.ibrahim.myrecipes.util.canGoBack
 
 @Composable
 fun SetInstructions(
@@ -68,7 +68,8 @@ fun SetInstructions(
                                 CreateRecipeEvent
                                     .SetInstructions(instructions)
                             )
-                            navController.navigate(Screen.RecipeImage.route) },
+                            navController.navigate(Screen.RecipeImage.route)
+                        },
                         modifier = Modifier.weight(1f),
                         enabled = instructions[0].isNotBlank()
                     ) {
@@ -85,7 +86,12 @@ fun SetInstructions(
         ) {
 
             Row(modifier = Modifier.fillMaxWidth()) {
-                IconButton(onClick = { navController.popBackStack() }) {
+                IconButton(onClick = {
+                    if (navController.canGoBack) {
+                        navController.popBackStack()
+                    }
+                })
+                {
                     Icon(
                         imageVector = Icons.Filled.ArrowBack,
                         contentDescription = null
