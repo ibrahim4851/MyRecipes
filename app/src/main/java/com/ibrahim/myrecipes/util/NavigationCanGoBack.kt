@@ -1,7 +1,7 @@
 package com.ibrahim.myrecipes.util
 
 import androidx.lifecycle.Lifecycle
-import androidx.navigation.NavHostController
+import androidx.navigation.NavController
 
-val NavHostController.canGoBack: Boolean
+val NavController.canGoBack: Boolean
     get() = this.currentBackStackEntry?.lifecycle?.currentState == Lifecycle.State.RESUMED

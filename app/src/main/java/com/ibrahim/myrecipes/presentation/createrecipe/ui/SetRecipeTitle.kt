@@ -52,6 +52,7 @@ import com.ibrahim.myrecipes.Screen
 import com.ibrahim.myrecipes.presentation.createrecipe.CreateRecipeEvent
 import com.ibrahim.myrecipes.presentation.createrecipe.RecipeViewModel
 import com.ibrahim.myrecipes.presentation.ui.theme.Typography
+import com.ibrahim.myrecipes.util.canGoBack
 import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -135,7 +136,11 @@ fun RecipeTitle(
                 ) {
                     OutlinedButton(
                         modifier = Modifier.weight(1f),
-                        onClick = { navController.popBackStack() }
+                        onClick = {
+                            if (navController.canGoBack) {
+                                navController.popBackStack()
+                            }
+                        }
                     ) {
                         Text(text = stringResource(R.string.cancel))
                     }
@@ -173,7 +178,9 @@ fun RecipeTitle(
             {
                 Row(modifier = Modifier.fillMaxWidth()) {
                     IconButton(onClick = {
-                        navController.popBackStack()
+                        if (navController.canGoBack) {
+                            navController.popBackStack()
+                        }
                     }) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
