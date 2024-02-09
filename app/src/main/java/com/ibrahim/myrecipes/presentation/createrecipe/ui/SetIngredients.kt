@@ -188,7 +188,7 @@ fun SetIngredients(
                             }),
                         verticalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
-                        items(ingredients.size) { index ->
+                        items(ingredients.size, key = {it}) { index ->
                             SwipeToDeleteContainer(
                                 item = ingredients[index],
                                 onDelete = {
