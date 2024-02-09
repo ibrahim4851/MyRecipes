@@ -42,6 +42,7 @@ import com.ibrahim.myrecipes.Screen
 import com.ibrahim.myrecipes.presentation.createrecipe.CreateRecipeEvent
 import com.ibrahim.myrecipes.presentation.createrecipe.RecipeViewModel
 import com.ibrahim.myrecipes.presentation.ui.theme.Typography
+import com.ibrahim.myrecipes.util.canGoBack
 
 @Composable
 fun AddRecipeImage(
@@ -85,7 +86,11 @@ fun AddRecipeImage(
                     ) {
                         OutlinedButton(
                             modifier = Modifier.weight(1f),
-                            onClick = { navController.popBackStack() }
+                            onClick = {
+                                if (navController.canGoBack) {
+                                    navController.popBackStack()
+                                }
+                            }
                         ) {
                             Text(text = stringResource(id = R.string.cancel))
                         }
