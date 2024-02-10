@@ -53,7 +53,7 @@ fun RecipeItem(
     var showDeleteButton by remember { mutableStateOf(false) }
 
     ElevatedCard(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(4.dp)
             .combinedClickable(
