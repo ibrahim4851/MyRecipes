@@ -13,7 +13,8 @@ import com.ibrahim.myrecipes.domain.model.Recipe
 @Composable
 fun RecipesStaggeredGrid(
     recipes: List<Recipe> = dummyRecipeList,
-    onRecipeItemClick: (Recipe) -> Unit
+    onRecipeItemClick: (Recipe) -> Unit,
+    onDeleteClick: (Recipe) -> Unit
 ){
 
     LazyVerticalStaggeredGrid(
@@ -26,7 +27,8 @@ fun RecipesStaggeredGrid(
         items(recipes.size) { itemIndex ->
             RecipeItem(
                 recipes[itemIndex],
-                onRecipeItemClick = onRecipeItemClick
+                onRecipeItemClick = onRecipeItemClick,
+                onDeleteClick = onDeleteClick
             )
         }
     }

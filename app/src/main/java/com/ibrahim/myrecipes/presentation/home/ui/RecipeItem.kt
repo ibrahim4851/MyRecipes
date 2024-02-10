@@ -2,12 +2,14 @@ package com.ibrahim.myrecipes.presentation.home.ui
 
 import android.net.Uri
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.AssistChip
@@ -23,6 +25,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
@@ -41,7 +44,8 @@ import com.ibrahim.myrecipes.presentation.ui.theme.Typography
 @Composable
 fun RecipeItem(
     recipe: Recipe,
-    onRecipeItemClick: (Recipe) -> Unit
+    onRecipeItemClick: (Recipe) -> Unit,
+    onDeleteClick: (Recipe) -> Unit
 ) {
     val uri = Uri.parse(recipe.recipePhotoUri)
     val haptics = LocalHapticFeedback.current
@@ -58,7 +62,11 @@ fun RecipeItem(
                     showDeleteButton = !showDeleteButton
                 },
                 onClick = {
-                    onRecipeItemClick(recipe)
+                    if (showDeleteButton) {
+                        showDeleteButton = !showDeleteButton
+                    } else {
+                        onRecipeItemClick(recipe)
+                    }
                 }
             )
     ) {
@@ -70,12 +78,15 @@ fun RecipeItem(
                     .build(),
                 null
             )
-            if(showDeleteButton) {
+            if (showDeleteButton) {
                 IconButton(
-                    onClick = { },
-                    Modifier.align(Alignment.TopEnd)
+                    onClick = { onDeleteClick(recipe) },
+                    Modifier.align(Alignment.TopEnd).background(
+                        color = MaterialTheme.colorScheme.onBackground,
+                        shape = CircleShape
+                    )
                 ) {
-                    Icon(imageVector = Icons.Filled.Delete, contentDescription = null)
+                    Icon(imageVector = Icons.Filled.Delete, contentDescription = null, tint = Color.Red)
                 }
             }
         }
