@@ -147,7 +147,7 @@ fun HomeScreen(
                             Modifier
                                 .fillMaxWidth()
                                 .widthIn(max = 400.dp)
-                                .padding(12.dp),
+                                .padding(top = 12.dp, start = 12.dp, end = 12.dp),
                             trailingIcon = {
                                 Icon(
                                     imageVector = Icons.Outlined.Search,
