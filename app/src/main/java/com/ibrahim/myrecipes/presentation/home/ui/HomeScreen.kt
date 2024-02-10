@@ -11,12 +11,15 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -83,18 +86,6 @@ fun HomeScreen(
                                 }
                                 )
                         ) {
-                            if (expandSearchBar) {
-                                OutlinedTextField(
-                                    value = searchQuery,
-                                    onValueChange = { searchValue ->
-                                        searchQuery = searchValue
-                                        viewModel.onEvent(
-                                            HomeScreenEvent.SearchFoodsByTitleAndIngredient(
-                                                searchQuery
-                                            )
-                                        )
-                                    })
-                            }
                         }
                         DropdownMenu(
                             expanded = expandLanguageDropdown,
@@ -145,6 +136,32 @@ fun HomeScreen(
                         RoundedCornerShape(topStart = 36.dp)
                     )
             ) {
+                if (expandSearchBar) {
+                    OutlinedTextField(
+                        value = searchQuery,
+                        onValueChange = { searchValue ->
+                            searchQuery = searchValue
+                            viewModel.onEvent(
+                                HomeScreenEvent.SearchFoodsByTitleAndIngredient(
+                                    searchQuery
+                                )
+                            )
+                        },
+                        Modifier
+                            .fillMaxWidth()
+                            .widthIn(max = 400.dp)
+                            .padding(12.dp),
+                        trailingIcon = {
+                            Icon(
+                                imageVector = Icons.Outlined.Search,
+                                contentDescription = null
+                            )
+                        },
+                        placeholder = {
+                            Text(text = stringResource(R.string.search_for_your_food))
+                        }
+                    )
+                }
                 MyChipGroup(onChipSelected = { selectedCategories ->
                     if (selectedCategories.isEmpty()) {
                         viewModel.onEvent(HomeScreenEvent.ResetCategoryFilter())
