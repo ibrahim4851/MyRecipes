@@ -90,15 +90,15 @@ fun SnackDetail(
     navController: NavController,
     viewModel: RecipeDetailViewModel = hiltViewModel()
 ) {
-    val snack = viewModel.state.value.recipe
+    val recipe = viewModel.state.value.recipe
     val ingredients = viewModel.state.value.ingredients
 
     Box(Modifier.fillMaxSize()) {
         val scroll = rememberScrollState(0)
         Header()
-        Body(snack, ingredients, scroll)
-        Title(snack) { scroll.value }
-        Image(snack.recipePhotoUri!!) { scroll.value }
+        Body(recipe, ingredients, scroll)
+        Title(recipe) { scroll.value }
+        Image(recipe.recipePhotoUri!!) { scroll.value }
         Up({})
     }
 }
@@ -214,7 +214,7 @@ private fun Body(
 }
 
 @Composable
-private fun Title(snack: Recipe, scrollProvider: () -> Int) {
+private fun Title(recipe: Recipe, scrollProvider: () -> Int) {
     val maxOffset = with(LocalDensity.current) { MaxTitleOffset.toPx() }
     val minOffset = with(LocalDensity.current) { MinTitleOffset.toPx() }
 
@@ -232,7 +232,7 @@ private fun Title(snack: Recipe, scrollProvider: () -> Int) {
     ) {
         Spacer(Modifier.height(16.dp))
         Text(
-            text = snack.recipeTitle,
+            text = recipe.recipeTitle,
             style = MaterialTheme.typography.headlineMedium,
             maxLines = 2,
             color = MaterialTheme.colorScheme.onBackground,
@@ -247,7 +247,7 @@ private fun Title(snack: Recipe, scrollProvider: () -> Int) {
         )
         Spacer(Modifier.height(4.dp))
         Text(
-            text = snack.foodCategory.getLabel(),
+            text = recipe.foodCategory.getLabel(),
             style = MaterialTheme.typography.titleLarge,
             color = MaterialTheme.colorScheme.onBackground,
             modifier = HzPadding
