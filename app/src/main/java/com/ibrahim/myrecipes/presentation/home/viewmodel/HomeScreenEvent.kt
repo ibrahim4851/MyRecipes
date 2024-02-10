@@ -9,4 +9,6 @@ sealed class HomeScreenEvent {
 
     data class ResetCategoryFilter(val dummy: String = ""): HomeScreenEvent()
 
+    data class DeleteRecipe(val recipeId: Long = 0L): HomeScreenEvent()
+
 }

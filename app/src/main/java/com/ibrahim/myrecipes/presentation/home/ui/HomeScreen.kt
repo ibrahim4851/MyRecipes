@@ -171,6 +171,9 @@ fun HomeScreen(
                     viewModel.state.value.recipes,
                     onRecipeItemClick = { recipe ->
                         navController.navigate(Screen.RecipeDetail.route + "/" + recipe.recipeId)
+                    },
+                    onDeleteClick = { recipe ->
+                        viewModel.onEvent(HomeScreenEvent.DeleteRecipe(recipeId = recipe.recipeId))
                     }
                 )
             }
