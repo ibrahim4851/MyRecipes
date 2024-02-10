@@ -89,6 +89,10 @@ fun SetIngredients(
         )
     }
 
+    var rowCount by remember {
+        mutableStateOf(0)
+    }
+
     ingredientDropdownExpanded[0] = false
 
     Surface(modifier = Modifier.fillMaxSize()) {
@@ -171,8 +175,9 @@ fun SetIngredients(
 
                     IconButton(
                         onClick = {
+                            rowCount += 1
                             ingredients = ingredients + Ingredient(
-                                0,
+                                (rowCount + 1).toLong(),
                                 null,
                                 "",
                                 BigDecimal.ZERO,
@@ -193,14 +198,19 @@ fun SetIngredients(
                             }),
                         verticalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
-                        items(ingredients.size, key = {it}) { index ->
+                        items(ingredients.size, key = { ingredients[it].ingredientId }) { index ->
                             SwipeToDeleteContainer(
                                 item = ingredients[index],
-                                onDelete = {
-                                    if (index > 0) {
-                                        ingredients -= ingredients[index]
-                                    }
-                                }) {
+                                isDeletable = { index > 0 },
+                                onDelete = { itemToDelete ->
+                                        val updatedIngredients =
+                                            ingredients.filterNot { it.ingredientId == itemToDelete.ingredientId }
+                                        val updatedQuantities = ingredientQuantities.toMutableList()
+                                            .apply { removeAt(index) }
+                                        ingredients = updatedIngredients
+                                        ingredientQuantities = updatedQuantities
+                                }
+                            ) {
                                 Row {
                                     var text by remember { mutableStateOf(ingredientQuantities[index]) }
                                     OutlinedTextField(
