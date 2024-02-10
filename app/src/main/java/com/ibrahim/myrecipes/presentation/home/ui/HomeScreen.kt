@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -78,14 +77,11 @@ fun HomeScreen(
                         Text(text = stringResource(id = R.string.app_name))
                     },
                     actions = {
-                        Box(
-                            Modifier
-                                .width(150.dp)
-                                .animateContentSize(keyframes {
-                                    durationMillis = 100
-                                }
-                                )
-                        ) {
+                        IconButton(onClick = { expandSearchBar = !expandSearchBar }) {
+                            Icon(
+                                imageVector = Icons.Filled.Search,
+                                contentDescription = null
+                            )
                         }
                         DropdownMenu(
                             expanded = expandLanguageDropdown,
@@ -102,12 +98,6 @@ fun HomeScreen(
                                     Text("English")
                                 },
                                 onClick = { changeLocale(context, "en") },
-                            )
-                        }
-                        IconButton(onClick = { expandSearchBar = !expandSearchBar }) {
-                            Icon(
-                                imageVector = Icons.Filled.Search,
-                                contentDescription = null
                             )
                         }
                         IconButton(onClick = { expandLanguageDropdown = !expandLanguageDropdown }) {
@@ -137,30 +127,38 @@ fun HomeScreen(
                     )
             ) {
                 if (expandSearchBar) {
-                    OutlinedTextField(
-                        value = searchQuery,
-                        onValueChange = { searchValue ->
-                            searchQuery = searchValue
-                            viewModel.onEvent(
-                                HomeScreenEvent.SearchFoodsByTitleAndIngredient(
-                                    searchQuery
-                                )
-                            )
-                        },
-                        Modifier
-                            .fillMaxWidth()
-                            .widthIn(max = 400.dp)
-                            .padding(12.dp),
-                        trailingIcon = {
-                            Icon(
-                                imageVector = Icons.Outlined.Search,
-                                contentDescription = null
-                            )
-                        },
-                        placeholder = {
-                            Text(text = stringResource(R.string.search_for_your_food))
+                    Box(modifier = Modifier
+                        .fillMaxWidth()
+                        .animateContentSize(keyframes {
+                            durationMillis = 200
                         }
-                    )
+                        )
+                    ) {
+                        OutlinedTextField(
+                            value = searchQuery,
+                            onValueChange = { searchValue ->
+                                searchQuery = searchValue
+                                viewModel.onEvent(
+                                    HomeScreenEvent.SearchFoodsByTitleAndIngredient(
+                                        searchQuery
+                                    )
+                                )
+                            },
+                            Modifier
+                                .fillMaxWidth()
+                                .widthIn(max = 400.dp)
+                                .padding(12.dp),
+                            trailingIcon = {
+                                Icon(
+                                    imageVector = Icons.Outlined.Search,
+                                    contentDescription = null
+                                )
+                            },
+                            placeholder = {
+                                Text(text = stringResource(R.string.search_for_your_food))
+                            }
+                        )
+                    }
                 }
                 MyChipGroup(onChipSelected = { selectedCategories ->
                     if (selectedCategories.isEmpty()) {
