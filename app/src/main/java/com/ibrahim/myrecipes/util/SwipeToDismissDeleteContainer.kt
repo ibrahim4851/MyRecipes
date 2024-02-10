@@ -34,6 +34,7 @@ import kotlinx.coroutines.delay
 fun <T> SwipeToDeleteContainer(
     item: T,
     onDelete: (T) -> Unit,
+    isDeletable: (T) -> Boolean, // Added parameter
     animationDuration: Int = 500,
     content: @Composable (T) -> Unit
 ) {
@@ -42,7 +43,8 @@ fun <T> SwipeToDeleteContainer(
     }
     val state = rememberDismissState(
         confirmValueChange = { value ->
-            if (value == DismissValue.DismissedToStart) {
+            // Check if the item is deletable before allowing removal
+            if (value == DismissValue.DismissedToStart && isDeletable(item)) {
                 isRemoved = true
                 true
             } else {
@@ -52,29 +54,33 @@ fun <T> SwipeToDeleteContainer(
     )
 
     LaunchedEffect(key1 = isRemoved) {
-        if(isRemoved) {
+        if (isRemoved) {
             delay(animationDuration.toLong())
             onDelete(item)
         }
     }
 
-    AnimatedVisibility(
-        visible = !isRemoved,
-        exit = shrinkVertically(
-            animationSpec = tween(durationMillis = animationDuration),
-            shrinkTowards = Alignment.Top
-        ) + fadeOut()
-    ) {
-        SwipeToDismiss(
-            state = state,
-            background = {
-                DeleteBackground(swipeDismissState = state)
-            },
-            dismissContent = { content(item) },
-            directions = setOf(DismissDirection.EndToStart)
-        )
+    if (isDeletable(item)) {
+        AnimatedVisibility(
+            visible = !isRemoved,
+            exit = shrinkVertically(
+                animationSpec = tween(durationMillis = animationDuration),
+                shrinkTowards = Alignment.Top
+            ) + fadeOut()
+        ) {
+            SwipeToDismiss(
+                state = state,
+                background = { DeleteBackground(swipeDismissState = state) },
+                dismissContent = { content(item) },
+                directions = setOf(DismissDirection.EndToStart)
+            )
+        }
+    } else {
+        // If not deletable, just display the content without swipe-to-dismiss functionality
+        content(item)
     }
 }
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
