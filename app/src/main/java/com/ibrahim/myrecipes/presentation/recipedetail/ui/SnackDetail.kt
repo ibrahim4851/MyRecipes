@@ -75,7 +75,6 @@ import com.ibrahim.myrecipes.util.canGoBack
 import kotlin.math.max
 import kotlin.math.min
 
-private val BottomBarHeight = 56.dp
 private val TitleHeight = 128.dp
 private val GradientScroll = 180.dp
 private val ImageOverlap = 115.dp
@@ -156,7 +155,7 @@ private fun Body(
             modifier = Modifier.verticalScroll(scroll)
         ) {
             Spacer(Modifier.height(GradientScroll))
-            Surface(Modifier.fillMaxWidth()) {
+            Surface(Modifier.fillMaxWidth(), color = MaterialTheme.colorScheme.background) {
                 Column {
                     Spacer(Modifier.height(ImageOverlap))
                     Spacer(Modifier.height(TitleHeight))
@@ -233,7 +232,7 @@ private fun Title(recipe: Recipe, scrollProvider: () -> Int) {
                 val offset = (maxOffset - scroll).coerceAtLeast(minOffset)
                 IntOffset(x = 0, y = offset.toInt())
             }
-            .background(color = MaterialTheme.colorScheme.surface)
+            .background(color = MaterialTheme.colorScheme.background)
     ) {
         Spacer(Modifier.height(16.dp))
         Text(
