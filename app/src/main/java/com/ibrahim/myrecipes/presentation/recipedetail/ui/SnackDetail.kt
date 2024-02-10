@@ -71,6 +71,7 @@ import com.ibrahim.myrecipes.presentation.recipedetail.viewmodel.RecipeDetailVie
 import com.ibrahim.myrecipes.presentation.ui.theme.Green900
 import com.ibrahim.myrecipes.presentation.ui.theme.Lime
 import com.ibrahim.myrecipes.presentation.ui.theme.Typography
+import com.ibrahim.myrecipes.util.canGoBack
 import kotlin.math.max
 import kotlin.math.min
 
@@ -99,7 +100,11 @@ fun SnackDetail(
         Body(recipe, ingredients, scroll)
         Title(recipe) { scroll.value }
         Image(recipe.recipePhotoUri!!) { scroll.value }
-        Up({})
+        Up {
+            if (navController.canGoBack) {
+                navController.popBackStack()
+            }
+        }
     }
 }
 
