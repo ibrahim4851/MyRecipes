@@ -133,7 +133,7 @@ private fun Up(upPress: () -> Unit) {
     ) {
         Icon(
             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-            tint = MaterialTheme.colorScheme.onBackground,
+            tint = MaterialTheme.colorScheme.onPrimary,
             contentDescription = null
         )
     }
