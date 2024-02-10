@@ -24,7 +24,7 @@ interface RecipeRepository {
 
     suspend fun updateIngredient(ingredient: Ingredient)
 
-    suspend fun deleteRecipe(recipe: Recipe)
+    suspend fun deleteRecipe(recipeId: Long)
 
     suspend fun deleteIngredient(ingredient: Ingredient)
 

@@ -47,8 +47,8 @@ class RecipeRepositoryImpl(private val dao: RecipeDao) : RecipeRepository {
         dao.updateIngredient(ingredient.toIngredientEntity())
     }
 
-    override suspend fun deleteRecipe(recipe: Recipe) {
-        dao.deleteRecipe(recipe.toRecipeEntity())
+    override suspend fun deleteRecipe(recipeId: Long) {
+        dao.deleteRecipe(recipeId)
     }
 
     override suspend fun deleteIngredient(ingredient: Ingredient) {
