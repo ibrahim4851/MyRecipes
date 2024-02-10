@@ -1,5 +1,7 @@
 package com.ibrahim.myrecipes.presentation.home.ui
 
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.ibrahim.myrecipes.domain.model.Recipe
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun RecipesStaggeredGrid(
     recipes: List<Recipe> = dummyRecipeList,
@@ -28,7 +31,10 @@ fun RecipesStaggeredGrid(
             RecipeItem(
                 recipes[itemIndex],
                 onRecipeItemClick = onRecipeItemClick,
-                onDeleteClick = onDeleteClick
+                onDeleteClick = onDeleteClick,
+                modifier = Modifier.animateItemPlacement(animationSpec = tween(
+                    durationMillis = 600
+                ))
             )
         }
     }

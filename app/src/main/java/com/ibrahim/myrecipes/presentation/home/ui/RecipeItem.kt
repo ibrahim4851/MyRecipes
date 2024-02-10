@@ -44,6 +44,7 @@ import com.ibrahim.myrecipes.presentation.ui.theme.Typography
 @Composable
 fun RecipeItem(
     recipe: Recipe,
+    modifier: Modifier,
     onRecipeItemClick: (Recipe) -> Unit,
     onDeleteClick: (Recipe) -> Unit
 ) {
@@ -80,7 +81,10 @@ fun RecipeItem(
             )
             if (showDeleteButton) {
                 IconButton(
-                    onClick = { onDeleteClick(recipe) },
+                    onClick = {
+                        onDeleteClick(recipe)
+                        showDeleteButton = false
+                              },
                     Modifier.align(Alignment.TopEnd).background(
                         color = MaterialTheme.colorScheme.onBackground,
                         shape = CircleShape
@@ -136,8 +140,6 @@ fun RecipeItem(
                     }
                 )
             }
-
         }
-
     }
 }
