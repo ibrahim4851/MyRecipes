@@ -126,14 +126,14 @@ fun HomeScreen(
                         RoundedCornerShape(topStart = 36.dp)
                     )
             ) {
-                if (expandSearchBar) {
-                    Box(modifier = Modifier
-                        .fillMaxWidth()
-                        .animateContentSize(keyframes {
-                            durationMillis = 200
-                        }
-                        )
-                    ) {
+                Box(modifier = Modifier
+                    .fillMaxWidth()
+                    .animateContentSize(keyframes {
+                        durationMillis = 200
+                    }
+                    )
+                ) {
+                    if (expandSearchBar) {
                         OutlinedTextField(
                             value = searchQuery,
                             onValueChange = { searchValue ->
