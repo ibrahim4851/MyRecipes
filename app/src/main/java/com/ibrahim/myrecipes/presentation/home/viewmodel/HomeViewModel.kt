@@ -38,6 +38,10 @@ class HomeViewModel @Inject constructor(
         _state.value = HomeScreenState(recipes = repository.getRecipesByFoodType(categories))
     }
 
+    private fun deleteRecipe(recipeId: Long) = viewModelScope.launch {
+        repository.deleteRecipe(recipeId)
+    }
+
     fun onEvent(event: HomeScreenEvent) {
         when(event) {
             is HomeScreenEvent.SearchFoodsByTitleAndIngredient -> {
@@ -50,6 +54,10 @@ class HomeViewModel @Inject constructor(
 
             is HomeScreenEvent.ResetCategoryFilter -> {
                 getRecipes()
+            }
+
+            is HomeScreenEvent.DeleteRecipe -> {
+                deleteRecipe(event.recipeId)
             }
         }
     }
