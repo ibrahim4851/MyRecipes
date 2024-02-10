@@ -70,4 +70,5 @@
     <string name="onboarding_content_3">Easily search for recipes by ingredients, cuisine, or mood. Whether you\'re looking for a quick lunch or a gourmet dinner, finding the perfect recipe is just a tap away.</string>
     <string name="ingredients">Ingredients</string>
     <string name="instructions">Instructions</string>
+    <string name="search_for_your_food">Search for your food..</string>
 </resources>
