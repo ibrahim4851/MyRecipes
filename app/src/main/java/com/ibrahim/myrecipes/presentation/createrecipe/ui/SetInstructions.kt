@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.outlined.Add
@@ -22,8 +23,10 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -36,6 +39,7 @@ import com.ibrahim.myrecipes.Screen
 import com.ibrahim.myrecipes.presentation.createrecipe.CreateRecipeEvent
 import com.ibrahim.myrecipes.presentation.createrecipe.RecipeViewModel
 import com.ibrahim.myrecipes.presentation.ui.theme.Typography
+import com.ibrahim.myrecipes.util.SwipeToDeleteContainer
 import com.ibrahim.myrecipes.util.canGoBack
 
 @Composable
@@ -44,7 +48,12 @@ fun SetInstructions(
     viewModel: RecipeViewModel = hiltViewModel()
 ) {
 
-    val instructions = remember { mutableStateListOf("") }
+
+    var instructionsList by remember {
+        mutableStateOf(listOf(Pair(0, "")))
+    }
+    var nextId by remember { mutableStateOf(1) }
+
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -66,12 +75,12 @@ fun SetInstructions(
                         onClick = {
                             viewModel.onEvent(
                                 CreateRecipeEvent
-                                    .SetInstructions(instructions)
+                                    .SetInstructions(instructionsList.map { it.second })
                             )
                             navController.navigate(Screen.RecipeImage.route)
                         },
                         modifier = Modifier.weight(1f),
-                        enabled = instructions[0].isNotBlank()
+                        enabled = instructionsList[0].second.isNotBlank()
                     ) {
                         Text(text = stringResource(id = R.string.next))
                     }
@@ -121,12 +130,15 @@ fun SetInstructions(
 
                 IconButton(
                     onClick = {
-                        instructions.add("")
+                        if (instructionsList.last().second.isNotBlank()) {
+                            instructionsList = instructionsList + Pair(nextId++, "")
+                        }
                     },
-                    enabled = instructions.last().isNotBlank()
+                    enabled = instructionsList.last().second.isNotBlank()
                 ) {
                     Icon(Icons.Outlined.Add, contentDescription = "")
                 }
+
 
                 LazyColumn(
                     modifier = Modifier
@@ -136,28 +148,37 @@ fun SetInstructions(
                         .fillMaxWidth(),
                     verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
-                    items(instructions.size) { index ->
-                        Row(modifier = Modifier.fillMaxWidth()) {
-                            Text(
-                                modifier = Modifier
-                                    .weight(1f)
-                                    .align(Alignment.CenterVertically),
-                                text = (index + 1).toString() + ".",
-                                style = MaterialTheme.typography.headlineLarge,
-                                fontWeight = FontWeight.Bold
-                            )
-                            OutlinedTextField(
-                                modifier = Modifier.weight(9f),
-                                value = instructions[index],
-                                onValueChange = { newValue ->
-                                    instructions[index] = newValue
-                                }
-                            )
+                    items(instructionsList, key = { it.first }) { pair ->
+                        SwipeToDeleteContainer(
+                            item = pair,
+                            onDelete = { itemToDelete ->
+                                instructionsList = instructionsList.filterNot { it.first == itemToDelete.first }
+                            },
+                            isDeletable = { it.first != instructionsList.first().first },
+                        ) {
+                            Row(modifier = Modifier.fillMaxWidth()) {
+                                Text(
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .align(Alignment.CenterVertically),
+                                    text = "${instructionsList.indexOf(pair) + 1}.",
+                                    style = MaterialTheme.typography.headlineLarge,
+                                    fontWeight = FontWeight.Bold
+                                )
+                                OutlinedTextField(
+                                    modifier = Modifier.weight(9f),
+                                    value = pair.second,
+                                    onValueChange = { newValue ->
+                                        instructionsList = instructionsList.map {
+                                            if (it.first == pair.first) it.copy(second = newValue) else it
+                                        }
+                                    }
+                                )
+                            }
                         }
                     }
                 }
             }
         }
     }
-
 }
