@@ -27,9 +27,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshots.SnapshotStateMap
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -47,7 +49,6 @@ import com.ibrahim.myrecipes.presentation.createrecipe.RecipeViewModel
 import com.ibrahim.myrecipes.presentation.ui.theme.Typography
 import com.ibrahim.myrecipes.util.canGoBack
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun SetCategory(
     navController: NavController,
@@ -61,7 +62,6 @@ fun SetCategory(
         modifier = Modifier.fillMaxSize()
     )
     {
-
         Scaffold(
             modifier = Modifier.fillMaxSize(),
             bottomBar = {
@@ -132,53 +132,61 @@ fun SetCategory(
                     )
                     Spacer(modifier = Modifier.padding(8.dp))
 
-                    FlowRow(
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        val foodCategories = getAllFoodCategories()
-                        if (selectedChipState.isEmpty()) {
-                            for (foodCategory in foodCategories) {
-                                selectedChipState[foodCategory] = false
-                            }
+                    CategorySelector(selectedChipState, isChipSelected)
+                }
+            }
+        }
+    }
+}
+
+@Composable
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
+fun CategorySelector(
+    selectedChipState: SnapshotStateMap<FoodCategory, Boolean>,
+    isChipSelected: MutableState<Boolean>
+) {
+    FlowRow(
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        val foodCategories = getAllFoodCategories()
+        if (selectedChipState.isEmpty()) {
+            for (foodCategory in foodCategories) {
+                selectedChipState[foodCategory] = false
+            }
+        }
+        foodCategories.forEach { foodCategory ->
+            FilterChip(
+                selected = selectedChipState[foodCategory] == true,
+                onClick = {
+                    if (selectedChipState[foodCategory] == false && !isChipSelected.value) {
+                        selectedChipState[foodCategory] = true
+                        isChipSelected.value = true
+                    } else if (isChipSelected.value) {
+                        val selectedChip = selectedChipState.filter { (key, value) -> value }
+                        if (selectedChip.entries.first().key == foodCategory) {
+                            isChipSelected.value = false
+                            selectedChipState[foodCategory] = false
+                        } else {
+                            selectedChipState[selectedChip.entries.first().key] = false
+                            selectedChipState[foodCategory] = true
                         }
-                        foodCategories.forEach { foodCategory ->
-                            FilterChip(
-                                selected = selectedChipState[foodCategory] == true,
-                                onClick = {
-                                    if (selectedChipState[foodCategory] == false && !isChipSelected.value) {
-                                        selectedChipState[foodCategory] = true
-                                        isChipSelected.value = true
-                                    }
-                                    else if (isChipSelected.value) {
-                                        val selectedChip = selectedChipState.filter { (key, value) -> value }
-                                        if(selectedChip.entries.first().key == foodCategory){
-                                            isChipSelected.value = false
-                                            selectedChipState[foodCategory] = false
-                                        }else{
-                                            selectedChipState[selectedChip.entries.first().key] = false
-                                            selectedChipState[foodCategory] = true
-                                        }
-                                    }
-                                },
-                                label = { Text(text = foodCategory.getLabel()) },
-                                leadingIcon = {
-                                    Box(modifier = Modifier.animateContentSize(keyframes {
-                                        durationMillis = 100
-                                    })) {
-                                        if (selectedChipState[foodCategory] == true) {
-                                            Icon(
-                                                imageVector = Icons.Filled.Done,
-                                                contentDescription = null,
-                                                modifier = Modifier.size(FilterChipDefaults.IconSize)
-                                            )
-                                        }
-                                    }
-                                }
+                    }
+                },
+                label = { Text(text = foodCategory.getLabel()) },
+                leadingIcon = {
+                    Box(modifier = Modifier.animateContentSize(keyframes {
+                        durationMillis = 100
+                    })) {
+                        if (selectedChipState[foodCategory] == true) {
+                            Icon(
+                                imageVector = Icons.Filled.Done,
+                                contentDescription = null,
+                                modifier = Modifier.size(FilterChipDefaults.IconSize)
                             )
                         }
                     }
                 }
-            }
+            )
         }
     }
 }
