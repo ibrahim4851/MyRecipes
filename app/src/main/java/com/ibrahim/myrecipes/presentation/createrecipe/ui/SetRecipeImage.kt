@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.ibrahim.myrecipes.R
 import com.ibrahim.myrecipes.Screen
 import com.ibrahim.myrecipes.presentation.createrecipe.CreateRecipeEvent
@@ -157,10 +158,13 @@ fun AddRecipeImage(
 
                         if (hasPermission) {
                             AsyncImage(
+                                model = ImageRequest.Builder(LocalContext.current)
+                                    .data(uri)
+                                    .allowHardware(false)
+                                    .build(),
                                 modifier = Modifier
                                     .align(Alignment.CenterHorizontally)
                                     .fillMaxSize(),
-                                model = uri,
                                 contentDescription = null
                             )
                         }
