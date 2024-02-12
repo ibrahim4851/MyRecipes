@@ -64,6 +64,7 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.ibrahim.myrecipes.R
+import com.ibrahim.myrecipes.data.converter.minutesToHourMinuteString
 import com.ibrahim.myrecipes.data.enums.getLabel
 import com.ibrahim.myrecipes.domain.model.Recipe
 import com.ibrahim.myrecipes.domain.repository.Ingredients
@@ -97,7 +98,7 @@ fun SnackDetail(
         val scroll = rememberScrollState(0)
         Header()
         Body(recipe, ingredients, scroll)
-        Title(recipe) { scroll.value }
+        Title(recipe, { scroll.value }, ingredients = ingredients)
         Image(recipe.recipePhotoUri!!) { scroll.value }
         Up {
             if (navController.canGoBack) {
@@ -218,7 +219,7 @@ private fun Body(
 }
 
 @Composable
-private fun Title(recipe: Recipe, scrollProvider: () -> Int) {
+private fun Title(recipe: Recipe, scrollProvider: () -> Int, ingredients: Ingredients) {
     val maxOffset = with(LocalDensity.current) { MaxTitleOffset.toPx() }
     val minOffset = with(LocalDensity.current) { MinTitleOffset.toPx() }
 
@@ -243,7 +244,9 @@ private fun Title(recipe: Recipe, scrollProvider: () -> Int) {
             modifier = HzPadding.width((LocalConfiguration.current.screenWidthDp * 0.55).dp)
         )
         Text(
-            text = "Test Tagline",
+            text = recipe.recipeTime.minutesToHourMinuteString(LocalContext.current) + " | " + ingredients.size + " " + stringResource(
+                id = R.string.ingredients_count
+            ),
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.onBackground,
             fontSize = 20.sp,
