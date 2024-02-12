@@ -88,7 +88,7 @@ private val MinImageOffset = 12.dp
 private val MaxTitleOffset = ImageOverlap + MinTitleOffset + GradientScroll
 private val ExpandedImageSize = 300.dp
 private val CollapsedImageSize = 150.dp
-private val HzPadding = Modifier.padding(horizontal = 24.dp)
+private val HzPadding = Modifier.padding(horizontal = 12.dp)
 
 @Composable
 fun SnackDetail(
@@ -169,10 +169,11 @@ private fun Body(
                     Spacer(Modifier.height(16.dp))
                     Text(
                         text = stringResource(id = R.string.ingredients),
-                        style = Typography.headlineSmall,
+                        style = Typography.headlineMedium,
                         fontWeight = FontWeight.Bold,
                         modifier = HzPadding
                     )
+                    Spacer(Modifier.size(8.dp))
                     repeat(ingredients.size) {
                         Row(modifier = Modifier.fillMaxWidth()) {
                             val ingredientText = buildAnnotatedString {
@@ -194,14 +195,16 @@ private fun Body(
 
                         }
                     }
-                    Spacer(Modifier.height(40.dp))
+                    Spacer(Modifier.height(20.dp))
                     Divider()
+                    Spacer(Modifier.height(20.dp))
                     Text(
                         text = stringResource(id = R.string.instructions),
                         fontWeight = FontWeight.Bold,
-                        style = Typography.headlineSmall,
+                        style = Typography.headlineMedium,
                         modifier = HzPadding
                     )
+                    Spacer(Modifier.size(8.dp))
                     repeat(recipe.recipeInstructions.size) {
                         val instruction = recipe.recipeInstructions[it]
                         Row(modifier = Modifier.fillMaxWidth()) {
@@ -211,18 +214,10 @@ private fun Body(
                                 modifier = HzPadding
                             )
                         }
+                        Spacer(Modifier.size(4.dp))
+                        Divider(HzPadding.width((LocalConfiguration.current.screenWidthDp * 0.7).dp))
+                        Spacer(Modifier.size(4.dp))
                     }
-                    Text(
-                        text = stringResource(R.string.ingredients),
-                        style = Typography.labelLarge,
-                        modifier = HzPadding
-                    )
-                    Spacer(Modifier.height(4.dp))
-                    Text(
-                        text = "stringResource",
-                        style = Typography.bodySmall,
-                        modifier = HzPadding
-                    )
 
                     Spacer(Modifier.height(16.dp))
 
@@ -252,7 +247,7 @@ private fun Title(recipe: Recipe, scrollProvider: () -> Int, ingredients: Ingred
         Spacer(Modifier.height(16.dp))
         Text(
             text = recipe.recipeTitle,
-            style = MaterialTheme.typography.headlineMedium,
+            style = MaterialTheme.typography.headlineLarge,
             fontWeight = FontWeight.Bold,
             maxLines = 2,
             color = MaterialTheme.colorScheme.onBackground,
