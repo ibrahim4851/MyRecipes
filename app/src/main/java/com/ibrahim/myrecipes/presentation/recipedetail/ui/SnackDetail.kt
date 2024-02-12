@@ -53,6 +53,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
@@ -164,8 +165,9 @@ private fun Body(
                     Spacer(Modifier.height(16.dp))
                     Spacer(Modifier.height(16.dp))
                     Text(
-                        text = "Ingredients",
+                        text = stringResource(id = R.string.ingredients),
                         style = Typography.headlineSmall,
+                        fontWeight = FontWeight.Bold,
                         modifier = HzPadding
                     )
                     repeat(ingredients.size) {
@@ -184,7 +186,8 @@ private fun Body(
                     Spacer(Modifier.height(40.dp))
                     Divider()
                     Text(
-                        text = "Instructions",
+                        text = stringResource(id = R.string.instructions),
+                        fontWeight = FontWeight.Bold,
                         style = Typography.headlineSmall,
                         modifier = HzPadding
                     )
@@ -239,6 +242,7 @@ private fun Title(recipe: Recipe, scrollProvider: () -> Int, ingredients: Ingred
         Text(
             text = recipe.recipeTitle,
             style = MaterialTheme.typography.headlineMedium,
+            fontWeight = FontWeight.Bold,
             maxLines = 2,
             color = MaterialTheme.colorScheme.onBackground,
             modifier = HzPadding.width((LocalConfiguration.current.screenWidthDp * 0.55).dp)
