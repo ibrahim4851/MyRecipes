@@ -71,4 +71,5 @@
     <string name="ingredients">Ingredients</string>
     <string name="instructions">Instructions</string>
     <string name="search_for_your_food">Search for your food..</string>
+    <string name="ingredients_count">Ingredients</string>
 </resources>

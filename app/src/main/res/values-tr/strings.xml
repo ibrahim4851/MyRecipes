@@ -72,5 +72,6 @@
     <string name="ingredients">Malzemeler</string>
     <string name="instructions">Talimatlar</string>
     <string name="search_for_your_food">İstediğiniz Yemeği Aratın..</string>
+    <string name="ingredients_count">Malzeme</string>
 
 </resources>
