@@ -76,6 +76,7 @@ import com.ibrahim.myrecipes.presentation.recipedetail.viewmodel.RecipeDetailVie
 import com.ibrahim.myrecipes.presentation.ui.theme.Green900
 import com.ibrahim.myrecipes.presentation.ui.theme.Lime
 import com.ibrahim.myrecipes.presentation.ui.theme.Typography
+import com.ibrahim.myrecipes.util.appendEmojiIfAny
 import com.ibrahim.myrecipes.util.canGoBack
 import kotlin.math.max
 import kotlin.math.min
@@ -167,6 +168,7 @@ private fun Body(
 
                     Spacer(Modifier.height(16.dp))
                     Spacer(Modifier.height(16.dp))
+                    Spacer(Modifier.height(20.dp))
                     Text(
                         text = stringResource(id = R.string.ingredients),
                         style = Typography.headlineMedium,
@@ -175,24 +177,26 @@ private fun Body(
                     )
                     Spacer(Modifier.size(8.dp))
                     repeat(ingredients.size) {
-                        Row(modifier = Modifier.fillMaxWidth()) {
-                            val ingredientText = buildAnnotatedString {
-                                withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                                    append("• ")
-                                    append(ingredients[it].ingredientQuantity.toString())
-                                    append(" ")
-                                    append(ingredients[it].ingredientQuantityUnit.getLabel())
-                                }
-                                append(" ")
-                                append(ingredients[it].ingredientName)
-                            }
+                        val ingredient = ingredients[it]
+                        val ingredientNameWithEmoji = appendEmojiIfAny(ingredient.ingredientName)
 
+                        val ingredientText = buildAnnotatedString {
+                            withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                                append("• ")
+                                append(ingredient.ingredientQuantity.toString())
+                                append(" ")
+                                append(ingredient.ingredientQuantityUnit.getLabel())
+                            }
+                            append(" ")
+                            append(ingredientNameWithEmoji) // Use the modified name with an emoji if applicable
+                        }
+
+                        Row(modifier = Modifier.fillMaxWidth()) {
                             Text(
                                 text = ingredientText,
                                 style = Typography.titleLarge,
-                                modifier = HzPadding
+                                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
                             )
-
                         }
                     }
                     Spacer(Modifier.height(20.dp))
@@ -334,3 +338,5 @@ private fun CollapsingImageLayout(
         }
     }
 }
+
+
