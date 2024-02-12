@@ -225,13 +225,12 @@ private fun Body(
                         Row(modifier = Modifier.fillMaxWidth()) {
                             Text(
                                 text = instruction,
-                                style = Typography.titleLarge,
+                                style = Typography.titleMedium.copy(fontSize = 19.sp),
                                 modifier = HzPadding
                             )
                         }
-                        Spacer(Modifier.size(4.dp))
-                        Divider(HzPadding.width((LocalConfiguration.current.screenWidthDp * 0.7).dp))
-                        Spacer(Modifier.size(4.dp))
+                        Spacer(Modifier.size(8.dp))
+                        Spacer(Modifier.size(8.dp))
                     }
 
                     Spacer(Modifier.height(16.dp))
