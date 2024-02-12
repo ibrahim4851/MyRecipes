@@ -53,7 +53,10 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
@@ -172,15 +175,23 @@ private fun Body(
                     )
                     repeat(ingredients.size) {
                         Row(modifier = Modifier.fillMaxWidth()) {
+                            val ingredientText = buildAnnotatedString {
+                                withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                                    append("• ")
+                                    append(ingredients[it].ingredientQuantity.toString())
+                                    append(" ")
+                                    append(ingredients[it].ingredientQuantityUnit.getLabel())
+                                }
+                                append(" ")
+                                append(ingredients[it].ingredientName)
+                            }
+
                             Text(
-                                text = ingredients[it].ingredientQuantity.toString() +
-                                        " " +
-                                        ingredients[it].ingredientQuantityUnit.getLabel() +
-                                        " " +
-                                        ingredients[it].ingredientName,
+                                text = ingredientText,
                                 style = Typography.titleLarge,
                                 modifier = HzPadding
                             )
+
                         }
                     }
                     Spacer(Modifier.height(40.dp))
