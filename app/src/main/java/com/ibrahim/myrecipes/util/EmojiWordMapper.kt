@@ -24,14 +24,14 @@ val emojiMapEnglish = mapOf(
     "peas" to "🫛",
     "lettuce" to "🥬",
     "cucumber" to "🥒",
-    "Chili Pepper" to "🌶",
+    "chili pepper" to "🌶",
     "bell pepper" to "🫑",
     "corn" to "🌽",
     "carrot" to "🥕",
     "olive" to "🫒",
     "garlic" to "🧄",
     "onion" to "🧅",
-    "mushroom" to "🫚",
+    "mushroom" to "\uD83C\uDF44",
     "potato" to "🥔",
     "Sweet Potato" to "🍠",
     "beans" to "🫘",
@@ -43,6 +43,12 @@ val emojiMapEnglish = mapOf(
     "butter" to "🧈",
     "bacon" to "🥓",
     "meat" to "🥩",
+    "ground beef" to "🥩",
+    "steak" to "🥩",
+    "parsley" to "\uD83C\uDF3F",
+    "thyme" to "\uD83C\uDF3F",
+    "basil" to "\uD83C\uDF31",
+    "mustard" to "⚱\uFE0F",
     "tortilla" to "🫓",
     "canned" to "🥫",
     "ramen" to "🍜",
@@ -53,6 +59,7 @@ val emojiMapEnglish = mapOf(
     "popcorn" to "🍿",
     "chestnut" to "🌰",
     "peanuts" to "🥜",
+    "nuts" to "🥜",
     "honey" to "🍯",
     "milk" to "🥛",
     "tea" to "🍵",
@@ -62,42 +69,110 @@ val emojiMapEnglish = mapOf(
 )
 
 
+val emojiMapTurkish = mapOf(
+    "elma" to "🍎",
+    "armut" to "🍐",
+    "portakal" to "🍊",
+    "limon" to "🍋",
+    "muz" to "🍌",
+    "karpuz" to "🍉",
+    "üzüm" to "🍇",
+    "çilek" to "🍓",
+    "yaban mersini" to "🫐",
+    "kavun" to "🍈",
+    "kiraz" to "🍒",
+    "şeftali" to "🍑",
+    "mango" to "🥭",
+    "ananas" to "🍍",
+    "hindistan ceviz" to "🥥",
+    "kivi" to "🥝",
+    "domates" to "🍅",
+    "patlıcan" to "🍆",
+    "avokado" to "🥑",
+    "brokoli" to "🥦",
+    "bezelye" to "🫛",
+    "marul" to "🥬",
+    "salatalık" to "🥒",
+    "acı biber" to "🌶",
+    "dolmalık biber" to "🫑",
+    "yeşil biber" to "🫑",
+    "mısır" to "🌽",
+    "havuç" to "🥕",
+    "zeytin" to "🫒",
+    "sarımsak" to "🧄",
+    "soğan" to "🧅",
+    "mantar" to "\uD83C\uDF44",
+    "patates" to "🥔",
+    "Tatlı Patates" to "🍠",
+    "fasulye" to "🫘",
+    "simit" to "🥯",
+    "ekmek" to "🍞",
+    "baget" to "🥖",
+    "peynir" to "🧀",
+    "yumurta" to "🥚",
+    "tereyağı" to "🧈",
+    "pastırma" to "🥓",
+    "et" to "🥩",
+    "kıyma" to "🥩",
+    "biftek" to "🥩",
+    "maydanoz" to "\uD83C\uDF3F",
+    "kekik" to "\uD83C\uDF3F",
+    "fesleğen" to "\uD83C\uDF31",
+    "hardal" to "⚱\uFE0F",
+    "tortilla" to "🫓",
+    "konserve" to "🥫",
+    "ramen" to "🍜",
+    "karides" to "🍤",
+    "pirinç" to "🍚",
+    "Dondurma" to "🍨",
+    "çikolata" to "🍫",
+    "patlamış mısır" to "🍿",
+    "kestane" to "🌰",
+    "yer fıstığı" to "🥜",
+    "fındık" to "🥜",
+    "bal" to "🍯",
+    "süt" to "🥛",
+    "çay" to "🍵",
+    "buz" to "🧊",
+    "tuz" to "🧂"
+)
 
 
 
-fun appendEmojiIfAny(ingredientName: String): String {
+fun appendEmojiIfAny(ingredientName: String, emojiMap: Map<String, String>, isTurkish: Boolean): String {
     val normalizedIngredientName = ingredientName.lowercase()
-
-    fun singularizePhrase(phrase: String): String {
-        return phrase.split(" ").joinToString(" ") { word ->
-            singularize(word)
-        }
+    val processedIngredientName = if (isTurkish) {
+        removeTurkishSuffixes(normalizedIngredientName)
+    } else {
+        singularize(normalizedIngredientName)
     }
-
-    val singularizedIngredientName = singularizePhrase(normalizedIngredientName)
-    emojiMapEnglish[normalizedIngredientName]?.let { emoji ->
-        return "$ingredientName $emoji"
-    } ?: emojiMapEnglish[singularizedIngredientName]?.let { emoji ->
+    emojiMap[processedIngredientName]?.let { emoji ->
         return "$ingredientName $emoji"
     }
-
-
-    val words = singularizedIngredientName.split(" ")
+    val words = processedIngredientName.split(" ")
     for (word in words) {
-        val emoji = emojiMapEnglish[word]
-        if (emoji != null) {
+        emojiMap[word]?.let { emoji ->
             return "$ingredientName $emoji"
         }
     }
-
     return ingredientName
 }
+
 
 
 fun singularize(word: String): String {
     return when {
         word.endsWith("ies", ignoreCase = true) && word.length > 3 -> word.dropLast(3) + "y"
-        word.endsWith("s", ignoreCase = true) && word.length > 1 -> word.dropLast(1)
+        word.endsWith("es", ignoreCase = true) && (word.endsWith("oes") || word.endsWith("ses") || word.endsWith("ches")) && word.length > 2 -> word.dropLast(2) // Corrected to handle cases like "Tomatoes", "Buses", "Matches"
+        word.endsWith("s", ignoreCase = true) && word.length > 1 && !word.endsWith("us") && !word.endsWith("ss") -> word.dropLast(1) // Avoids incorrect singularization of words ending in "us" (as in "Virus" to "Viru") and "ss" (as in "Class" to "Clas")
         else -> word
     }.lowercase()
+}
+
+
+fun removeTurkishSuffixes(word: String): String {
+    val suffixRegex = Regex("([ıiüu]s?[ıiüu]?)$")
+    return word.split(" ").joinToString(" ") { singleWord ->
+        suffixRegex.replace(singleWord.lowercase(), "")
+    }
 }

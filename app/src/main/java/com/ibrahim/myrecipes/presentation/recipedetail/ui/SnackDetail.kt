@@ -44,6 +44,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
@@ -63,6 +64,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.lerp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
+import androidx.core.os.ConfigurationCompat
+import androidx.core.os.LocaleListCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
@@ -78,6 +81,9 @@ import com.ibrahim.myrecipes.presentation.ui.theme.Lime
 import com.ibrahim.myrecipes.presentation.ui.theme.Typography
 import com.ibrahim.myrecipes.util.appendEmojiIfAny
 import com.ibrahim.myrecipes.util.canGoBack
+import com.ibrahim.myrecipes.util.emojiMapEnglish
+import com.ibrahim.myrecipes.util.emojiMapTurkish
+import java.util.Locale
 import kotlin.math.max
 import kotlin.math.min
 
@@ -150,6 +156,9 @@ private fun Body(
     ingredients: Ingredients,
     scroll: ScrollState
 ) {
+    val currentLanguage = getLocale().language
+    val emojiMap = if (currentLanguage == "tr") emojiMapTurkish else emojiMapEnglish
+    val isTurkish = currentLanguage == "tr"
     Column {
         Spacer(
             modifier = Modifier
@@ -178,7 +187,8 @@ private fun Body(
                     Spacer(Modifier.size(8.dp))
                     repeat(ingredients.size) {
                         val ingredient = ingredients[it]
-                        val ingredientNameWithEmoji = appendEmojiIfAny(ingredient.ingredientName)
+                        // Use the appropriate emoji map based on the current locale
+                        val ingredientNameWithEmoji = appendEmojiIfAny(ingredient.ingredientName, emojiMap, isTurkish)
 
                         val ingredientText = buildAnnotatedString {
                             withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
@@ -199,6 +209,7 @@ private fun Body(
                             )
                         }
                     }
+
                     Spacer(Modifier.height(20.dp))
                     Divider()
                     Spacer(Modifier.height(20.dp))
@@ -229,6 +240,14 @@ private fun Body(
             }
         }
     }
+}
+
+
+@Composable
+@ReadOnlyComposable
+fun getLocale(): Locale {
+    val configuration = LocalConfiguration.current
+    return ConfigurationCompat.getLocales(configuration).get(0) ?: LocaleListCompat.getDefault()[0]!!
 }
 
 @Composable
