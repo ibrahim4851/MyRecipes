@@ -168,7 +168,7 @@ fun HomeScreen(
                     }
                 })
                 RecipesStaggeredGrid(
-                    viewModel.state.value.recipes,
+                    viewModel.state.value.gridItems,
                     onRecipeItemClick = { recipe ->
                         navController.navigate(Screen.RecipeDetail.route + "/" + recipe.recipeId)
                     },
