@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
@@ -5,6 +7,13 @@ plugins {
     alias(libs.plugins.kaptKotlin)
     alias(libs.plugins.kotlinParcelize)
     alias(libs.plugins.daggerHilt)
+}
+
+
+val apiKeysProperties = Properties().apply {
+    val apiKeysFileStream = rootProject.file("apikey.properties").inputStream()
+    load(apiKeysFileStream)
+    apiKeysFileStream.close()
 }
 
 android {
@@ -33,10 +42,21 @@ android {
         }
     }
 
+    signingConfigs {
+        create("release") {
+            storeFile = file(apiKeysProperties.getProperty("JKS_STORE_FILE") ?: "")
+            storePassword = apiKeysProperties.getProperty("JKS_STORE_PASSWORD")
+            keyAlias = apiKeysProperties.getProperty("JKS_KEY_ALIAS")
+            keyPassword = apiKeysProperties.getProperty("JKS_KEY_PASSWORD")
+        }
+    }
+
     buildTypes {
-        getByName("release") {
+        release {
             isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            signingConfig = signingConfigs.getByName("release")
         }
     }
     java {
@@ -48,6 +68,7 @@ android {
     }
     buildFeatures {
         compose = true
+        viewBinding = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.8"
@@ -57,6 +78,7 @@ android {
             languageVersion.set(JavaLanguageVersion.of(17))
         }
     }
+
 
     packaging {
         resources {
@@ -98,6 +120,8 @@ dependencies {
     implementation(libs.navigation)
     implementation(libs.coil)
     implementation(libs.composeConstraint)
+    implementation(libs.admob)
+    implementation(libs.viewbinding)
 }
 
 kapt {
