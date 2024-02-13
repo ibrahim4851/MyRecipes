@@ -8,16 +8,17 @@ import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.ibrahim.myrecipes.R
 import com.ibrahim.myrecipes.domain.model.Recipe
 
 @Composable
 fun RecipesStaggeredGrid(
-    recipes: List<Recipe> = dummyRecipeList,
+    items: List<GridItem>,
     onRecipeItemClick: (Recipe) -> Unit,
     onDeleteClick: (Recipe) -> Unit
 ) {
-
     LazyVerticalStaggeredGrid(
         columns = StaggeredGridCells.Adaptive(150.dp),
         modifier = Modifier.fillMaxSize(),
@@ -25,13 +26,25 @@ fun RecipesStaggeredGrid(
         horizontalArrangement = Arrangement.spacedBy(4.dp),
         verticalItemSpacing = 4.dp
     ) {
-        items(recipes, key = { recipe -> recipe.recipeId }) { recipe ->
-            RecipeItem(
-                recipe,
-                onRecipeItemClick = onRecipeItemClick,
-                onDeleteClick = onDeleteClick,
-                modifier = Modifier
-            )
+        items(items, key = {
+            when (it) {
+                is GridItem.RecipeItem -> it.recipe.recipeId
+                is GridItem.AdItem -> it.adId
+            }
+        }) { item ->
+            when (item) {
+                is GridItem.RecipeItem -> {
+                    RecipeItem(
+                        recipe = item.recipe,
+                        onRecipeItemClick = onRecipeItemClick,
+                        onDeleteClick = onDeleteClick,
+                        modifier = Modifier
+                    )
+                }
+                is GridItem.AdItem -> {
+                    NativeAdComposable(modifier = Modifier.fillMaxSize(), adUnitId = stringResource(id = R.string.ADMOB_AD_KEY))
+                }
+            }
         }
     }
 }
