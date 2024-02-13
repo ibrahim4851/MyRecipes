@@ -21,6 +21,8 @@ hiltNavigation = "1.1.0"
 androidWork = "2.9.0"
 appcompat = "1.6.1"
 lottie = "6.3.0"
+admob = "22.6.0"
+viewbinding = "1.6.1"
 
 [libraries]
 android-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "ktxversion" }
@@ -50,6 +52,8 @@ hiltWork = {group = "androidx.hilt", name = "hilt-work", version.ref = "hiltNavi
 androidWork = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "androidWork" }
 androidAppcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 lottie = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "lottie" }
+admob = { group = "com.google.android.gms", name = "play-services-ads", version.ref = "admob" }
+viewbinding = { group = "androidx.compose.ui", name = "ui-viewbinding", version.ref = "viewbinding" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
