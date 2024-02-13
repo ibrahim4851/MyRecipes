@@ -13,3 +13,4 @@ apikey.properties
 /captures
 .externalNativeBuild
 .cxx
+app/src/main/res/values/secret_keys.xml
