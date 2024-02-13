@@ -1,8 +1,8 @@
 package com.ibrahim.myrecipes.presentation.home.viewmodel
 
-import com.ibrahim.myrecipes.domain.model.Recipe
+import com.ibrahim.myrecipes.presentation.home.ui.GridItem
 
 data class HomeScreenState(
-    val recipes: List<Recipe> = listOf(),
+    val gridItems: List<GridItem> = listOf(),
     val permissionNotGrantedMessage: String = ""
 )
