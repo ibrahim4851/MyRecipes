@@ -56,6 +56,7 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.ibrahim.myrecipes.R
+import com.ibrahim.myrecipes.Screen
 import com.ibrahim.myrecipes.data.converter.minutesToHourMinuteString
 import com.ibrahim.myrecipes.data.enums.getLabel
 import com.ibrahim.myrecipes.domain.model.Recipe
@@ -100,7 +101,9 @@ fun RecipeDetail(
                 navController.popBackStack()
             }
         }
-        EditButton(upPress = {  }, modifier = Modifier.align(Alignment.TopEnd))
+        EditButton(upPress = {
+            navController.navigate(Screen.EditRecipeScreen.route + "/" + recipe.recipeId.toString())
+        }, modifier = Modifier.align(Alignment.TopEnd))
     }
 }
 
@@ -193,17 +196,28 @@ private fun Body(
                     Spacer(Modifier.size(8.dp))
                     repeat(ingredients.size) {
                         val ingredient = ingredients[it]
-                        val ingredientNameWithEmoji = appendEmojiIfAny(ingredient.ingredientName, emojiMap, isTurkish)
+                        val ingredientNameWithEmoji =
+                            appendEmojiIfAny(ingredient.ingredientName, emojiMap, isTurkish)
 
                         val ingredientText = buildAnnotatedString {
-                            withStyle(style = SpanStyle(fontWeight = FontWeight.Bold, fontSize = 19.sp)) {
+                            withStyle(
+                                style = SpanStyle(
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 19.sp
+                                )
+                            ) {
                                 append("• ")
                                 append(ingredient.ingredientQuantity.toString())
                                 append(" ")
                                 append(ingredient.ingredientQuantityUnit.getLabel())
                             }
                             append(" ")
-                            withStyle(style = SpanStyle(fontWeight = FontWeight.Light, fontSize = 19.sp)){
+                            withStyle(
+                                style = SpanStyle(
+                                    fontWeight = FontWeight.Light,
+                                    fontSize = 19.sp
+                                )
+                            ) {
                                 append(ingredientNameWithEmoji)
                             }
                         }
@@ -232,7 +246,10 @@ private fun Body(
                         Row(modifier = Modifier.fillMaxWidth()) {
                             Text(
                                 text = instruction,
-                                style = Typography.titleMedium.copy(fontSize = 19.sp, fontWeight = FontWeight.Light),
+                                style = Typography.titleMedium.copy(
+                                    fontSize = 19.sp,
+                                    fontWeight = FontWeight.Light
+                                ),
                                 modifier = HzPadding
                             )
                         }
@@ -253,7 +270,8 @@ private fun Body(
 @ReadOnlyComposable
 fun getLocale(): Locale {
     val configuration = LocalConfiguration.current
-    return ConfigurationCompat.getLocales(configuration).get(0) ?: LocaleListCompat.getDefault()[0]!!
+    return ConfigurationCompat.getLocales(configuration).get(0)
+        ?: LocaleListCompat.getDefault()[0]!!
 }
 
 @Composable
