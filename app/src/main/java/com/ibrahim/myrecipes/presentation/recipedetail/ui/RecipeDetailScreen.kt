@@ -33,7 +33,6 @@ import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.platform.LocalConfiguration
@@ -62,9 +61,8 @@ import com.ibrahim.myrecipes.data.enums.getLabel
 import com.ibrahim.myrecipes.domain.model.Recipe
 import com.ibrahim.myrecipes.domain.repository.Ingredients
 import com.ibrahim.myrecipes.presentation.recipedetail.viewmodel.RecipeDetailViewModel
-import com.ibrahim.myrecipes.presentation.ui.theme.Green900
-import com.ibrahim.myrecipes.presentation.ui.theme.Lime
 import com.ibrahim.myrecipes.presentation.ui.theme.Typography
+import com.ibrahim.myrecipes.presentation.ui.theme.themedGradient
 import com.ibrahim.myrecipes.util.appendEmojiIfAny
 import com.ibrahim.myrecipes.util.canGoBack
 import com.ibrahim.myrecipes.util.emojiMapEnglish
@@ -112,7 +110,7 @@ private fun Header() {
         modifier = Modifier
             .height(280.dp)
             .fillMaxWidth()
-            .background(Brush.horizontalGradient(listOf(Green900, Lime)))
+            .background(themedGradient())
     )
 }
 
