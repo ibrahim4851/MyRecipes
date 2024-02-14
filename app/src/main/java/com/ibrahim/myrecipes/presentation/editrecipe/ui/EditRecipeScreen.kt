@@ -28,8 +28,8 @@ fun EditRecipeScreen(
     viewModel: EditRecipeViewModel = hiltViewModel()
 ) {
 
-    var recipe = viewModel.state.value.recipe
-    var ingredients = viewModel.state.value.ingredients
+    val recipe = viewModel.state.value.recipe
+    val ingredients = viewModel.state.value.ingredients
 
     var recipeTitle by remember { mutableStateOf(recipe.recipeTitle) }
     var recipeServings by remember { mutableStateOf(recipe.recipeServings.toString()) }
