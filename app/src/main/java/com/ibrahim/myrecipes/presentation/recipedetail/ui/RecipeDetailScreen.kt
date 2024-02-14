@@ -2,6 +2,7 @@ package com.ibrahim.myrecipes.presentation.recipedetail.ui
 
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -35,7 +36,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
@@ -68,6 +68,8 @@ import com.ibrahim.myrecipes.data.converter.minutesToHourMinuteString
 import com.ibrahim.myrecipes.data.enums.getLabel
 import com.ibrahim.myrecipes.domain.model.Recipe
 import com.ibrahim.myrecipes.domain.repository.Ingredients
+import com.ibrahim.myrecipes.presentation.recipedetail.ui.updatedialogs.UpdateTitleDialog
+import com.ibrahim.myrecipes.presentation.recipedetail.viewmodel.RecipeDetailEvent
 import com.ibrahim.myrecipes.presentation.recipedetail.viewmodel.RecipeDetailViewModel
 import com.ibrahim.myrecipes.presentation.ui.theme.Typography
 import com.ibrahim.myrecipes.presentation.ui.theme.themedGradient
@@ -96,24 +98,18 @@ fun RecipeDetail(
 ) {
     val recipe = viewModel.state.value.recipe
     val ingredients = viewModel.state.value.ingredients
-    var isEditMode by remember { mutableStateOf(false) }
 
     Box(Modifier.fillMaxSize()) {
         val scroll = rememberScrollState(0)
         Header()
-        Body(recipe, ingredients, scroll, isEditMode)
-        Title(recipe, { scroll.value }, ingredients = ingredients, isEditMode)
+        Body(recipe, ingredients, scroll)
+        Title(recipe, { scroll.value }, ingredients = ingredients, viewModel)
         Image(recipe.recipePhotoUri!!) { scroll.value }
         BackButton {
             if (navController.canGoBack) {
                 navController.popBackStack()
             }
         }
-        EditButton(
-            upPress = {
-                isEditMode = !isEditMode
-            }, modifier = Modifier.align(Alignment.TopEnd)
-        )
     }
 }
 
@@ -149,32 +145,10 @@ private fun BackButton(upPress: () -> Unit) {
 }
 
 @Composable
-private fun EditButton(upPress: () -> Unit, modifier: Modifier) {
-    IconButton(
-        onClick = upPress,
-        modifier = modifier
-            .statusBarsPadding()
-            .padding(horizontal = 16.dp, vertical = 10.dp)
-            .size(36.dp)
-            .background(
-                color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.32f),
-                shape = CircleShape
-            )
-    ) {
-        Icon(
-            imageVector = Icons.Filled.Edit,
-            tint = MaterialTheme.colorScheme.onPrimary,
-            contentDescription = null
-        )
-    }
-}
-
-@Composable
 private fun Body(
     recipe: Recipe,
     ingredients: Ingredients,
-    scroll: ScrollState,
-    isEditMode: Boolean
+    scroll: ScrollState
 ) {
     val currentLanguage = getLocale().language
     val emojiMap = if (currentLanguage == "tr") emojiMapTurkish else emojiMapEnglish
@@ -198,22 +172,12 @@ private fun Body(
                     Spacer(Modifier.height(16.dp))
                     Spacer(Modifier.height(16.dp))
                     Spacer(Modifier.height(20.dp))
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
+                    Text(
+                        text = stringResource(id = R.string.ingredients),
+                        style = Typography.headlineMedium,
+                        fontWeight = FontWeight.Bold,
                         modifier = HzPadding
-                    ) {
-                        Text(
-                            text = stringResource(id = R.string.ingredients),
-                            style = Typography.headlineMedium,
-                            fontWeight = FontWeight.Bold,
-                        )
-                        if (isEditMode) {
-                            ClickableEditText {
-
-                            }
-                        }
-                    }
-
+                    )
                     Spacer(Modifier.size(8.dp))
                     repeat(ingredients.size) {
                         val ingredient = ingredients[it]
@@ -244,73 +208,40 @@ private fun Body(
                         }
 
                         Row(modifier = Modifier.fillMaxWidth()) {
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                                modifier = HzPadding
-                            ) {
-                                Text(
-                                    text = ingredientText,
-                                    style = Typography.titleLarge,
-                                    modifier = HzPadding.padding(vertical = 8.dp)
-                                )
-                                if (isEditMode) {
-                                    ClickableEditText {
-
-                                    }
-                                }
-                            }
-
+                            Text(
+                                text = ingredientText,
+                                style = Typography.titleLarge,
+                                modifier = HzPadding.padding(vertical = 8.dp)
+                            )
                         }
                     }
 
                     Spacer(Modifier.height(20.dp))
                     Divider()
                     Spacer(Modifier.height(20.dp))
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
+                    Text(
+                        text = stringResource(id = R.string.instructions),
+                        fontWeight = FontWeight.Bold,
+                        style = Typography.headlineMedium,
                         modifier = HzPadding
-                    ) {
-                        Text(
-                            text = stringResource(id = R.string.instructions),
-                            fontWeight = FontWeight.Bold,
-                            style = Typography.headlineMedium
-                        )
-                        if (isEditMode) {
-                            ClickableEditText {
+                    )
 
-                            }
-                        }
-                    }
                     Spacer(Modifier.size(8.dp))
                     repeat(recipe.recipeInstructions.size) {
                         val instruction = recipe.recipeInstructions[it]
-                        Row {
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                                modifier = HzPadding
-                            ) {
-                                Text(
-                                    text = instruction,
-                                    style = Typography.titleMedium.copy(
-                                        fontSize = 19.sp,
-                                        fontWeight = FontWeight.Light
-                                    )
+                        Row(modifier = HzPadding) {
+                            Text(
+                                text = instruction,
+                                style = Typography.titleMedium.copy(
+                                    fontSize = 19.sp,
+                                    fontWeight = FontWeight.Light
                                 )
-                            }
-                        }
-                        if (isEditMode) {
-                            Row(modifier = HzPadding) {
-                                ClickableEditText {
-
-                                }
-                            }
+                            )
                         }
                         Spacer(Modifier.size(8.dp))
                         Spacer(Modifier.size(8.dp))
                     }
-
                     Spacer(Modifier.height(16.dp))
-
                 }
             }
         }
@@ -323,10 +254,11 @@ private fun Title(
     recipe: Recipe,
     scrollProvider: () -> Int,
     ingredients: Ingredients,
-    isEditMode: Boolean
+    viewModel: RecipeDetailViewModel
 ) {
     val maxOffset = with(LocalDensity.current) { MaxTitleOffset.toPx() }
     val minOffset = with(LocalDensity.current) { MinTitleOffset.toPx() }
+    var showUpdateTitleDialog by remember { mutableStateOf(false) }
 
     Column(
         verticalArrangement = Arrangement.Bottom,
@@ -341,61 +273,51 @@ private fun Title(
             .background(color = MaterialTheme.colorScheme.background)
     ) {
         Spacer(Modifier.height(16.dp))
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = HzPadding
-        ) {
-            Text(
-                text = recipe.recipeTitle,
-                style = MaterialTheme.typography.headlineLarge,
-                fontWeight = FontWeight.Bold,
-                maxLines = 2,
-                color = MaterialTheme.colorScheme.onBackground,
-                modifier = HzPadding.width((LocalConfiguration.current.screenWidthDp * 0.55).dp)
+
+        if (showUpdateTitleDialog) {
+            UpdateTitleDialog(
+                onDismissRequest = { showUpdateTitleDialog = false },
+                onConfirmation = { updatedTitle ->
+                    viewModel.onEvent(RecipeDetailEvent.UpdateRecipeTitleEvent(updatedTitle))
+                    showUpdateTitleDialog = false
+                },
+                dialogTitle = "Update Recipe Title",
+                recipeTitle = recipe.recipeTitle,
+                icon = Icons.Filled.Edit
             )
-            if (isEditMode) {
-                ClickableEditText {
-
-                }
-            }
         }
-
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
+        Text(
+            text = recipe.recipeTitle,
+            style = MaterialTheme.typography.headlineLarge,
+            fontWeight = FontWeight.Bold,
+            maxLines = 2,
+            color = MaterialTheme.colorScheme.onBackground,
             modifier = HzPadding
-        ) {
-            Text(
-                text = recipe.recipeTime.minutesToHourMinuteString(LocalContext.current) + " | " + ingredients.size + " " + stringResource(
-                    id = R.string.ingredients_count
-                ),
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onBackground,
-                fontSize = 20.sp,
-                modifier = HzPadding
-            )
-            if (isEditMode) {
-                ClickableEditText {
+                .width((LocalConfiguration.current.screenWidthDp * 0.55).dp)
+                .clickable(
+                    enabled = true,
+                    onClick = { showUpdateTitleDialog = !showUpdateTitleDialog })
+        )
 
-                }
-            }
-        }
+        Text(
+            text = recipe.recipeTime.minutesToHourMinuteString(LocalContext.current) + " | " + ingredients.size + " " + stringResource(
+                id = R.string.ingredients_count
+            ),
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.onBackground,
+            fontSize = 20.sp,
+            modifier = HzPadding
+        )
+
         Spacer(Modifier.height(4.dp))
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = HzPadding
-        ) {
-            Text(
-                text = recipe.foodCategory.getLabel(),
-                style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.onBackground,
-                modifier = HzPadding
-            )
-            if (isEditMode) {
-                ClickableEditText {
 
-                }
-            }
-        }
+        Text(
+            text = recipe.foodCategory.getLabel(),
+            style = MaterialTheme.typography.titleLarge,
+            color = MaterialTheme.colorScheme.onBackground,
+            modifier = HzPadding
+        )
+
         Spacer(Modifier.height(8.dp))
         Divider()
     }
@@ -470,7 +392,8 @@ private fun ClickableEditText(onClick: () -> Unit) {
         text = AnnotatedString("Edit"),
         style = TextStyle(
             fontWeight = FontWeight.Light,
-            textDecoration = TextDecoration.Underline
+            textDecoration = TextDecoration.Underline,
+            color = MaterialTheme.colorScheme.onBackground
         )
     )
 }
