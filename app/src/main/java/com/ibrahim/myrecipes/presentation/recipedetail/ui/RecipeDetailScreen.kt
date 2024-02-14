@@ -68,6 +68,7 @@ import com.ibrahim.myrecipes.data.converter.minutesToHourMinuteString
 import com.ibrahim.myrecipes.data.enums.getLabel
 import com.ibrahim.myrecipes.domain.model.Recipe
 import com.ibrahim.myrecipes.domain.repository.Ingredients
+import com.ibrahim.myrecipes.presentation.recipedetail.ui.updatedialogs.UpdateCategoryDialog
 import com.ibrahim.myrecipes.presentation.recipedetail.ui.updatedialogs.UpdateTitleDialog
 import com.ibrahim.myrecipes.presentation.recipedetail.viewmodel.RecipeDetailEvent
 import com.ibrahim.myrecipes.presentation.recipedetail.viewmodel.RecipeDetailViewModel
@@ -259,6 +260,7 @@ private fun Title(
     val maxOffset = with(LocalDensity.current) { MaxTitleOffset.toPx() }
     val minOffset = with(LocalDensity.current) { MinTitleOffset.toPx() }
     var showUpdateTitleDialog by remember { mutableStateOf(false) }
+    var showUpdateCategoryDialog by remember { mutableStateOf(false) }
 
     Column(
         verticalArrangement = Arrangement.Bottom,
@@ -286,6 +288,24 @@ private fun Title(
                 icon = Icons.Filled.Edit
             )
         }
+
+        if (showUpdateCategoryDialog) {
+            UpdateCategoryDialog(
+                onDismissRequest = { showUpdateCategoryDialog = false },
+                onConfirmation = { selectedCategory ->
+                    viewModel.onEvent(
+                        RecipeDetailEvent.UpdateFoodCategoryEvent(
+                            foodCategory = selectedCategory
+                        )
+                    )
+                    showUpdateCategoryDialog = false
+                },
+                dialogTitle = "Update Recipe Category",
+                initialCategory = recipe.foodCategory,
+                icon = Icons.Filled.Edit
+            )
+        }
+
         Text(
             text = recipe.recipeTitle,
             style = MaterialTheme.typography.headlineLarge,
@@ -315,7 +335,9 @@ private fun Title(
             text = recipe.foodCategory.getLabel(),
             style = MaterialTheme.typography.titleLarge,
             color = MaterialTheme.colorScheme.onBackground,
-            modifier = HzPadding
+            modifier = HzPadding.clickable(
+                enabled = true,
+                onClick = { showUpdateCategoryDialog = !showUpdateCategoryDialog })
         )
 
         Spacer(Modifier.height(8.dp))

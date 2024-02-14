@@ -19,7 +19,7 @@ fun UpdateTitleDialog(
     onConfirmation: (String) -> Unit,
     dialogTitle: String,
     recipeTitle: String,
-    icon: ImageVector,
+    icon: ImageVector
 ) {
 
     var newTitle by remember { mutableStateOf(recipeTitle) }

@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ibrahim.myrecipes.data.enums.FoodCategory
 import com.ibrahim.myrecipes.data.room.mapper.toIngredient
 import com.ibrahim.myrecipes.data.room.mapper.toRecipe
 import com.ibrahim.myrecipes.domain.model.Ingredient
@@ -48,6 +49,12 @@ class RecipeDetailViewModel @Inject constructor(
         repository.updateIngredient(ingredient)
     }
 
+    private fun updateRecipeCategory(newCategory: FoodCategory) = viewModelScope.launch {
+        val newState = _state.value.recipe.copy(foodCategory = newCategory)
+        repository.updateRecipe(newState)
+        _state.value = _state.value.copy(recipe = newState)
+    }
+
     fun onEvent(event: RecipeDetailEvent) {
         when(event) {
 
@@ -57,6 +64,10 @@ class RecipeDetailViewModel @Inject constructor(
 
             is RecipeDetailEvent.UpdateIngredientEvent -> {
                 updateIngredient(ingredient = event.ingredient)
+            }
+
+            is RecipeDetailEvent.UpdateFoodCategoryEvent -> {
+                updateRecipeCategory(newCategory = event.foodCategory)
             }
         }
     }
