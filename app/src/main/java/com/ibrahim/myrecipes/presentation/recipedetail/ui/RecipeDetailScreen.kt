@@ -95,7 +95,7 @@ fun RecipeDetail(
         Body(recipe, ingredients, scroll)
         Title(recipe, { scroll.value }, ingredients = ingredients)
         Image(recipe.recipePhotoUri!!) { scroll.value }
-        Up {
+        BackButton {
             if (navController.canGoBack) {
                 navController.popBackStack()
             }
@@ -114,7 +114,7 @@ private fun Header() {
 }
 
 @Composable
-private fun Up(upPress: () -> Unit) {
+private fun BackButton(upPress: () -> Unit) {
     IconButton(
         onClick = upPress,
         modifier = Modifier
@@ -171,18 +171,19 @@ private fun Body(
                     Spacer(Modifier.size(8.dp))
                     repeat(ingredients.size) {
                         val ingredient = ingredients[it]
-                        // Use the appropriate emoji map based on the current locale
                         val ingredientNameWithEmoji = appendEmojiIfAny(ingredient.ingredientName, emojiMap, isTurkish)
 
                         val ingredientText = buildAnnotatedString {
-                            withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                            withStyle(style = SpanStyle(fontWeight = FontWeight.Bold, fontSize = 19.sp)) {
                                 append("• ")
                                 append(ingredient.ingredientQuantity.toString())
                                 append(" ")
                                 append(ingredient.ingredientQuantityUnit.getLabel())
                             }
                             append(" ")
-                            append(ingredientNameWithEmoji) // Use the modified name with an emoji if applicable
+                            withStyle(style = SpanStyle(fontWeight = FontWeight.Light, fontSize = 19.sp)){
+                                append(ingredientNameWithEmoji)
+                            }
                         }
 
                         Row(modifier = Modifier.fillMaxWidth()) {
@@ -209,7 +210,7 @@ private fun Body(
                         Row(modifier = Modifier.fillMaxWidth()) {
                             Text(
                                 text = instruction,
-                                style = Typography.titleMedium.copy(fontSize = 19.sp),
+                                style = Typography.titleMedium.copy(fontSize = 19.sp, fontWeight = FontWeight.Light),
                                 modifier = HzPadding
                             )
                         }
