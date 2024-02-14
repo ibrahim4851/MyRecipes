@@ -7,6 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ibrahim.myrecipes.data.room.mapper.toIngredient
 import com.ibrahim.myrecipes.data.room.mapper.toRecipe
+import com.ibrahim.myrecipes.domain.model.Ingredient
+import com.ibrahim.myrecipes.domain.model.Recipe
 import com.ibrahim.myrecipes.domain.repository.RecipeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -35,6 +37,27 @@ class RecipeDetailViewModel @Inject constructor(
             ingredients = recipeIngredients.ingredients.map { it.toIngredient() }
         )
         _state.value = updatedState
+    }
+
+    private fun updateRecipe(recipe: Recipe) = viewModelScope.launch {
+        repository.updateRecipe(recipe)
+    }
+
+    private fun updateIngredient(ingredient: Ingredient) = viewModelScope.launch {
+        repository.updateIngredient(ingredient)
+    }
+
+    fun onEvent(event: RecipeDetailEvent) {
+        when(event) {
+
+            is RecipeDetailEvent.UpdateRecipeEvent -> {
+                updateRecipe(recipe = event.recipe)
+            }
+
+            is RecipeDetailEvent.UpdateIngredientEvent -> {
+                updateIngredient(ingredient = event.ingredient)
+            }
+        }
     }
 
 }

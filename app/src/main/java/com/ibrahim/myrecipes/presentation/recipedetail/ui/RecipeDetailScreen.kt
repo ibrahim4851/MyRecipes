@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -30,6 +31,10 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -39,9 +44,12 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.IntOffset
@@ -56,7 +64,6 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.ibrahim.myrecipes.R
-import com.ibrahim.myrecipes.Screen
 import com.ibrahim.myrecipes.data.converter.minutesToHourMinuteString
 import com.ibrahim.myrecipes.data.enums.getLabel
 import com.ibrahim.myrecipes.domain.model.Recipe
@@ -89,21 +96,24 @@ fun RecipeDetail(
 ) {
     val recipe = viewModel.state.value.recipe
     val ingredients = viewModel.state.value.ingredients
+    var isEditMode by remember { mutableStateOf(false) }
 
     Box(Modifier.fillMaxSize()) {
         val scroll = rememberScrollState(0)
         Header()
-        Body(recipe, ingredients, scroll)
-        Title(recipe, { scroll.value }, ingredients = ingredients)
+        Body(recipe, ingredients, scroll, isEditMode)
+        Title(recipe, { scroll.value }, ingredients = ingredients, isEditMode)
         Image(recipe.recipePhotoUri!!) { scroll.value }
         BackButton {
             if (navController.canGoBack) {
                 navController.popBackStack()
             }
         }
-        EditButton(upPress = {
-            navController.navigate(Screen.EditRecipeScreen.route + "/" + recipe.recipeId.toString())
-        }, modifier = Modifier.align(Alignment.TopEnd))
+        EditButton(
+            upPress = {
+                isEditMode = !isEditMode
+            }, modifier = Modifier.align(Alignment.TopEnd)
+        )
     }
 }
 
@@ -163,7 +173,8 @@ private fun EditButton(upPress: () -> Unit, modifier: Modifier) {
 private fun Body(
     recipe: Recipe,
     ingredients: Ingredients,
-    scroll: ScrollState
+    scroll: ScrollState,
+    isEditMode: Boolean
 ) {
     val currentLanguage = getLocale().language
     val emojiMap = if (currentLanguage == "tr") emojiMapTurkish else emojiMapEnglish
@@ -187,12 +198,22 @@ private fun Body(
                     Spacer(Modifier.height(16.dp))
                     Spacer(Modifier.height(16.dp))
                     Spacer(Modifier.height(20.dp))
-                    Text(
-                        text = stringResource(id = R.string.ingredients),
-                        style = Typography.headlineMedium,
-                        fontWeight = FontWeight.Bold,
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
                         modifier = HzPadding
-                    )
+                    ) {
+                        Text(
+                            text = stringResource(id = R.string.ingredients),
+                            style = Typography.headlineMedium,
+                            fontWeight = FontWeight.Bold,
+                        )
+                        if (isEditMode) {
+                            ClickableEditText {
+
+                            }
+                        }
+                    }
+
                     Spacer(Modifier.size(8.dp))
                     repeat(ingredients.size) {
                         val ingredient = ingredients[it]
@@ -223,35 +244,66 @@ private fun Body(
                         }
 
                         Row(modifier = Modifier.fillMaxWidth()) {
-                            Text(
-                                text = ingredientText,
-                                style = Typography.titleLarge,
-                                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
-                            )
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                modifier = HzPadding
+                            ) {
+                                Text(
+                                    text = ingredientText,
+                                    style = Typography.titleLarge,
+                                    modifier = HzPadding.padding(vertical = 8.dp)
+                                )
+                                if (isEditMode) {
+                                    ClickableEditText {
+
+                                    }
+                                }
+                            }
+
                         }
                     }
 
                     Spacer(Modifier.height(20.dp))
                     Divider()
                     Spacer(Modifier.height(20.dp))
-                    Text(
-                        text = stringResource(id = R.string.instructions),
-                        fontWeight = FontWeight.Bold,
-                        style = Typography.headlineMedium,
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
                         modifier = HzPadding
-                    )
+                    ) {
+                        Text(
+                            text = stringResource(id = R.string.instructions),
+                            fontWeight = FontWeight.Bold,
+                            style = Typography.headlineMedium
+                        )
+                        if (isEditMode) {
+                            ClickableEditText {
+
+                            }
+                        }
+                    }
                     Spacer(Modifier.size(8.dp))
                     repeat(recipe.recipeInstructions.size) {
                         val instruction = recipe.recipeInstructions[it]
-                        Row(modifier = Modifier.fillMaxWidth()) {
-                            Text(
-                                text = instruction,
-                                style = Typography.titleMedium.copy(
-                                    fontSize = 19.sp,
-                                    fontWeight = FontWeight.Light
-                                ),
+                        Row {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
                                 modifier = HzPadding
-                            )
+                            ) {
+                                Text(
+                                    text = instruction,
+                                    style = Typography.titleMedium.copy(
+                                        fontSize = 19.sp,
+                                        fontWeight = FontWeight.Light
+                                    )
+                                )
+                            }
+                        }
+                        if (isEditMode) {
+                            Row(modifier = HzPadding) {
+                                ClickableEditText {
+
+                                }
+                            }
                         }
                         Spacer(Modifier.size(8.dp))
                         Spacer(Modifier.size(8.dp))
@@ -267,15 +319,12 @@ private fun Body(
 
 
 @Composable
-@ReadOnlyComposable
-fun getLocale(): Locale {
-    val configuration = LocalConfiguration.current
-    return ConfigurationCompat.getLocales(configuration).get(0)
-        ?: LocaleListCompat.getDefault()[0]!!
-}
-
-@Composable
-private fun Title(recipe: Recipe, scrollProvider: () -> Int, ingredients: Ingredients) {
+private fun Title(
+    recipe: Recipe,
+    scrollProvider: () -> Int,
+    ingredients: Ingredients,
+    isEditMode: Boolean
+) {
     val maxOffset = with(LocalDensity.current) { MaxTitleOffset.toPx() }
     val minOffset = with(LocalDensity.current) { MinTitleOffset.toPx() }
 
@@ -292,31 +341,61 @@ private fun Title(recipe: Recipe, scrollProvider: () -> Int, ingredients: Ingred
             .background(color = MaterialTheme.colorScheme.background)
     ) {
         Spacer(Modifier.height(16.dp))
-        Text(
-            text = recipe.recipeTitle,
-            style = MaterialTheme.typography.headlineLarge,
-            fontWeight = FontWeight.Bold,
-            maxLines = 2,
-            color = MaterialTheme.colorScheme.onBackground,
-            modifier = HzPadding.width((LocalConfiguration.current.screenWidthDp * 0.55).dp)
-        )
-        Text(
-            text = recipe.recipeTime.minutesToHourMinuteString(LocalContext.current) + " | " + ingredients.size + " " + stringResource(
-                id = R.string.ingredients_count
-            ),
-            style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.onBackground,
-            fontSize = 20.sp,
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
             modifier = HzPadding
-        )
-        Spacer(Modifier.height(4.dp))
-        Text(
-            text = recipe.foodCategory.getLabel(),
-            style = MaterialTheme.typography.titleLarge,
-            color = MaterialTheme.colorScheme.onBackground,
-            modifier = HzPadding
-        )
+        ) {
+            Text(
+                text = recipe.recipeTitle,
+                style = MaterialTheme.typography.headlineLarge,
+                fontWeight = FontWeight.Bold,
+                maxLines = 2,
+                color = MaterialTheme.colorScheme.onBackground,
+                modifier = HzPadding.width((LocalConfiguration.current.screenWidthDp * 0.55).dp)
+            )
+            if (isEditMode) {
+                ClickableEditText {
 
+                }
+            }
+        }
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = HzPadding
+        ) {
+            Text(
+                text = recipe.recipeTime.minutesToHourMinuteString(LocalContext.current) + " | " + ingredients.size + " " + stringResource(
+                    id = R.string.ingredients_count
+                ),
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onBackground,
+                fontSize = 20.sp,
+                modifier = HzPadding
+            )
+            if (isEditMode) {
+                ClickableEditText {
+
+                }
+            }
+        }
+        Spacer(Modifier.height(4.dp))
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = HzPadding
+        ) {
+            Text(
+                text = recipe.foodCategory.getLabel(),
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.onBackground,
+                modifier = HzPadding
+            )
+            if (isEditMode) {
+                ClickableEditText {
+
+                }
+            }
+        }
         Spacer(Modifier.height(8.dp))
         Divider()
     }
@@ -380,6 +459,28 @@ private fun CollapsingImageLayout(
             imagePlaceable.placeRelative(imageX, imageY)
         }
     }
+}
+
+@Composable
+private fun ClickableEditText(onClick: () -> Unit) {
+    ClickableText(
+        onClick = {
+            onClick()
+        },
+        text = AnnotatedString("Edit"),
+        style = TextStyle(
+            fontWeight = FontWeight.Light,
+            textDecoration = TextDecoration.Underline
+        )
+    )
+}
+
+@Composable
+@ReadOnlyComposable
+fun getLocale(): Locale {
+    val configuration = LocalConfiguration.current
+    return ConfigurationCompat.getLocales(configuration).get(0)
+        ?: LocaleListCompat.getDefault()[0]!!
 }
 
 
