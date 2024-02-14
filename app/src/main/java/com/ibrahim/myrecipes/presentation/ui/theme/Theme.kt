@@ -10,6 +10,8 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.Stable
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
@@ -55,6 +57,19 @@ private val LightColorScheme = lightColorScheme(
     onSecondaryContainer = Color.Black, // selected chip text color
     surfaceVariant = Green200
 )
+
+@Composable
+@Stable
+fun themedGradient(): Brush {
+    val colors = if (!isSystemInDarkTheme()) {
+
+        listOf(Green900, Lime)
+
+    } else {
+        listOf(Green700, Green900)
+    }
+    return Brush.linearGradient(colors)
+}
 
 
 @Composable
