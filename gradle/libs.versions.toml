@@ -23,6 +23,7 @@ appcompat = "1.6.1"
 lottie = "6.3.0"
 admob = "22.6.0"
 viewbinding = "1.6.1"
+firebase-crashlytics = "18.6.2"
 
 [libraries]
 android-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "ktxversion" }
@@ -54,6 +55,7 @@ androidAppcompat = { group = "androidx.appcompat", name = "appcompat", version.r
 lottie = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "lottie" }
 admob = { group = "com.google.android.gms", name = "play-services-ads", version.ref = "admob" }
 viewbinding = { group = "androidx.compose.ui", name = "ui-viewbinding", version.ref = "viewbinding" }
+firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics", version.ref = "firebase-crashlytics" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
