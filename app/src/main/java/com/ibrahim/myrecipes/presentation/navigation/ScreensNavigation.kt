@@ -20,7 +20,6 @@ import com.ibrahim.myrecipes.presentation.createrecipe.ui.RecipeTitle
 import com.ibrahim.myrecipes.presentation.createrecipe.ui.SetCategory
 import com.ibrahim.myrecipes.presentation.createrecipe.ui.SetIngredients
 import com.ibrahim.myrecipes.presentation.createrecipe.ui.SetInstructions
-import com.ibrahim.myrecipes.presentation.editrecipe.ui.EditRecipeScreen
 import com.ibrahim.myrecipes.presentation.home.ui.HomeScreen
 import com.ibrahim.myrecipes.presentation.onboarding.ui.OnBoardingScreen
 import com.ibrahim.myrecipes.presentation.recipedetail.ui.RecipeDetail
@@ -131,9 +130,6 @@ fun ScreensNavigation() {
 
         composable(route = Screen.HomeScreen.route) {
             HomeScreen(navController = navController)
-        }
-        composable(route = Screen.EditRecipeScreen.route + "/{recipeId}") {
-            EditRecipeScreen(navController = navController)
         }
 
         composable(route = Screen.RecipeDetail.route + "/{recipeId}") {
