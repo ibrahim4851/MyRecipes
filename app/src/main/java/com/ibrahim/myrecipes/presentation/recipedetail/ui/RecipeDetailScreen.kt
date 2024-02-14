@@ -19,56 +19,58 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Divider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.lerp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
+import androidx.core.os.ConfigurationCompat
+import androidx.core.os.LocaleListCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.ibrahim.myrecipes.R
 import com.ibrahim.myrecipes.data.converter.minutesToHourMinuteString
 import com.ibrahim.myrecipes.data.enums.getLabel
 import com.ibrahim.myrecipes.domain.model.Recipe
 import com.ibrahim.myrecipes.domain.repository.Ingredients
 import com.ibrahim.myrecipes.presentation.recipedetail.viewmodel.RecipeDetailViewModel
-import com.ibrahim.myrecipes.presentation.ui.theme.Green300
 import com.ibrahim.myrecipes.presentation.ui.theme.Green900
-import com.ibrahim.myrecipes.presentation.ui.theme.Pistachio
+import com.ibrahim.myrecipes.presentation.ui.theme.Lime
 import com.ibrahim.myrecipes.presentation.ui.theme.Typography
+import com.ibrahim.myrecipes.util.appendEmojiIfAny
+import com.ibrahim.myrecipes.util.canGoBack
+import com.ibrahim.myrecipes.util.emojiMapEnglish
+import com.ibrahim.myrecipes.util.emojiMapTurkish
+import java.util.Locale
 import kotlin.math.max
 import kotlin.math.min
 
-
-private val BottomBarHeight = 56.dp
 private val TitleHeight = 128.dp
 private val GradientScroll = 180.dp
 private val ImageOverlap = 115.dp
@@ -77,46 +79,71 @@ private val MinImageOffset = 12.dp
 private val MaxTitleOffset = ImageOverlap + MinTitleOffset + GradientScroll
 private val ExpandedImageSize = 300.dp
 private val CollapsedImageSize = 150.dp
-private val HzPadding = Modifier.padding(horizontal = 24.dp)
-
+private val HzPadding = Modifier.padding(horizontal = 12.dp)
 
 @Composable
-fun RecipeDetailScreen(
+fun RecipeDetail(
     navController: NavController,
     viewModel: RecipeDetailViewModel = hiltViewModel()
 ) {
-
-    val scrollState = rememberScrollState(0)
-    val configuration = LocalConfiguration.current
-    val screenWidth = configuration.screenWidthDp.dp
-    val imageSize = screenWidth * 0.5f
-
     val recipe = viewModel.state.value.recipe
     val ingredients = viewModel.state.value.ingredients
 
-    Surface(modifier = Modifier.fillMaxSize()) {
-        Scaffold(
-            modifier = Modifier.fillMaxSize()
-        ) { paddingValues ->
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues)
-            ) {
-                Box(Modifier.fillMaxWidth()) {
-                    RecipeDetailHeader()
-                    Body(scroll = scrollState, recipe = recipe, ingredients = ingredients)
-                    RecipeTitleObject(scrollProvider = { scrollState.value }, recipe = recipe)
-                    RecipeImageObject(scrollProvider = { scrollState.value }, recipe = recipe)
-                }
+    Box(Modifier.fillMaxSize()) {
+        val scroll = rememberScrollState(0)
+        Header()
+        Body(recipe, ingredients, scroll)
+        Title(recipe, { scroll.value }, ingredients = ingredients)
+        Image(recipe.recipePhotoUri!!) { scroll.value }
+        Up {
+            if (navController.canGoBack) {
+                navController.popBackStack()
             }
         }
     }
 }
 
 @Composable
-fun Body(scroll: ScrollState, recipe: Recipe, ingredients: Ingredients) {
-    Column(Modifier.fillMaxWidth()) {
+private fun Header() {
+    Spacer(
+        modifier = Modifier
+            .height(280.dp)
+            .fillMaxWidth()
+            .background(Brush.horizontalGradient(listOf(Green900, Lime)))
+    )
+}
+
+@Composable
+private fun Up(upPress: () -> Unit) {
+    IconButton(
+        onClick = upPress,
+        modifier = Modifier
+            .statusBarsPadding()
+            .padding(horizontal = 16.dp, vertical = 10.dp)
+            .size(36.dp)
+            .background(
+                color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.32f),
+                shape = CircleShape
+            )
+    ) {
+        Icon(
+            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+            tint = MaterialTheme.colorScheme.onPrimary,
+            contentDescription = null
+        )
+    }
+}
+
+@Composable
+private fun Body(
+    recipe: Recipe,
+    ingredients: Ingredients,
+    scroll: ScrollState
+) {
+    val currentLanguage = getLocale().language
+    val emojiMap = if (currentLanguage == "tr") emojiMapTurkish else emojiMapEnglish
+    val isTurkish = currentLanguage == "tr"
+    Column {
         Spacer(
             modifier = Modifier
                 .fillMaxWidth()
@@ -124,105 +151,92 @@ fun Body(scroll: ScrollState, recipe: Recipe, ingredients: Ingredients) {
                 .height(MinTitleOffset)
         )
         Column(
-            modifier = Modifier
-                .verticalScroll(scroll)
-                .padding(10.dp)
-                .fillMaxWidth()
+            modifier = Modifier.verticalScroll(scroll)
         ) {
             Spacer(Modifier.height(GradientScroll))
-            Spacer(Modifier.height(ImageOverlap))
-            Spacer(Modifier.height(TitleHeight))
-            Spacer(Modifier.height(16.dp))
-            Spacer(Modifier.height(60.dp))
-            Spacer(Modifier.size(8.dp))
-            InfoBoxGroup(recipe)
-            Row(modifier = Modifier.fillMaxWidth()) {
-                Text(
-                    stringResource(R.string.ingredients),
-                    fontWeight = FontWeight.Bold,
-                    style = Typography.headlineLarge
-                )
-            }
-            Spacer(Modifier.size(8.dp))
-            AnimatedBorderCard(gradient = Brush.linearGradient(listOf(Pistachio, Green900))) {
-                Column(Modifier.padding(8.dp)) {
+            Surface(Modifier.fillMaxWidth(), color = MaterialTheme.colorScheme.background) {
+                Column {
+                    Spacer(Modifier.height(ImageOverlap))
+                    Spacer(Modifier.height(TitleHeight))
+
+                    Spacer(Modifier.height(16.dp))
+                    Spacer(Modifier.height(16.dp))
+                    Spacer(Modifier.height(20.dp))
+                    Text(
+                        text = stringResource(id = R.string.ingredients),
+                        style = Typography.headlineMedium,
+                        fontWeight = FontWeight.Bold,
+                        modifier = HzPadding
+                    )
+                    Spacer(Modifier.size(8.dp))
                     repeat(ingredients.size) {
+                        val ingredient = ingredients[it]
+                        // Use the appropriate emoji map based on the current locale
+                        val ingredientNameWithEmoji = appendEmojiIfAny(ingredient.ingredientName, emojiMap, isTurkish)
+
+                        val ingredientText = buildAnnotatedString {
+                            withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                                append("• ")
+                                append(ingredient.ingredientQuantity.toString())
+                                append(" ")
+                                append(ingredient.ingredientQuantityUnit.getLabel())
+                            }
+                            append(" ")
+                            append(ingredientNameWithEmoji) // Use the modified name with an emoji if applicable
+                        }
+
                         Row(modifier = Modifier.fillMaxWidth()) {
                             Text(
-                                text = ingredients[it].ingredientQuantity.toString() +
-                                        " " +
-                                        ingredients[it].ingredientQuantityUnit.getLabel() +
-                                        " " +
-                                        ingredients[it].ingredientName,
-                                style = Typography.titleLarge
+                                text = ingredientText,
+                                style = Typography.titleLarge,
+                                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
                             )
                         }
                     }
+
+                    Spacer(Modifier.height(20.dp))
+                    Divider()
+                    Spacer(Modifier.height(20.dp))
+                    Text(
+                        text = stringResource(id = R.string.instructions),
+                        fontWeight = FontWeight.Bold,
+                        style = Typography.headlineMedium,
+                        modifier = HzPadding
+                    )
+                    Spacer(Modifier.size(8.dp))
+                    repeat(recipe.recipeInstructions.size) {
+                        val instruction = recipe.recipeInstructions[it]
+                        Row(modifier = Modifier.fillMaxWidth()) {
+                            Text(
+                                text = instruction,
+                                style = Typography.titleMedium.copy(fontSize = 19.sp),
+                                modifier = HzPadding
+                            )
+                        }
+                        Spacer(Modifier.size(8.dp))
+                        Spacer(Modifier.size(8.dp))
+                    }
+
+                    Spacer(Modifier.height(16.dp))
+
                 }
-            }
-            Row(modifier = Modifier.fillMaxWidth()) {
-                Text(
-                    text = stringResource(R.string.instructions),
-                    fontWeight = FontWeight.Bold,
-                    style = Typography.headlineLarge
-                )
-            }
-            Spacer(Modifier.size(8.dp))
-            repeat(recipe.recipeInstructions.size) {
-                ExpandableCard(
-                    title = "${(it + 1)}. step",
-                    description = recipe.recipeInstructions[it]
-                )
-                Spacer(Modifier.size(8.dp))
             }
         }
     }
 }
 
+
 @Composable
-fun RecipeDetailHeader() {
-    Spacer(
-        modifier = Modifier
-            .height(240.dp)
-            .fillMaxWidth()
-            .background(
-                Brush.horizontalGradient(
-                    listOf(
-                        Color(Green300.value),
-                        Color(Green900.value)
-                    )
-                )
-            )
-    )
+@ReadOnlyComposable
+fun getLocale(): Locale {
+    val configuration = LocalConfiguration.current
+    return ConfigurationCompat.getLocales(configuration).get(0) ?: LocaleListCompat.getDefault()[0]!!
 }
 
 @Composable
-fun RecipeImageObject(scrollProvider: () -> Int, recipe: Recipe) {
-    val collapseRange = with(LocalDensity.current) { (MaxTitleOffset - MinTitleOffset).toPx() }
-    val collapseFractionProvider = {
-        (scrollProvider() / collapseRange).coerceIn(0f, 1f)
-    }
-    CollapsingImageLayout(
-        collapseFractionProvider = collapseFractionProvider,
-        modifier = HzPadding.statusBarsPadding()
-    ) {
-        AsyncImage(
-            model = recipe.recipePhotoUri,
-            modifier = Modifier.clip(shape = CircleShape),
-            contentScale = ContentScale.Crop,
-            contentDescription = null
-        )
-    }
-}
-
-@Composable
-fun RecipeTitleObject(scrollProvider: () -> Int, recipe: Recipe) {
+private fun Title(recipe: Recipe, scrollProvider: () -> Int, ingredients: Ingredients) {
     val maxOffset = with(LocalDensity.current) { MaxTitleOffset.toPx() }
     val minOffset = with(LocalDensity.current) { MinTitleOffset.toPx() }
-    val textStyleHeadline1 = MaterialTheme.typography.headlineSmall.copy(fontSize = 42.sp, lineHeight = 45.sp)
-    var textStyle by remember { mutableStateOf(textStyleHeadline1) }
-    var readyToDraw by remember { mutableStateOf(false) }
-    var recipeTitle by remember { mutableStateOf(recipe.recipeTitle) }
 
     Column(
         verticalArrangement = Arrangement.Bottom,
@@ -234,53 +248,62 @@ fun RecipeTitleObject(scrollProvider: () -> Int, recipe: Recipe) {
                 val offset = (maxOffset - scroll).coerceAtLeast(minOffset)
                 IntOffset(x = 0, y = offset.toInt())
             }
-            .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.background)
+            .background(color = MaterialTheme.colorScheme.background)
     ) {
-        Column(
-            Modifier
-                .fillMaxWidth()
-                .padding(10.dp)
-        ) {
-            Spacer(Modifier.height(16.dp))
-            Text(
-                text = recipeTitle,
-                style = textStyle,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis,
-                fontWeight = FontWeight.Bold,
-                onTextLayout = { textLayoutResult ->
-                    if(textLayoutResult.lineCount == 1 && recipe.recipeTitle.isNotEmpty()) {
-                        recipeTitle = recipe.recipeTitle + "\n"
-                    }
-                    if (textLayoutResult.didOverflowWidth) {
-                        textStyle = textStyle.copy(fontSize = textStyle.fontSize * 0.9)
-                    } else {
-                        readyToDraw = true
-                    }
-                },
-                modifier = Modifier
-                    .padding(horizontal = 24.dp)
-                    .width((LocalConfiguration.current.screenWidthDp * 0.55).dp)
-                    .drawWithContent {
-                        if(readyToDraw) drawContent()
-                    }
-            )
-            Text(
-                text = "Test Tagline",
-                style = MaterialTheme.typography.headlineSmall,
-                fontSize = 20.sp,
-                modifier = HzPadding
-            )
-            Spacer(Modifier.height(4.dp))
-            Text(
-                text = recipe.foodCategory.name,
-                style = MaterialTheme.typography.titleSmall,
-                modifier = HzPadding
-            )
-            Spacer(Modifier.height(7.dp))
-            Divider()
-        }
+        Spacer(Modifier.height(16.dp))
+        Text(
+            text = recipe.recipeTitle,
+            style = MaterialTheme.typography.headlineLarge,
+            fontWeight = FontWeight.Bold,
+            maxLines = 2,
+            color = MaterialTheme.colorScheme.onBackground,
+            modifier = HzPadding.width((LocalConfiguration.current.screenWidthDp * 0.55).dp)
+        )
+        Text(
+            text = recipe.recipeTime.minutesToHourMinuteString(LocalContext.current) + " | " + ingredients.size + " " + stringResource(
+                id = R.string.ingredients_count
+            ),
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.onBackground,
+            fontSize = 20.sp,
+            modifier = HzPadding
+        )
+        Spacer(Modifier.height(4.dp))
+        Text(
+            text = recipe.foodCategory.getLabel(),
+            style = MaterialTheme.typography.titleLarge,
+            color = MaterialTheme.colorScheme.onBackground,
+            modifier = HzPadding
+        )
+
+        Spacer(Modifier.height(8.dp))
+        Divider()
+    }
+}
+
+@Composable
+private fun Image(
+    imageUrl: String,
+    scrollProvider: () -> Int
+) {
+    val collapseRange = with(LocalDensity.current) { (MaxTitleOffset - MinTitleOffset).toPx() }
+    val collapseFractionProvider = {
+        (scrollProvider() / collapseRange).coerceIn(0f, 1f)
+    }
+
+    CollapsingImageLayout(
+        collapseFractionProvider = collapseFractionProvider,
+        modifier = HzPadding.statusBarsPadding()
+    ) {
+        AsyncImage(
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(imageUrl)
+                .allowHardware(false)
+                .build(),
+            contentDescription = null,
+            modifier = Modifier.clip(shape = CircleShape),
+            contentScale = ContentScale.Crop
+        )
     }
 }
 
@@ -305,8 +328,8 @@ private fun CollapsingImageLayout(
 
         val imageY = lerp(MinTitleOffset, MinImageOffset, collapseFraction).roundToPx()
         val imageX = lerp(
-            (constraints.maxWidth - imageWidth) / 2, // centered when expanded
-            constraints.maxWidth - imageWidth, // right aligned when collapsed
+            (constraints.maxWidth - imageWidth) / 2,
+            constraints.maxWidth - imageWidth,
             collapseFraction
         )
         layout(
@@ -318,37 +341,4 @@ private fun CollapsingImageLayout(
     }
 }
 
-@Composable
-private fun InfoBoxGroup(recipe: Recipe) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 8.dp),
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        InfoBox(
-            backgroundColor = Color(0xFFED6E3A),
-            infoIcon = painterResource(id = R.drawable.baseline_restaurant_menu_24),
-            infoTitle = stringResource(R.string.servings),
-            infoContent = recipe.recipeServings.toString()
-        )
-        InfoBox(
-            backgroundColor = Color(0xFF0189C5),
-            infoIcon = painterResource(id = R.drawable.outline_watch_24),
-            infoTitle = stringResource(R.string.time),
-            infoContent = recipe.recipeTime.minutesToHourMinuteString(LocalContext.current)
-        )
-        InfoBox(
-            backgroundColor = Color(0xFF8759AC),
-            infoIcon = painterResource(id = R.drawable.baseline_restaurant_menu_24),
-            infoTitle = stringResource(R.string.category),
-            infoContent = recipe.foodCategory.getLabel()
-        )
-    }
-}
 
-@Preview
-@Composable
-fun RecipeDetailScreenPreview() {
-    RecipeDetailScreen(navController = rememberNavController())
-}
