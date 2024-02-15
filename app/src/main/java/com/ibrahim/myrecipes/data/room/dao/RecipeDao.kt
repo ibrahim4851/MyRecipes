@@ -1,7 +1,6 @@
 package com.ibrahim.myrecipes.data.room.dao
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -57,8 +56,8 @@ interface RecipeDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAllIngredients(ingredients: List<IngredientEntity>)
 
-    @Delete
-    suspend fun deleteIngredient(ingredientEntity: IngredientEntity)
+    @Query("DELETE FROM ingredients WHERE ingredientId = :ingredientId")
+    suspend fun deleteIngredient(ingredientId: Long)
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     suspend fun updateIngredient(ingredientEntity: IngredientEntity)
