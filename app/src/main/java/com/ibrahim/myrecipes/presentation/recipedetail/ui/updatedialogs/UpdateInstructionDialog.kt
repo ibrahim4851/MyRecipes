@@ -23,7 +23,7 @@ fun UpdateInstructionDialog(
     onDelete: () -> Unit,
     icon: ImageVector
 ) {
-    var newTitle by remember { mutableStateOf(instruction) }
+    var newInstruction by remember { mutableStateOf(instruction) }
 
     AlertDialog(
         icon = {
@@ -34,8 +34,8 @@ fun UpdateInstructionDialog(
         },
         text = {
             OutlinedTextField(
-                value = newTitle,
-                onValueChange = { newTitle = it },
+                value = newInstruction,
+                onValueChange = { newInstruction = it },
                 label = { Text(text = "New Title") })
         },
         onDismissRequest = {
@@ -44,9 +44,9 @@ fun UpdateInstructionDialog(
         confirmButton = {
             TextButton(
                 onClick = {
-                    onConfirmation(newTitle)
+                    onConfirmation(newInstruction)
                 },
-                enabled = (newTitle != instruction)
+                enabled = (newInstruction != instruction)
             ) {
                 Text("Confirm", color = MaterialTheme.colorScheme.onBackground)
             }
@@ -63,7 +63,7 @@ fun UpdateInstructionDialog(
                 TextButton(
                     onClick = onDelete
                 ) {
-                    Text("Delete", color = MaterialTheme.colorScheme.onBackground)
+                    Text("Delete", color = MaterialTheme.colorScheme.error)
                 }
             }
         }

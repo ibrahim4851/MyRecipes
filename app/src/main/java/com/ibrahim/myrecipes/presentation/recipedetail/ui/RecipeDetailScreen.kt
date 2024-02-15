@@ -68,6 +68,7 @@ import com.ibrahim.myrecipes.data.converter.minutesToHourMinuteString
 import com.ibrahim.myrecipes.data.enums.getLabel
 import com.ibrahim.myrecipes.domain.model.Recipe
 import com.ibrahim.myrecipes.domain.repository.Ingredients
+import com.ibrahim.myrecipes.presentation.recipedetail.ui.updatedialogs.AddInstructionDialog
 import com.ibrahim.myrecipes.presentation.recipedetail.ui.updatedialogs.UpdateCategoryDialog
 import com.ibrahim.myrecipes.presentation.recipedetail.ui.updatedialogs.UpdateIngredientDialog
 import com.ibrahim.myrecipes.presentation.recipedetail.ui.updatedialogs.UpdateInstructionDialog
@@ -157,6 +158,7 @@ private fun Body(
     val currentLanguage = getLocale().language
     val emojiMap = if (currentLanguage == "tr") emojiMapTurkish else emojiMapEnglish
     val isTurkish = currentLanguage == "tr"
+    var showAddInstructionDialog by remember { mutableStateOf(false) }
 
     Column {
         Spacer(
@@ -252,16 +254,32 @@ private fun Body(
                             )
                         }
 
+                        if (showAddInstructionDialog) {
+                            AddInstructionDialog(
+                                onDismissRequest = { showAddInstructionDialog = false },
+                                onConfirmation = { newInstruction ->
+                                    viewModel.onEvent(RecipeDetailEvent.AddInstructionEvent(newInstruction))
+                                    showAddInstructionDialog = false
+                                },
+                                dialogTitle = "Add New Instruction",
+                                icon = Icons.Filled.Edit
+                            )
+                        }
+
                     }
 
                     Spacer(Modifier.height(20.dp))
                     Divider()
                     Spacer(Modifier.height(20.dp))
                     Text(
-                        text = stringResource(id = R.string.instructions),
+                        text = stringResource(id = R.string.instructions) + "(+)",
                         fontWeight = FontWeight.Bold,
                         style = Typography.headlineMedium,
-                        modifier = HzPadding
+                        modifier = HzPadding.clickable(
+                            enabled = true,
+                            onClick = {
+                                showAddInstructionDialog = !showAddInstructionDialog
+                            })
                     )
 
                     Spacer(Modifier.size(8.dp))
