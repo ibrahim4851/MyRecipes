@@ -56,6 +56,10 @@ class RecipeDetailViewModel @Inject constructor(
         _state.value = _state.value.copy(recipe = newState)
     }
 
+    private fun deleteIngredient(ingredientId: Long) = viewModelScope.launch {
+        repository.deleteIngredient(ingredientId)
+    }
+
     fun onEvent(event: RecipeDetailEvent) {
         when(event) {
 
@@ -69,6 +73,10 @@ class RecipeDetailViewModel @Inject constructor(
 
             is RecipeDetailEvent.UpdateFoodCategoryEvent -> {
                 updateRecipeCategory(newCategory = event.foodCategory)
+            }
+
+            is RecipeDetailEvent.DeleteIngredientEvent -> {
+                deleteIngredient(event.ingredientId)
             }
         }
     }
