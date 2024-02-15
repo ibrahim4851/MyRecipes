@@ -11,4 +11,6 @@ sealed class RecipeDetailEvent {
 
     data class  UpdateFoodCategoryEvent(val foodCategory: FoodCategory): RecipeDetailEvent()
 
+    data class  DeleteIngredientEvent(val ingredientId: Long): RecipeDetailEvent()
+
 }
