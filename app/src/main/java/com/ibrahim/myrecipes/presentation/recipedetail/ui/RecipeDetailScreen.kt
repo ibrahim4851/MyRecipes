@@ -68,12 +68,13 @@ import com.ibrahim.myrecipes.data.converter.minutesToHourMinuteString
 import com.ibrahim.myrecipes.data.enums.getLabel
 import com.ibrahim.myrecipes.domain.model.Recipe
 import com.ibrahim.myrecipes.domain.repository.Ingredients
-import com.ibrahim.myrecipes.presentation.recipedetail.ui.updatedialogs.AddIngredientDialog
-import com.ibrahim.myrecipes.presentation.recipedetail.ui.updatedialogs.AddInstructionDialog
-import com.ibrahim.myrecipes.presentation.recipedetail.ui.updatedialogs.UpdateCategoryDialog
-import com.ibrahim.myrecipes.presentation.recipedetail.ui.updatedialogs.UpdateIngredientDialog
-import com.ibrahim.myrecipes.presentation.recipedetail.ui.updatedialogs.UpdateInstructionDialog
-import com.ibrahim.myrecipes.presentation.recipedetail.ui.updatedialogs.UpdateTitleDialog
+import com.ibrahim.myrecipes.presentation.recipedetail.ui.updatedialog.AddIngredientDialog
+import com.ibrahim.myrecipes.presentation.recipedetail.ui.updatedialog.AddInstructionDialog
+import com.ibrahim.myrecipes.presentation.recipedetail.ui.updatedialog.UpdateCategoryDialog
+import com.ibrahim.myrecipes.presentation.recipedetail.ui.updatedialog.UpdateIngredientDialog
+import com.ibrahim.myrecipes.presentation.recipedetail.ui.updatedialog.UpdateInstructionDialog
+import com.ibrahim.myrecipes.presentation.recipedetail.ui.updatedialog.UpdateServingAndTimeDialog
+import com.ibrahim.myrecipes.presentation.recipedetail.ui.updatedialog.UpdateTitleDialog
 import com.ibrahim.myrecipes.presentation.recipedetail.viewmodel.RecipeDetailEvent
 import com.ibrahim.myrecipes.presentation.recipedetail.viewmodel.RecipeDetailViewModel
 import com.ibrahim.myrecipes.presentation.ui.theme.Typography
@@ -241,7 +242,11 @@ private fun Body(
                             AddIngredientDialog(
                                 onDismissRequest = { showAddIngredientDialog = false },
                                 onConfirmation = { newIngredient ->
-                                    viewModel.onEvent(RecipeDetailEvent.AddIngredientEvent(newIngredient))
+                                    viewModel.onEvent(
+                                        RecipeDetailEvent.AddIngredientEvent(
+                                            newIngredient
+                                        )
+                                    )
                                     showAddIngredientDialog = false
                                 },
                                 dialogTitle = "Add New Ingredient",
@@ -372,6 +377,7 @@ private fun Title(
     val minOffset = with(LocalDensity.current) { MinTitleOffset.toPx() }
     var showUpdateTitleDialog by remember { mutableStateOf(false) }
     var showUpdateCategoryDialog by remember { mutableStateOf(false) }
+    var showUpdateTimeAndServingDialog by remember { mutableStateOf(false) }
 
     Column(
         verticalArrangement = Arrangement.Bottom,
@@ -417,6 +423,20 @@ private fun Title(
             )
         }
 
+        if (showUpdateTimeAndServingDialog) {
+            UpdateServingAndTimeDialog(
+                onDismissRequest = { showUpdateTimeAndServingDialog = false },
+                onConfirmation = { updatedServings, updatedTime ->
+                    viewModel.onEvent(RecipeDetailEvent.UpdateServingsAndTimeEvent(updatedServings, updatedTime))
+                    showUpdateTimeAndServingDialog = false
+                },
+                dialogTitle = "Update Time & Servings",
+                recipeTime = recipe.recipeTime,
+                recipeServings = recipe.recipeServings,
+                icon = Icons.Filled.Edit
+            )
+        }
+
         Text(
             text = recipe.recipeTitle,
             style = MaterialTheme.typography.headlineLarge,
@@ -437,7 +457,12 @@ private fun Title(
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.onBackground,
             fontSize = 20.sp,
-            modifier = HzPadding
+            modifier = HzPadding.clickable(
+                enabled = true,
+                onClick = {
+                    showUpdateTimeAndServingDialog = !showUpdateTimeAndServingDialog
+                }
+            )
         )
 
         Spacer(Modifier.height(4.dp))
