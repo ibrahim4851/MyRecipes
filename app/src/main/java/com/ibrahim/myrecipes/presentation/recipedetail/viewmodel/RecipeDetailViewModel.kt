@@ -47,6 +47,7 @@ class RecipeDetailViewModel @Inject constructor(
 
     private fun updateIngredient(ingredient: Ingredient) = viewModelScope.launch {
         repository.updateIngredient(ingredient)
+        getRecipeWithIngredients(_state.value.recipe.recipeId.toInt())
     }
 
     private fun updateRecipeCategory(newCategory: FoodCategory) = viewModelScope.launch {
@@ -71,5 +72,4 @@ class RecipeDetailViewModel @Inject constructor(
             }
         }
     }
-
 }
