@@ -9,8 +9,14 @@ sealed class RecipeDetailEvent {
 
     data class UpdateIngredientEvent(val ingredient: Ingredient): RecipeDetailEvent()
 
-    data class  UpdateFoodCategoryEvent(val foodCategory: FoodCategory): RecipeDetailEvent()
+    data class UpdateFoodCategoryEvent(val foodCategory: FoodCategory): RecipeDetailEvent()
 
-    data class  DeleteIngredientEvent(val ingredientId: Long): RecipeDetailEvent()
+    data class DeleteIngredientEvent(val ingredientId: Long): RecipeDetailEvent()
+
+    data class DeleteInstructionEvent(val position: Int): RecipeDetailEvent()
+
+    data class UpdateInstructionEvent(val newInstruction: String, val position: Int): RecipeDetailEvent()
+
+    data class AddInstructionEvent(val newInstruction: String): RecipeDetailEvent()
 
 }
