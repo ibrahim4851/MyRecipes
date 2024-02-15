@@ -1,5 +1,6 @@
 package com.ibrahim.myrecipes.presentation.recipedetail.viewmodel
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
@@ -61,6 +62,47 @@ class RecipeDetailViewModel @Inject constructor(
         getRecipeWithIngredients(_state.value.recipe.recipeId.toInt())
     }
 
+    private fun deleteInstruction(position: Int) = viewModelScope.launch {
+        if (position in _state.value.recipe.recipeInstructions.indices) {
+            val updatedInstructions = _state.value.recipe.recipeInstructions.toMutableList().apply {
+                removeAt(position)
+            }
+            val updatedRecipe = _state.value.recipe.copy(recipeInstructions = updatedInstructions)
+            repository.updateRecipe(updatedRecipe)
+            getRecipeWithIngredients(_state.value.recipe.recipeId.toInt())
+        } else {
+            Log.e("DeleteInstruction", "Invalid position: $position for instruction list")
+        }
+    }
+
+    private fun addInstruction(newInstruction: String) = viewModelScope.launch {
+        if (newInstruction.isNotBlank()) {
+            val updatedInstructions = _state.value.recipe.recipeInstructions.toMutableList().apply {
+                add(newInstruction)
+            }
+            val updatedRecipe = _state.value.recipe.copy(recipeInstructions = updatedInstructions)
+            repository.updateRecipe(updatedRecipe)
+            getRecipeWithIngredients(_state.value.recipe.recipeId.toInt())
+        } else {
+            Log.e("AddInstruction", "Attempted to add an empty instruction")
+        }
+    }
+
+
+    private fun updateInstruction(newInstruction: String, position: Int) = viewModelScope.launch {
+        val currentInstructions = _state.value.recipe.recipeInstructions.toMutableList()
+
+        if (position in currentInstructions.indices) {
+            currentInstructions[position] = newInstruction
+            val updatedRecipe = _state.value.recipe.copy(recipeInstructions = currentInstructions)
+            repository.updateRecipe(updatedRecipe)
+            getRecipeWithIngredients(_state.value.recipe.recipeId.toInt())
+        } else {
+            Log.e("UpdateInstruction", "Invalid position: $position for instruction list")
+        }
+    }
+
+
     fun onEvent(event: RecipeDetailEvent) {
         when(event) {
 
@@ -78,6 +120,18 @@ class RecipeDetailViewModel @Inject constructor(
 
             is RecipeDetailEvent.DeleteIngredientEvent -> {
                 deleteIngredient(event.ingredientId)
+            }
+
+            is RecipeDetailEvent.DeleteInstructionEvent -> {
+                deleteInstruction(event.position)
+            }
+
+            is RecipeDetailEvent.UpdateInstructionEvent -> {
+                updateInstruction(event.newInstruction, event.position)
+            }
+
+            is RecipeDetailEvent.AddInstructionEvent -> {
+                addInstruction(event.newInstruction)
             }
         }
     }

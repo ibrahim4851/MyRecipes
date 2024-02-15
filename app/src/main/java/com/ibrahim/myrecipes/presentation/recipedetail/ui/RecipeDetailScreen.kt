@@ -70,6 +70,7 @@ import com.ibrahim.myrecipes.domain.model.Recipe
 import com.ibrahim.myrecipes.domain.repository.Ingredients
 import com.ibrahim.myrecipes.presentation.recipedetail.ui.updatedialogs.UpdateCategoryDialog
 import com.ibrahim.myrecipes.presentation.recipedetail.ui.updatedialogs.UpdateIngredientDialog
+import com.ibrahim.myrecipes.presentation.recipedetail.ui.updatedialogs.UpdateInstructionDialog
 import com.ibrahim.myrecipes.presentation.recipedetail.ui.updatedialogs.UpdateTitleDialog
 import com.ibrahim.myrecipes.presentation.recipedetail.viewmodel.RecipeDetailEvent
 import com.ibrahim.myrecipes.presentation.recipedetail.viewmodel.RecipeDetailViewModel
@@ -266,15 +267,47 @@ private fun Body(
                     Spacer(Modifier.size(8.dp))
                     repeat(recipe.recipeInstructions.size) {
                         val instruction = recipe.recipeInstructions[it]
-                        Row(modifier = HzPadding) {
-                            Text(
-                                text = instruction,
-                                style = Typography.titleMedium.copy(
-                                    fontSize = 19.sp,
-                                    fontWeight = FontWeight.Light
-                                )
+                        val position = it
+                        var showUpdateInstructionDialog by remember { mutableStateOf(false) }
+                        Text(
+                            text = instruction,
+                            HzPadding.clickable(
+                                enabled = true,
+                                onClick = {
+                                    showUpdateInstructionDialog = !showUpdateInstructionDialog
+                                }),
+                            style = Typography.titleMedium.copy(
+                                fontSize = 19.sp,
+                                fontWeight = FontWeight.Light
+                            )
+                        )
+
+
+                        if (showUpdateInstructionDialog) {
+                            UpdateInstructionDialog(
+                                onDismissRequest = { showUpdateInstructionDialog = false },
+                                onConfirmation = { newInstruction ->
+                                    viewModel.onEvent(
+                                        RecipeDetailEvent.UpdateInstructionEvent(
+                                            newInstruction,
+                                            position
+                                        )
+                                    )
+                                    showUpdateInstructionDialog = false
+                                },
+                                dialogTitle = "Update the Instruction",
+                                instruction = instruction,
+                                onDelete = {
+                                    viewModel.onEvent(
+                                        RecipeDetailEvent.DeleteInstructionEvent(
+                                            position
+                                        )
+                                    )
+                                },
+                                icon = Icons.Filled.Edit
                             )
                         }
+
                         Spacer(Modifier.size(8.dp))
                         Spacer(Modifier.size(8.dp))
                     }
@@ -356,8 +389,8 @@ private fun Title(
         )
         Spacer(Modifier.size(8.dp))
         Text(
-            text = recipe.recipeTime.minutesToHourMinuteString(LocalContext.current) + " | " + ingredients.size + " " + stringResource(
-                id = R.string.ingredients_count
+            text = recipe.recipeTime.minutesToHourMinuteString(LocalContext.current) + " | " + recipe.recipeServings + " " + stringResource(
+                id = R.string.servings
             ),
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.onBackground,
