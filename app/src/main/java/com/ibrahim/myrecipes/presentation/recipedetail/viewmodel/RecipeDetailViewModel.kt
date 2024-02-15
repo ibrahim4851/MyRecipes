@@ -108,6 +108,12 @@ class RecipeDetailViewModel @Inject constructor(
         getRecipeWithIngredients(_state.value.recipe.recipeId.toInt())
     }
 
+    private fun updateRecipeServingsAndTime(updatedServings: Int, updatedTime: Int) = viewModelScope.launch {
+        val newState = _state.value.recipe.copy(recipeServings = updatedServings, recipeTime = updatedTime)
+        repository.updateRecipe(newState)
+        _state.value = _state.value.copy(recipe = newState)
+    }
+
     fun onEvent(event: RecipeDetailEvent) {
         when(event) {
 
@@ -141,6 +147,10 @@ class RecipeDetailViewModel @Inject constructor(
 
             is RecipeDetailEvent.AddIngredientEvent -> {
                 addIngredient(event.newIngredient)
+            }
+
+            is RecipeDetailEvent.UpdateServingsAndTimeEvent -> {
+                updateRecipeServingsAndTime(event.updatedServings, event.updatedTime)
             }
         }
     }
