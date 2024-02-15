@@ -229,6 +229,7 @@ private fun Body(
                                 onConfirmation = { newIngredient ->
                                     viewModel.onEvent(RecipeDetailEvent.UpdateIngredientEvent(newIngredient))
                                     showUpdateIngredientDialog = false },
+                                onDelete = {  },
                                 dialogTitle = "Update the Ingredient",
                                 initialIngredient = ingredient,
                                 icon = Icons.Filled.Edit

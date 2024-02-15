@@ -35,6 +35,7 @@ fun UpdateIngredientDialog(
     onDismissRequest: () -> Unit,
     onConfirmation: (Ingredient) -> Unit,
     dialogTitle: String,
+    onDelete: () -> Unit,
     initialIngredient: Ingredient,
     icon: ImageVector
 ) {
@@ -137,6 +138,9 @@ fun UpdateIngredientDialog(
         dismissButton = {
             TextButton(onClick = onDismissRequest) {
                 Text("Dismiss", color = MaterialTheme.colorScheme.onBackground)
+            }
+            TextButton(onClick = onDelete) {
+                Text(text = "Delete Ingredient", color = MaterialTheme.colorScheme.error)
             }
         }
     )
