@@ -1,4 +1,4 @@
-package com.ibrahim.myrecipes.presentation.recipedetail.ui.updatedialogs
+package com.ibrahim.myrecipes.presentation.recipedetail.ui.updatedialog
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material3.AlertDialog
