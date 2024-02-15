@@ -26,7 +26,7 @@ interface RecipeRepository {
 
     suspend fun deleteRecipe(recipeId: Long)
 
-    suspend fun deleteIngredient(ingredient: Ingredient)
+    suspend fun deleteIngredient(ingredientId: Long)
 
     suspend fun insertAllIngredients(ingredientEntities: List<IngredientEntity>)
 
