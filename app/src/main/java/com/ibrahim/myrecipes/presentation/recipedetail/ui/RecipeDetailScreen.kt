@@ -69,6 +69,7 @@ import com.ibrahim.myrecipes.data.enums.getLabel
 import com.ibrahim.myrecipes.domain.model.Recipe
 import com.ibrahim.myrecipes.domain.repository.Ingredients
 import com.ibrahim.myrecipes.presentation.recipedetail.ui.updatedialogs.UpdateCategoryDialog
+import com.ibrahim.myrecipes.presentation.recipedetail.ui.updatedialogs.UpdateIngredientDialog
 import com.ibrahim.myrecipes.presentation.recipedetail.ui.updatedialogs.UpdateTitleDialog
 import com.ibrahim.myrecipes.presentation.recipedetail.viewmodel.RecipeDetailEvent
 import com.ibrahim.myrecipes.presentation.recipedetail.viewmodel.RecipeDetailViewModel
@@ -103,7 +104,7 @@ fun RecipeDetail(
     Box(Modifier.fillMaxSize()) {
         val scroll = rememberScrollState(0)
         Header()
-        Body(recipe, ingredients, scroll)
+        Body(recipe, ingredients, scroll, viewModel)
         Title(recipe, { scroll.value }, ingredients = ingredients, viewModel)
         Image(recipe.recipePhotoUri!!) { scroll.value }
         BackButton {
@@ -149,11 +150,13 @@ private fun BackButton(upPress: () -> Unit) {
 private fun Body(
     recipe: Recipe,
     ingredients: Ingredients,
-    scroll: ScrollState
+    scroll: ScrollState,
+    viewModel: RecipeDetailViewModel
 ) {
     val currentLanguage = getLocale().language
     val emojiMap = if (currentLanguage == "tr") emojiMapTurkish else emojiMapEnglish
     val isTurkish = currentLanguage == "tr"
+
     Column {
         Spacer(
             modifier = Modifier
@@ -208,13 +211,30 @@ private fun Body(
                             }
                         }
 
+                        var showUpdateIngredientDialog by remember { mutableStateOf(false) }
+
                         Row(modifier = Modifier.fillMaxWidth()) {
                             Text(
                                 text = ingredientText,
                                 style = Typography.titleLarge,
-                                modifier = HzPadding.padding(vertical = 8.dp)
+                                modifier = HzPadding.padding(vertical = 8.dp).clickable(
+                                    enabled = true,
+                                    onClick = { showUpdateIngredientDialog = !showUpdateIngredientDialog })
                             )
                         }
+
+                        if (showUpdateIngredientDialog){
+                            UpdateIngredientDialog(
+                                onDismissRequest = { showUpdateIngredientDialog = false },
+                                onConfirmation = { newIngredient ->
+                                    viewModel.onEvent(RecipeDetailEvent.UpdateIngredientEvent(newIngredient))
+                                    showUpdateIngredientDialog = false },
+                                dialogTitle = "Update the Ingredient",
+                                initialIngredient = ingredient,
+                                icon = Icons.Filled.Edit
+                            )
+                        }
+
                     }
 
                     Spacer(Modifier.height(20.dp))
@@ -318,7 +338,7 @@ private fun Title(
                     enabled = true,
                     onClick = { showUpdateTitleDialog = !showUpdateTitleDialog })
         )
-
+        Spacer(Modifier.size(8.dp))
         Text(
             text = recipe.recipeTime.minutesToHourMinuteString(LocalContext.current) + " | " + ingredients.size + " " + stringResource(
                 id = R.string.ingredients_count
