@@ -103,6 +103,11 @@ class RecipeDetailViewModel @Inject constructor(
     }
 
 
+    private fun addIngredient(newIngredient: Ingredient) = viewModelScope.launch {
+        repository.insertIngredients(listOf(newIngredient))
+        getRecipeWithIngredients(_state.value.recipe.recipeId.toInt())
+    }
+
     fun onEvent(event: RecipeDetailEvent) {
         when(event) {
 
@@ -132,6 +137,10 @@ class RecipeDetailViewModel @Inject constructor(
 
             is RecipeDetailEvent.AddInstructionEvent -> {
                 addInstruction(event.newInstruction)
+            }
+
+            is RecipeDetailEvent.AddIngredientEvent -> {
+                addIngredient(event.newIngredient)
             }
         }
     }

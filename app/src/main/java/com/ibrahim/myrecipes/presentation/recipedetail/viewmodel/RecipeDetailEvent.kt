@@ -19,4 +19,6 @@ sealed class RecipeDetailEvent {
 
     data class AddInstructionEvent(val newInstruction: String): RecipeDetailEvent()
 
+    data class AddIngredientEvent(val newIngredient: Ingredient): RecipeDetailEvent()
+
 }

@@ -68,6 +68,7 @@ import com.ibrahim.myrecipes.data.converter.minutesToHourMinuteString
 import com.ibrahim.myrecipes.data.enums.getLabel
 import com.ibrahim.myrecipes.domain.model.Recipe
 import com.ibrahim.myrecipes.domain.repository.Ingredients
+import com.ibrahim.myrecipes.presentation.recipedetail.ui.updatedialogs.AddIngredientDialog
 import com.ibrahim.myrecipes.presentation.recipedetail.ui.updatedialogs.AddInstructionDialog
 import com.ibrahim.myrecipes.presentation.recipedetail.ui.updatedialogs.UpdateCategoryDialog
 import com.ibrahim.myrecipes.presentation.recipedetail.ui.updatedialogs.UpdateIngredientDialog
@@ -159,6 +160,7 @@ private fun Body(
     val emojiMap = if (currentLanguage == "tr") emojiMapTurkish else emojiMapEnglish
     val isTurkish = currentLanguage == "tr"
     var showAddInstructionDialog by remember { mutableStateOf(false) }
+    var showAddIngredientDialog by remember { mutableStateOf(false) }
 
     Column {
         Spacer(
@@ -184,6 +186,11 @@ private fun Body(
                         style = Typography.headlineMedium,
                         fontWeight = FontWeight.Bold,
                         modifier = HzPadding
+                            .clickable(
+                                enabled = true,
+                                onClick = {
+                                    showAddIngredientDialog = !showAddIngredientDialog
+                                })
                     )
                     Spacer(Modifier.size(8.dp))
                     repeat(ingredients.size) {
@@ -230,6 +237,19 @@ private fun Body(
                             )
                         }
 
+                        if (showAddIngredientDialog) {
+                            AddIngredientDialog(
+                                onDismissRequest = { showAddIngredientDialog = false },
+                                onConfirmation = { newIngredient ->
+                                    viewModel.onEvent(RecipeDetailEvent.AddIngredientEvent(newIngredient))
+                                    showAddIngredientDialog = false
+                                },
+                                dialogTitle = "Add New Ingredient",
+                                recipeId = recipe.recipeId,
+                                icon = Icons.Filled.Edit
+                            )
+                        }
+
                         if (showUpdateIngredientDialog) {
                             UpdateIngredientDialog(
                                 onDismissRequest = { showUpdateIngredientDialog = false },
@@ -258,7 +278,11 @@ private fun Body(
                             AddInstructionDialog(
                                 onDismissRequest = { showAddInstructionDialog = false },
                                 onConfirmation = { newInstruction ->
-                                    viewModel.onEvent(RecipeDetailEvent.AddInstructionEvent(newInstruction))
+                                    viewModel.onEvent(
+                                        RecipeDetailEvent.AddInstructionEvent(
+                                            newInstruction
+                                        )
+                                    )
                                     showAddInstructionDialog = false
                                 },
                                 dialogTitle = "Add New Instruction",
