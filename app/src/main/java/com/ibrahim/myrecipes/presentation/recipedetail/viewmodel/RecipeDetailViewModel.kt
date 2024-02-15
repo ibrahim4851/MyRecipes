@@ -58,6 +58,7 @@ class RecipeDetailViewModel @Inject constructor(
 
     private fun deleteIngredient(ingredientId: Long) = viewModelScope.launch {
         repository.deleteIngredient(ingredientId)
+        getRecipeWithIngredients(_state.value.recipe.recipeId.toInt())
     }
 
     fun onEvent(event: RecipeDetailEvent) {

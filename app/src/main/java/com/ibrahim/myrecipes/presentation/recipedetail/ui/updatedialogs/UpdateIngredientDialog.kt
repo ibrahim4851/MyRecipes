@@ -136,11 +136,13 @@ fun UpdateIngredientDialog(
             }
         },
         dismissButton = {
-            TextButton(onClick = onDismissRequest) {
-                Text("Dismiss", color = MaterialTheme.colorScheme.onBackground)
-            }
-            TextButton(onClick = onDelete) {
-                Text(text = "Delete Ingredient", color = MaterialTheme.colorScheme.error)
+            Row {
+                TextButton(onClick = onDismissRequest) {
+                    Text("Dismiss", color = MaterialTheme.colorScheme.onBackground)
+                }
+                TextButton(onClick = onDelete) {
+                    Text(text = "Delete", color = MaterialTheme.colorScheme.error)
+                }
             }
         }
     )

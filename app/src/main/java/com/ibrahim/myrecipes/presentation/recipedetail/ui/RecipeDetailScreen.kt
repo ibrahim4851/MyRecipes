@@ -217,19 +217,34 @@ private fun Body(
                             Text(
                                 text = ingredientText,
                                 style = Typography.titleLarge,
-                                modifier = HzPadding.padding(vertical = 8.dp).clickable(
-                                    enabled = true,
-                                    onClick = { showUpdateIngredientDialog = !showUpdateIngredientDialog })
+                                modifier = HzPadding
+                                    .padding(vertical = 8.dp)
+                                    .clickable(
+                                        enabled = true,
+                                        onClick = {
+                                            showUpdateIngredientDialog = !showUpdateIngredientDialog
+                                        })
                             )
                         }
 
-                        if (showUpdateIngredientDialog){
+                        if (showUpdateIngredientDialog) {
                             UpdateIngredientDialog(
                                 onDismissRequest = { showUpdateIngredientDialog = false },
                                 onConfirmation = { newIngredient ->
-                                    viewModel.onEvent(RecipeDetailEvent.UpdateIngredientEvent(newIngredient))
-                                    showUpdateIngredientDialog = false },
-                                onDelete = {  },
+                                    viewModel.onEvent(
+                                        RecipeDetailEvent.UpdateIngredientEvent(
+                                            newIngredient
+                                        )
+                                    )
+                                    showUpdateIngredientDialog = false
+                                },
+                                onDelete = {
+                                    viewModel.onEvent(
+                                        RecipeDetailEvent.DeleteIngredientEvent(
+                                            ingredient.ingredientId
+                                        )
+                                    )
+                                },
                                 dialogTitle = "Update the Ingredient",
                                 initialIngredient = ingredient,
                                 icon = Icons.Filled.Edit
