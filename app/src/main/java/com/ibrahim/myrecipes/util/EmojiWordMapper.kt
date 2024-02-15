@@ -120,6 +120,7 @@ val emojiMapTurkish = mapOf(
     "fesleğen" to "\uD83C\uDF31",
     "hardal" to "⚱\uFE0F",
     "tortilla" to "🫓",
+    "lavaş" to "🫓",
     "konserve" to "🥫",
     "ramen" to "🍜",
     "karides" to "🍤",
