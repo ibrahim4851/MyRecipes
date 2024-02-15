@@ -18,7 +18,7 @@
     <string name="food_category_barbecue">Barbecue</string>
     <string name="food_category_other">Other</string>
     <string name="recipe_recipe_servings">" sv."</string>
-    <string name="time_converter_hours">" s"</string>
+    <string name="time_converter_hours">" h"</string>
     <string name="time_converter_minutes">" min"</string>
     <string name="cancel">Cancel</string>
     <string name="confirm">Confirm</string>
