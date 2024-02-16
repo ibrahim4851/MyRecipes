@@ -24,7 +24,7 @@
     <string name="time_converter_minutes">" dk"</string>
     <string name="cancel">İptal</string>
     <string name="confirm">Onayla</string>
-    <string name="dismiss">Kapat</string>
+    <string name="dismiss">Vazgeç</string>
     <string name="next">Devam</string>
     <string name="let_s_create_your_recipe">Hadi Tarifinizi Oluşturalım</string>
     <string name="keep_the_title_short_and_precise">Kısa ve Net Bir Başlık Belirleyin</string>
@@ -73,5 +73,16 @@
     <string name="instructions">Nasıl Yapılır?</string>
     <string name="search_for_your_food">İstediğiniz Yemeği Aratın..</string>
     <string name="ingredients_count">Malzeme</string>
+    <string name="new_instruction">Yeni Talimat</string>
+    <string name="delete">Sil</string>
+    <string name="new_servings">Porsiyon</string>
+    <string name="new_title">Yeni Başlık</string>
+    <string name="add_new_ingredient">Yeni Malzeme Ekle</string>
+    <string name="update_the_ingredient">Malzemeyi Güncelle</string>
+    <string name="add_new_instruction">Yeni Talimat Ekle</string>
+    <string name="update_the_instruction">Talimatı Güncelle</string>
+    <string name="update_recipe_title">Tarif Başlığını Güncelle</string>
+    <string name="update_recipe_category">Tarif Kategorisini Güncelle</string>
+    <string name="update_time_servings">Süreyi ve Porsiyonu Güncelle</string>
 
 </resources>

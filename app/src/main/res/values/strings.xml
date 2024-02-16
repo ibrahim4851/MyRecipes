@@ -51,7 +51,7 @@
     <string name="ingredient_quantity_unit_gallon">Gallon</string>
     <string name="ingredient_quantity_unit_quart">Quart</string>
     <string name="ingredient_quantity_unit_pint">Pint</string>
-    <string name="e_g_flour">e.g. Flour</string>
+    <string name="e_g_flour">e.g. Egg</string>
     <string name="here_s_your_instructions">Here\'s Your Instructions</string>
     <string name="define_the_steps_of_creating_this_masterpiece">Define the Steps of Creating This Masterpiece</string>
     <string name="pick_your_image">Pick Your Image</string>
@@ -72,4 +72,15 @@
     <string name="instructions">Instructions</string>
     <string name="search_for_your_food">Search for your food..</string>
     <string name="ingredients_count">Ingredients</string>
+    <string name="new_instruction">New Instruction</string>
+    <string name="delete">Delete</string>
+    <string name="new_servings">Servings</string>
+    <string name="new_title">New Title</string>
+    <string name="add_new_ingredient">Add New Ingredient</string>
+    <string name="update_the_ingredient">Update the Ingredient</string>
+    <string name="add_new_instruction">Add New Instruction</string>
+    <string name="update_the_instruction">Update the Instruction</string>
+    <string name="update_recipe_title">Update Recipe Title</string>
+    <string name="update_recipe_category">Update Recipe Category</string>
+    <string name="update_time_servings"><![CDATA[Update Time & Servings]]></string>
 </resources>
