@@ -128,13 +128,13 @@ fun AddIngredientDialog(
                 enabled = ingredientName.isNotEmpty()
                         && ingredientQuantity.isNotEmpty()
             ) {
-                Text("Confirm", color = MaterialTheme.colorScheme.onBackground)
+                Text(stringResource(id = R.string.confirm), color = MaterialTheme.colorScheme.onBackground)
             }
         },
         dismissButton = {
             Row {
                 TextButton(onClick = onDismissRequest) {
-                    Text("Dismiss", color = MaterialTheme.colorScheme.onBackground)
+                    Text(stringResource(id = R.string.dismiss), color = MaterialTheme.colorScheme.onBackground)
                 }
             }
         }
