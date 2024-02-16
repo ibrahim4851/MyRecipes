@@ -13,6 +13,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
+import com.ibrahim.myrecipes.R
 
 @Composable
 fun UpdateInstructionDialog(
@@ -36,7 +38,7 @@ fun UpdateInstructionDialog(
             OutlinedTextField(
                 value = newInstruction,
                 onValueChange = { newInstruction = it },
-                label = { Text(text = "New Title") })
+                label = { Text(text = stringResource(id = R.string.new_instruction)) })
         },
         onDismissRequest = {
             onDismissRequest()
@@ -48,7 +50,7 @@ fun UpdateInstructionDialog(
                 },
                 enabled = (newInstruction != instruction)
             ) {
-                Text("Confirm", color = MaterialTheme.colorScheme.onBackground)
+                Text(text = stringResource(id = R.string.confirm), color = MaterialTheme.colorScheme.onBackground)
             }
         },
         dismissButton = {
@@ -58,12 +60,12 @@ fun UpdateInstructionDialog(
                         onDismissRequest()
                     }
                 ) {
-                    Text("Dismiss", color = MaterialTheme.colorScheme.onBackground)
+                    Text(text = stringResource(id = R.string.dismiss), color = MaterialTheme.colorScheme.onBackground)
                 }
                 TextButton(
                     onClick = onDelete
                 ) {
-                    Text("Delete", color = MaterialTheme.colorScheme.error)
+                    Text(text = stringResource(id = R.string.delete), color = MaterialTheme.colorScheme.error)
                 }
             }
         }
