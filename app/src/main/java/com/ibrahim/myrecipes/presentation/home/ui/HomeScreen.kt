@@ -1,10 +1,10 @@
 package com.ibrahim.myrecipes.presentation.home.ui
 
+import android.app.Activity
 import android.app.LocaleManager
 import android.content.Context
 import android.os.Build
 import android.os.LocaleList
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.keyframes
 import androidx.compose.foundation.background
@@ -43,7 +43,6 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.core.os.LocaleListCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.ibrahim.myrecipes.R
@@ -91,13 +90,19 @@ fun HomeScreen(
                                 text = {
                                     Text("Türkçe")
                                 },
-                                onClick = { changeLocale(context, "tr") },
+                                onClick = {
+                                    changeLocale(context, "tr")
+                                    expandLanguageDropdown = false
+                                },
                             )
                             DropdownMenuItem(
                                 text = {
                                     Text("English")
                                 },
-                                onClick = { changeLocale(context, "en") },
+                                onClick = {
+                                    changeLocale(context, "en")
+                                    expandLanguageDropdown = false
+                                },
                             )
                         }
                         IconButton(onClick = { expandLanguageDropdown = !expandLanguageDropdown }) {
@@ -186,6 +191,14 @@ fun changeLocale(context: Context, localeString: String) {
         context.getSystemService(LocaleManager::class.java)
             .applicationLocales = LocaleList.forLanguageTags(localeString)
     } else {
-        AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(localeString))
+        val localeList = LocaleList.forLanguageTags(localeString)
+        val resources = context.resources
+        val config = resources.configuration
+        config.setLocales(localeList)
+        resources.updateConfiguration(config, resources.displayMetrics)
+
+        if (context is Activity) {
+            context.recreate()
+        }
     }
 }
