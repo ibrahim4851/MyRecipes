@@ -40,7 +40,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -85,43 +84,39 @@ fun RecipeTitle(
                         color = MaterialTheme.colorScheme.surface,
                         shape = RoundedCornerShape(size = 12.dp)
                     ),
-                onDismissRequest = { showTimeDialog = false }
-            ) {
-                Column(
-                    modifier = Modifier
-                        .background(
-                            color = Color.LightGray.copy(alpha = 0.3f)
-                        )
-                        .padding(top = 28.dp, start = 20.dp, end = 20.dp, bottom = 12.dp),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-
+                onDismissRequest = { showTimeDialog = false },
+                title = {
+                    Text(text = "Select Time")
+                },
+                text = {
                     TimePicker(state = timePickerState)
-
-                    Row(
-                        modifier = Modifier
-                            .padding(top = 12.dp)
-                            .fillMaxWidth(),
-                        horizontalArrangement = Arrangement.End
+                },
+                confirmButton = {
+                    TextButton(
+                        onClick = {
+                            showTimeDialog = false
+                            selectedHour = timePickerState.hour
+                            selectedMinute = timePickerState.minute
+                        }
                     ) {
-
-                        TextButton(onClick = { showTimeDialog = false }) {
-                            Text(text = stringResource(R.string.dismiss))
-                        }
-
-                        TextButton(
-                            onClick = {
-                                showTimeDialog = false
-                                selectedHour = timePickerState.hour
-                                selectedMinute = timePickerState.minute
-                            }
-                        ) {
-                            Text(text = stringResource(R.string.confirm))
-                        }
+                        Text(
+                            text = stringResource(R.string.confirm),
+                            color = MaterialTheme.colorScheme.onBackground
+                        )
+                    }
+                },
+                dismissButton = {
+                    TextButton(
+                        onClick = { showTimeDialog = false }
+                    ) {
+                        Text(
+                            text = stringResource(R.string.dismiss),
+                            color = MaterialTheme.colorScheme.onBackground
+                        )
                     }
                 }
-            }
+            )
+
         }
 
         Scaffold(
