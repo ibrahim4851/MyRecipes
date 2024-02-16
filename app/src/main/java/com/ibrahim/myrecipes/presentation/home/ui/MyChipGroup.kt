@@ -36,9 +36,7 @@ fun MyChipGroup(onChipSelected: (selectedCategories: List<FoodCategory>) -> Unit
             FilterChip(
                 selected = selectedChipState[category] ?: false,
                 onClick = {
-                    // Toggle the selected state for this category
                     selectedChipState[category] = !(selectedChipState[category] ?: false)
-                    // Immediately update the list of selected categories
                     val selectedCategories = selectedChipState.filter { it.value }.keys.toList()
                     onChipSelected(selectedCategories)
                 },

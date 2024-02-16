@@ -32,7 +32,7 @@ class HomeViewModel @Inject constructor(
             val mixedItems = mutableListOf<GridItem>()
             recipes.forEachIndexed { index, recipe ->
                 mixedItems.add(GridItem.RecipeItem(recipe))
-                if ((index + 1) % 5 == 0) {
+                if ((index + 1) % 3 == 0) {
                     mixedItems.add(GridItem.AdItem(UUID.randomUUID()))
                 }
             }
@@ -57,7 +57,7 @@ class HomeViewModel @Inject constructor(
         val mixedItems = mutableListOf<GridItem>()
         recipes.forEachIndexed { index, recipe ->
             mixedItems.add(GridItem.RecipeItem(recipe))
-            if ((index + 1) % 5 == 0) {
+            if ((index + 1) % 3 == 0) {
                 mixedItems.add(GridItem.AdItem(adId = UUID.randomUUID()))
             }
         }
