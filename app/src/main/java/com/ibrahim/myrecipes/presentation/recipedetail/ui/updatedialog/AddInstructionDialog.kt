@@ -13,6 +13,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
+import com.ibrahim.myrecipes.R
 
 @Composable
 fun AddInstructionDialog(
@@ -34,7 +36,7 @@ fun AddInstructionDialog(
             OutlinedTextField(
                 value = instruction,
                 onValueChange = { instruction = it },
-                label = { Text(text = "New Title") })
+                label = { Text(text = stringResource(R.string.new_instruction)) })
         },
         onDismissRequest = {
             onDismissRequest()
