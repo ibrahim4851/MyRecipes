@@ -11,6 +11,8 @@ import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
+import com.ibrahim.myrecipes.R
 import com.ibrahim.myrecipes.data.enums.FoodCategory
 import com.ibrahim.myrecipes.presentation.createrecipe.ui.CategorySelector
 
@@ -48,12 +50,12 @@ fun UpdateCategoryDialog(
                 },
                 enabled = isDifferentFromInitial
             ) {
-                Text("Confirm", color = MaterialTheme.colorScheme.onBackground)
+                Text(text = stringResource(id = R.string.confirm), color = MaterialTheme.colorScheme.onBackground)
             }
         },
         dismissButton = {
             TextButton(onClick = onDismissRequest) {
-                Text("Dismiss", color = MaterialTheme.colorScheme.onBackground)
+                Text(text = stringResource(id = R.string.dismiss), color = MaterialTheme.colorScheme.onBackground)
             }
         }
     )
