@@ -17,6 +17,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
+import com.ibrahim.myrecipes.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -56,7 +58,7 @@ fun UpdateServingAndTimeDialog(
                 OutlinedTextField(
                     value = newRecipeServing,
                     onValueChange = { newRecipeServing = it },
-                    label = { Text(text = "New Servings") }
+                    label = { Text(text = stringResource(R.string.new_servings)) }
                 )
             }
         },
@@ -71,7 +73,7 @@ fun UpdateServingAndTimeDialog(
                     onConfirmation(updatedServings, updatedTimeInMinutes)
                 }
             ) {
-                Text("Confirm", color = MaterialTheme.colorScheme.onBackground)
+                Text(text = stringResource(id = R.string.confirm), color = MaterialTheme.colorScheme.onBackground)
             }
         },
         dismissButton = {
@@ -80,7 +82,7 @@ fun UpdateServingAndTimeDialog(
                     onDismissRequest()
                 }
             ) {
-                Text("Dismiss", color = MaterialTheme.colorScheme.onBackground)
+                Text(text = stringResource(id = R.string.dismiss), color = MaterialTheme.colorScheme.onBackground)
             }
         }
     )
