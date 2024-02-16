@@ -19,7 +19,6 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -44,12 +43,9 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.IntOffset
@@ -249,7 +245,7 @@ private fun Body(
                                     )
                                     showAddIngredientDialog = false
                                 },
-                                dialogTitle = "Add New Ingredient",
+                                dialogTitle = stringResource(R.string.add_new_ingredient),
                                 recipeId = recipe.recipeId,
                                 icon = Icons.Filled.Edit
                             )
@@ -273,7 +269,7 @@ private fun Body(
                                         )
                                     )
                                 },
-                                dialogTitle = "Update the Ingredient",
+                                dialogTitle = stringResource(R.string.update_the_ingredient),
                                 initialIngredient = ingredient,
                                 icon = Icons.Filled.Edit
                             )
@@ -290,7 +286,7 @@ private fun Body(
                                     )
                                     showAddInstructionDialog = false
                                 },
-                                dialogTitle = "Add New Instruction",
+                                dialogTitle = stringResource(R.string.add_new_instruction),
                                 icon = Icons.Filled.Edit
                             )
                         }
@@ -342,7 +338,7 @@ private fun Body(
                                     )
                                     showUpdateInstructionDialog = false
                                 },
-                                dialogTitle = "Update the Instruction",
+                                dialogTitle = stringResource(R.string.update_the_instruction),
                                 instruction = instruction,
                                 onDelete = {
                                     viewModel.onEvent(
@@ -400,7 +396,7 @@ private fun Title(
                     viewModel.onEvent(RecipeDetailEvent.UpdateRecipeTitleEvent(updatedTitle))
                     showUpdateTitleDialog = false
                 },
-                dialogTitle = "Update Recipe Title",
+                dialogTitle = stringResource(R.string.update_recipe_title),
                 recipeTitle = recipe.recipeTitle,
                 icon = Icons.Filled.Edit
             )
@@ -417,7 +413,7 @@ private fun Title(
                     )
                     showUpdateCategoryDialog = false
                 },
-                dialogTitle = "Update Recipe Category",
+                dialogTitle = stringResource(R.string.update_recipe_category),
                 initialCategory = recipe.foodCategory,
                 icon = Icons.Filled.Edit
             )
@@ -430,7 +426,7 @@ private fun Title(
                     viewModel.onEvent(RecipeDetailEvent.UpdateServingsAndTimeEvent(updatedServings, updatedTime))
                     showUpdateTimeAndServingDialog = false
                 },
-                dialogTitle = "Update Time & Servings",
+                dialogTitle = stringResource(R.string.update_time_servings),
                 recipeTime = recipe.recipeTime,
                 recipeServings = recipe.recipeServings,
                 icon = Icons.Filled.Edit
@@ -539,21 +535,6 @@ private fun CollapsingImageLayout(
             imagePlaceable.placeRelative(imageX, imageY)
         }
     }
-}
-
-@Composable
-private fun ClickableEditText(onClick: () -> Unit) {
-    ClickableText(
-        onClick = {
-            onClick()
-        },
-        text = AnnotatedString("Edit"),
-        style = TextStyle(
-            fontWeight = FontWeight.Light,
-            textDecoration = TextDecoration.Underline,
-            color = MaterialTheme.colorScheme.onBackground
-        )
-    )
 }
 
 @Composable
