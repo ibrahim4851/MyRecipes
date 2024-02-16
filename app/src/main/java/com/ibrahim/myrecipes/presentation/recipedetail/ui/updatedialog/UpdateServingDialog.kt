@@ -9,6 +9,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TimePicker
+import androidx.compose.material3.TimePickerDefaults
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -45,7 +46,13 @@ fun UpdateServingAndTimeDialog(
         },
         text = {
             Column {
-                TimePicker(state = timePickerState)
+                TimePicker(
+                    state = timePickerState,
+                    colors = TimePickerDefaults.colors(
+                        clockDialColor = MaterialTheme.colorScheme.background,
+                        timeSelectorSelectedContainerColor = MaterialTheme.colorScheme.primaryContainer
+                    )
+                )
                 OutlinedTextField(
                     value = newRecipeServing,
                     onValueChange = { newRecipeServing = it },
