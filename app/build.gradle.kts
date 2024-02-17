@@ -125,6 +125,7 @@ dependencies {
     implementation(libs.composeConstraint)
     implementation(libs.admob)
     implementation(libs.viewbinding)
+    implementation(libs.datastore)
 }
 
 kapt {
