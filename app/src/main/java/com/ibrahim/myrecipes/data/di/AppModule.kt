@@ -2,7 +2,9 @@ package com.ibrahim.myrecipes.data.di
 
 import android.app.Application
 import android.content.Context
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.room.Room
+import com.ibrahim.myrecipes.data.PreferencesManager
 import com.ibrahim.myrecipes.data.room.dao.RecipeDao
 import com.ibrahim.myrecipes.data.room.database.RecipeDatabase
 import com.ibrahim.myrecipes.data.room.repository.RecipeRepositoryImpl
@@ -14,6 +16,8 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
+
+val Context.dataStore by preferencesDataStore(name = "settings")
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
@@ -39,5 +43,10 @@ object AppModule {
     @Provides
     @Singleton
     fun provideApplicationContext(application: Application) = application.applicationContext
+
+    @Provides
+    @Singleton
+    fun providePreferencesManager(@ApplicationContext context: Context): PreferencesManager =
+        PreferencesManager(context)
 
 }
