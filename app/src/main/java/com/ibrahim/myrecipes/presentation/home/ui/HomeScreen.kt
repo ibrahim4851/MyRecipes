@@ -20,7 +20,6 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.Settings
-import androidx.compose.material3.Divider
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -32,11 +31,9 @@ import androidx.compose.material3.MediumTopAppBar
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -49,9 +46,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.ibrahim.myrecipes.R
-import com.ibrahim.myrecipes.presentation.navigation.Screen
 import com.ibrahim.myrecipes.presentation.home.viewmodel.HomeScreenEvent
 import com.ibrahim.myrecipes.presentation.home.viewmodel.HomeViewModel
+import com.ibrahim.myrecipes.presentation.navigation.Screen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -64,7 +61,6 @@ fun HomeScreen(
     var expandLanguageDropdown by remember { mutableStateOf(false) }
     var searchQuery by remember { mutableStateOf("") }
     val context = LocalContext.current
-    val isDarkThemeEnabled by viewModel.isDarkThemeEnabled.collectAsState()
 
     Surface(
         modifier = Modifier.fillMaxSize()
@@ -107,13 +103,6 @@ fun HomeScreen(
                                     changeLocale(context, "en")
                                     expandLanguageDropdown = false
                                 },
-                            )
-                            Divider()
-                            Switch(
-                                checked = isDarkThemeEnabled,
-                                onCheckedChange = { isEnabled ->
-                                    viewModel.setDarkThemeEnabled(isEnabled)
-                                }
                             )
                         }
                         IconButton(onClick = { expandLanguageDropdown = !expandLanguageDropdown }) {
