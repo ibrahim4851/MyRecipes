@@ -18,6 +18,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
+@Stable
 private val DarkColorScheme = darkColorScheme(
     primary = Green900,
     secondary = Pistachio,
@@ -38,6 +39,7 @@ private val DarkColorScheme = darkColorScheme(
     surfaceVariant = Green200
 )
 
+@Stable
 private val LightColorScheme = lightColorScheme(
     primary = Green600,
     secondary = Green700,
