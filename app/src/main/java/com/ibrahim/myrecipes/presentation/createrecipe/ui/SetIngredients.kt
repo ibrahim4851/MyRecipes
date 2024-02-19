@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -34,26 +35,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.OffsetMapping
-import androidx.compose.ui.text.input.TransformedText
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.ibrahim.myrecipes.R
-import com.ibrahim.myrecipes.presentation.navigation.Screen
 import com.ibrahim.myrecipes.data.enums.IngredientQuantityUnit
 import com.ibrahim.myrecipes.data.enums.getAllIngredientQuantityUnits
 import com.ibrahim.myrecipes.data.enums.getLabel
 import com.ibrahim.myrecipes.domain.model.Ingredient
 import com.ibrahim.myrecipes.presentation.createrecipe.CreateRecipeEvent
 import com.ibrahim.myrecipes.presentation.createrecipe.RecipeViewModel
+import com.ibrahim.myrecipes.presentation.navigation.Screen
 import com.ibrahim.myrecipes.presentation.ui.theme.Typography
 import com.ibrahim.myrecipes.util.SwipeToDeleteContainer
 import com.ibrahim.myrecipes.util.canGoBack
@@ -203,12 +198,12 @@ fun SetIngredients(
                                 item = ingredients[index],
                                 isDeletable = { index > 0 },
                                 onDelete = { itemToDelete ->
-                                        val updatedIngredients =
-                                            ingredients.filterNot { it.ingredientId == itemToDelete.ingredientId }
-                                        val updatedQuantities = ingredientQuantities.toMutableList()
-                                            .apply { removeAt(index) }
-                                        ingredients = updatedIngredients
-                                        ingredientQuantities = updatedQuantities
+                                    val updatedIngredients =
+                                        ingredients.filterNot { it.ingredientId == itemToDelete.ingredientId }
+                                    val updatedQuantities = ingredientQuantities.toMutableList()
+                                        .apply { removeAt(index) }
+                                    ingredients = updatedIngredients
+                                    ingredientQuantities = updatedQuantities
                                 }
                             ) {
                                 Row {
@@ -295,26 +290,12 @@ fun SetIngredients(
                             }
                         }
                     }
+                    if (ingredients.size == 2) {
+                        Spacer(Modifier.size(4.dp))
+                        Text(text = stringResource(R.string.remove_rows_by_swipe))
+                    }
                 }
             }
         }
     }
 }
-
-fun DecimalInputVisualTransformation(): VisualTransformation {
-    return VisualTransformation { text ->
-        val transformed = AnnotatedString.Builder()
-        var decimalAdded = false
-        text.forEach { char ->
-            if (!decimalAdded && char.isDigit()) {
-                transformed.pushStyle(SpanStyle(color = Color.Transparent))
-                transformed.append(".")
-                transformed.pop()
-                decimalAdded = true
-            }
-            transformed.append(char)
-        }
-        TransformedText(transformed.toAnnotatedString(), OffsetMapping.Identity)
-    }
-}
-

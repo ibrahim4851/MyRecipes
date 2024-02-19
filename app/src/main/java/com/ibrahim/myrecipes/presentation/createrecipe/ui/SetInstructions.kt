@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -35,9 +36,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.ibrahim.myrecipes.R
-import com.ibrahim.myrecipes.presentation.navigation.Screen
 import com.ibrahim.myrecipes.presentation.createrecipe.CreateRecipeEvent
 import com.ibrahim.myrecipes.presentation.createrecipe.RecipeViewModel
+import com.ibrahim.myrecipes.presentation.navigation.Screen
 import com.ibrahim.myrecipes.presentation.ui.theme.Typography
 import com.ibrahim.myrecipes.util.SwipeToDeleteContainer
 import com.ibrahim.myrecipes.util.canGoBack
@@ -131,7 +132,7 @@ fun SetInstructions(
                 IconButton(
                     onClick = {
                         if (instructionsList.last().second.isNotBlank()) {
-                            instructionsList = instructionsList + Pair(nextId++, "")
+                            instructionsList += Pair(nextId++, "")
                         }
                     },
                     enabled = instructionsList.last().second.isNotBlank()
@@ -177,6 +178,10 @@ fun SetInstructions(
                             }
                         }
                     }
+                }
+                if (instructionsList.size == 2) {
+                    Spacer(Modifier.size(4.dp))
+                    Text(text = stringResource(R.string.remove_rows_by_swipe))
                 }
             }
         }
