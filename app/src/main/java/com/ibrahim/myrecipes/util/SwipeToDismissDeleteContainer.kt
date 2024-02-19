@@ -34,7 +34,7 @@ import kotlinx.coroutines.delay
 fun <T> SwipeToDeleteContainer(
     item: T,
     onDelete: (T) -> Unit,
-    isDeletable: (T) -> Boolean, // Added parameter
+    isDeletable: (T) -> Boolean,
     animationDuration: Int = 500,
     content: @Composable (T) -> Unit
 ) {
@@ -43,7 +43,6 @@ fun <T> SwipeToDeleteContainer(
     }
     val state = rememberDismissState(
         confirmValueChange = { value ->
-            // Check if the item is deletable before allowing removal
             if (value == DismissValue.DismissedToStart && isDeletable(item)) {
                 isRemoved = true
                 true
@@ -76,7 +75,6 @@ fun <T> SwipeToDeleteContainer(
             )
         }
     } else {
-        // If not deletable, just display the content without swipe-to-dismiss functionality
         content(item)
     }
 }
@@ -101,7 +99,7 @@ fun DeleteBackground(
         Icon(
             imageVector = Icons.Default.Delete,
             contentDescription = null,
-            tint = Color.White
+            tint = Color.Transparent
         )
     }
 }
