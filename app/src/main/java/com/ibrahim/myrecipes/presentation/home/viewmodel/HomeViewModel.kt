@@ -9,6 +9,9 @@ import com.ibrahim.myrecipes.domain.model.Recipe
 import com.ibrahim.myrecipes.domain.repository.RecipeRepository
 import com.ibrahim.myrecipes.presentation.home.ui.GridItem
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -22,6 +25,9 @@ class HomeViewModel @Inject constructor(
 
     private val _state = mutableStateOf(HomeScreenState())
     val state: State<HomeScreenState> = _state
+
+    private val _uiEffect = MutableSharedFlow<HomeUiEffect>()
+    val uiEffect: SharedFlow<HomeUiEffect> = _uiEffect.asSharedFlow()
 
     init {
         getRecipes()
@@ -64,7 +70,6 @@ class HomeViewModel @Inject constructor(
         return mixedItems
     }
 
-
     private fun deleteRecipe(recipeId: Long) = viewModelScope.launch {
         repository.deleteRecipe(recipeId)
     }
@@ -85,6 +90,12 @@ class HomeViewModel @Inject constructor(
 
             is HomeScreenEvent.DeleteRecipe -> {
                 deleteRecipe(event.recipeId)
+            }
+
+            is HomeScreenEvent.UpdateLanguage -> {
+                viewModelScope.launch {
+                    _uiEffect.emit(HomeUiEffect.ChangeLanguage(event.languageCode))
+                }
             }
         }
     }
