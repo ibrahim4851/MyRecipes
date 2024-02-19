@@ -1,4 +1,4 @@
-package com.ibrahim.myrecipes
+package com.ibrahim.myrecipes.presentation.navigation
 
 sealed class Screen(val route: String){
     data object HomeScreen: Screen(route = "home_screen")
