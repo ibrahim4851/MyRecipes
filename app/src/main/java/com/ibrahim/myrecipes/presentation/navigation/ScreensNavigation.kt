@@ -11,9 +11,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
-import com.ibrahim.myrecipes.CheckExternalStoragePermission
-import com.ibrahim.myrecipes.CheckPermissionTiramisu
-import com.ibrahim.myrecipes.Screen
+import com.ibrahim.myrecipes.util.CheckExternalStoragePermission
+import com.ibrahim.myrecipes.util.CheckPermissionTiramisu
 import com.ibrahim.myrecipes.presentation.createrecipe.RecipeViewModel
 import com.ibrahim.myrecipes.presentation.createrecipe.ui.AddRecipeImage
 import com.ibrahim.myrecipes.presentation.createrecipe.ui.RecipeTitle
