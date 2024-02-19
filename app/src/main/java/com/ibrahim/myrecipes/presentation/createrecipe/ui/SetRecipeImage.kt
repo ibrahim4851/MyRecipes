@@ -27,7 +27,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalContext
@@ -39,9 +38,9 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.ibrahim.myrecipes.R
-import com.ibrahim.myrecipes.presentation.navigation.Screen
 import com.ibrahim.myrecipes.presentation.createrecipe.CreateRecipeEvent
 import com.ibrahim.myrecipes.presentation.createrecipe.RecipeViewModel
+import com.ibrahim.myrecipes.presentation.navigation.Screen
 import com.ibrahim.myrecipes.presentation.ui.theme.Typography
 import com.ibrahim.myrecipes.util.canGoBack
 
@@ -121,6 +120,9 @@ fun AddRecipeImage(
                 }
             }
         ) { paddingValues ->
+
+            val strokeColor = MaterialTheme.colorScheme.onBackground
+
             Column(
                 modifier = Modifier
                     .padding(paddingValues)
@@ -134,7 +136,7 @@ fun AddRecipeImage(
                         .drawBehind {
                             if (uri == null) {
                                 drawRoundRect(
-                                    color = Color.Black,
+                                    color = strokeColor,
                                     style = stroke
                                 )
                             }
