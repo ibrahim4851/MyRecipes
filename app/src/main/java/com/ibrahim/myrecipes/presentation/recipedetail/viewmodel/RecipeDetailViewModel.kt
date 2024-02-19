@@ -1,5 +1,6 @@
 package com.ibrahim.myrecipes.presentation.recipedetail.viewmodel
 
+import android.content.Context
 import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -7,6 +8,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ibrahim.myrecipes.data.enums.FoodCategory
+import com.ibrahim.myrecipes.data.prefs.PreferenceManager
 import com.ibrahim.myrecipes.data.room.mapper.toIngredient
 import com.ibrahim.myrecipes.data.room.mapper.toRecipe
 import com.ibrahim.myrecipes.domain.model.Ingredient
@@ -18,17 +20,29 @@ import javax.inject.Inject
 @HiltViewModel
 class RecipeDetailViewModel @Inject constructor(
     private val repository: RecipeRepository,
-    savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle,
+    context: Context
 ) : ViewModel() {
 
     private val _state = mutableStateOf(RecipeDetailState())
     val state: State<RecipeDetailState> = _state
+    private val preferenceManager = PreferenceManager(context)
 
     init {
         savedStateHandle.get<String>("recipeId")?.let { recipeIdString ->
             val recipeId = recipeIdString.toInt()
             getRecipeWithIngredients(recipeId)
         }
+        if (!preferenceManager.getInfoGivenRecord()) {
+            _state.value = _state.value.copy(isFirstLaunch = true)
+            preferenceManager.saveInfoGivenRecord()
+        } else {
+            _state.value = _state.value.copy(isFirstLaunch = false)
+        }
+    }
+
+    fun onFirstLaunchComplete() {
+        _state.value = _state.value.copy(isFirstLaunch = false)
     }
 
     private fun getRecipeWithIngredients(recipeId: Int) = viewModelScope.launch {

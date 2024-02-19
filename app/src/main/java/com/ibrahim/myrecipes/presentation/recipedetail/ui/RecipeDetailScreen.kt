@@ -1,5 +1,6 @@
 package com.ibrahim.myrecipes.presentation.recipedetail.ui
 
+import android.widget.Toast
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -30,6 +31,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -100,6 +102,15 @@ fun RecipeDetail(
 ) {
     val recipe = viewModel.state.value.recipe
     val ingredients = viewModel.state.value.ingredients
+    val context = LocalContext.current
+    val isFirstLaunch = viewModel.state.value.isFirstLaunch
+
+    LaunchedEffect(isFirstLaunch) {
+        if (isFirstLaunch) {
+            Toast.makeText(context, "You can edit anything by clicking on it.", Toast.LENGTH_LONG).show()
+            viewModel.onFirstLaunchComplete()
+        }
+    }
 
     Box(Modifier.fillMaxSize()) {
         val scroll = rememberScrollState(0)
@@ -179,7 +190,7 @@ private fun Body(
                     Spacer(Modifier.height(16.dp))
                     Spacer(Modifier.height(20.dp))
                     Text(
-                        text = stringResource(id = R.string.ingredients),
+                        text = stringResource(id = R.string.ingredients) + " (+)",
                         style = Typography.headlineMedium,
                         fontWeight = FontWeight.Bold,
                         modifier = HzPadding
@@ -297,7 +308,7 @@ private fun Body(
                     Divider()
                     Spacer(Modifier.height(20.dp))
                     Text(
-                        text = stringResource(id = R.string.instructions) + "(+)",
+                        text = stringResource(id = R.string.instructions) + " (+)",
                         fontWeight = FontWeight.Bold,
                         style = Typography.headlineMedium,
                         modifier = HzPadding.clickable(
@@ -423,7 +434,12 @@ private fun Title(
             UpdateServingAndTimeDialog(
                 onDismissRequest = { showUpdateTimeAndServingDialog = false },
                 onConfirmation = { updatedServings, updatedTime ->
-                    viewModel.onEvent(RecipeDetailEvent.UpdateServingsAndTimeEvent(updatedServings, updatedTime))
+                    viewModel.onEvent(
+                        RecipeDetailEvent.UpdateServingsAndTimeEvent(
+                            updatedServings,
+                            updatedTime
+                        )
+                    )
                     showUpdateTimeAndServingDialog = false
                 },
                 dialogTitle = stringResource(R.string.update_time_servings),

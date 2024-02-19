@@ -15,5 +15,6 @@ data class RecipeDetailState(
         FoodCategory.BURGER,
         ""
     ),
-    val ingredients: Ingredients = listOf()
+    val ingredients: Ingredients = listOf(),
+    val isFirstLaunch: Boolean = false
 )
