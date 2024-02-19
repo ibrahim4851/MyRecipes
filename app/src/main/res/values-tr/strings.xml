@@ -84,5 +84,6 @@
     <string name="update_recipe_title">Tarif Başlığını Güncelle</string>
     <string name="update_recipe_category">Tarif Kategorisini Güncelle</string>
     <string name="update_time_servings">Süreyi ve Porsiyonu Güncelle</string>
+    <string name="remove_rows_by_swipe">Sola kaydırarak satırları silebilirsiniz</string>
 
 </resources>
