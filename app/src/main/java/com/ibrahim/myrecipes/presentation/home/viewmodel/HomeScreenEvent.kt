@@ -1,5 +1,6 @@
 package com.ibrahim.myrecipes.presentation.home.viewmodel
 
+import android.content.Context
 import com.ibrahim.myrecipes.data.enums.FoodCategory
 
 sealed class HomeScreenEvent {
@@ -10,5 +11,7 @@ sealed class HomeScreenEvent {
     data class ResetCategoryFilter(val dummy: String = ""): HomeScreenEvent()
 
     data class DeleteRecipe(val recipeId: Long = 0L): HomeScreenEvent()
+
+    data class UpdateLanguage(val context: Context, val languageCode: String): HomeScreenEvent()
 
 }
