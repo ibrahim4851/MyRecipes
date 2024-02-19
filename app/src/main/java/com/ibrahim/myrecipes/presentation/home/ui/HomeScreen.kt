@@ -1,10 +1,5 @@
 package com.ibrahim.myrecipes.presentation.home.ui
 
-import android.app.Activity
-import android.app.LocaleManager
-import android.content.Context
-import android.os.Build
-import android.os.LocaleList
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.keyframes
 import androidx.compose.foundation.background
@@ -34,6 +29,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -45,8 +41,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.ibrahim.myrecipes.MainActivity
 import com.ibrahim.myrecipes.R
 import com.ibrahim.myrecipes.presentation.home.viewmodel.HomeScreenEvent
+import com.ibrahim.myrecipes.presentation.home.viewmodel.HomeUiEffect
 import com.ibrahim.myrecipes.presentation.home.viewmodel.HomeViewModel
 import com.ibrahim.myrecipes.presentation.navigation.Screen
 
@@ -61,6 +59,16 @@ fun HomeScreen(
     var expandLanguageDropdown by remember { mutableStateOf(false) }
     var searchQuery by remember { mutableStateOf("") }
     val context = LocalContext.current
+
+    LaunchedEffect(key1 = viewModel) {
+        viewModel.uiEffect.collect { effect ->
+            when (effect) {
+                is HomeUiEffect.ChangeLanguage -> {
+                    (context as? MainActivity)?.changeLocaleAndRecreate(effect.languageCode)
+                }
+            }
+        }
+    }
 
     Surface(
         modifier = Modifier.fillMaxSize()
@@ -91,7 +99,7 @@ fun HomeScreen(
                                     Text("Türkçe")
                                 },
                                 onClick = {
-                                    changeLocale(context, "tr")
+                                    viewModel.onEvent(HomeScreenEvent.UpdateLanguage(context, "tr"))
                                     expandLanguageDropdown = false
                                 },
                             )
@@ -100,7 +108,7 @@ fun HomeScreen(
                                     Text("English")
                                 },
                                 onClick = {
-                                    changeLocale(context, "en")
+                                    viewModel.onEvent(HomeScreenEvent.UpdateLanguage(context, "en"))
                                     expandLanguageDropdown = false
                                 },
                             )
@@ -182,23 +190,6 @@ fun HomeScreen(
                     }
                 )
             }
-        }
-    }
-}
-
-fun changeLocale(context: Context, localeString: String) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-        context.getSystemService(LocaleManager::class.java)
-            .applicationLocales = LocaleList.forLanguageTags(localeString)
-    } else {
-        val localeList = LocaleList.forLanguageTags(localeString)
-        val resources = context.resources
-        val config = resources.configuration
-        config.setLocales(localeList)
-        resources.updateConfiguration(config, resources.displayMetrics)
-
-        if (context is Activity) {
-            context.recreate()
         }
     }
 }
