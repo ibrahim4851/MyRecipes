@@ -1,4 +1,4 @@
-package com.ibrahim.myrecipes
+package com.ibrahim.myrecipes.util
 
 import android.Manifest
 import android.os.Build
