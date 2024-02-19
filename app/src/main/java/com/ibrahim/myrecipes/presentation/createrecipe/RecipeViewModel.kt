@@ -50,11 +50,16 @@ class RecipeViewModel @Inject constructor(
 
 
     private fun setInstructions(instructions: List<String>) {
+        val capitalizedInstructions = instructions.map { instruction ->
+            instruction.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
+        }
+
         val currentState = _state.value
         val updatedRecipe =
-            currentState.recipe.copy(recipeInstructions = instructions)
+            currentState.recipe.copy(recipeInstructions = capitalizedInstructions)
         _state.value = currentState.copy(recipe = updatedRecipe)
     }
+
 
     private fun setImage(uri: Uri) {
         val currentState = _state.value
