@@ -1,9 +1,11 @@
 package com.ibrahim.myrecipes.data.enums
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.platform.LocalContext
 import com.ibrahim.myrecipes.R
 
+@Stable
 enum class FoodCategory(val resourceId: Int) {
     BURGER(R.string.food_category_burger),
     PIZZA(R.string.food_category_pizza),
@@ -25,6 +27,7 @@ enum class FoodCategory(val resourceId: Int) {
     OTHER(R.string.food_category_other);
 }
 
+@Stable
 fun getAllFoodCategories(): List<FoodCategory> {
     return listOf(
         FoodCategory.BURGER,
@@ -49,6 +52,7 @@ fun getAllFoodCategories(): List<FoodCategory> {
 }
 
 @Composable
+@Stable
 fun FoodCategory.getLabel(): String {
     val context = LocalContext.current
     return context.getString(this.resourceId)
