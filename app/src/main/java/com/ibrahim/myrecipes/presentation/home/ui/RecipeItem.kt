@@ -48,7 +48,9 @@ fun RecipeItem(
     onRecipeItemClick: (Recipe) -> Unit,
     onDeleteClick: (Recipe) -> Unit
 ) {
-    val uri = Uri.parse(recipe.recipePhotoUri)
+    val uri = remember {
+        Uri.parse(recipe.recipePhotoUri)
+    }
     val haptics = LocalHapticFeedback.current
     var showDeleteButton by remember { mutableStateOf(false) }
 
@@ -84,13 +86,19 @@ fun RecipeItem(
                     onClick = {
                         onDeleteClick(recipe)
                         showDeleteButton = false
-                              },
-                    Modifier.align(Alignment.TopEnd).background(
-                        color = MaterialTheme.colorScheme.onBackground,
-                        shape = CircleShape
-                    )
+                    },
+                    Modifier
+                        .align(Alignment.TopEnd)
+                        .background(
+                            color = MaterialTheme.colorScheme.onBackground,
+                            shape = CircleShape
+                        )
                 ) {
-                    Icon(imageVector = Icons.Filled.Delete, contentDescription = null, tint = Color.Red)
+                    Icon(
+                        imageVector = Icons.Filled.Delete,
+                        contentDescription = null,
+                        tint = Color.Red
+                    )
                 }
             }
         }
