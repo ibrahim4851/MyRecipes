@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -24,15 +25,17 @@ import com.ibrahim.myrecipes.data.enums.getLabel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyChipGroup(onChipSelected: (selectedCategories: List<FoodCategory>) -> Unit) {
-    val categoryList: List<FoodCategory> = getAllFoodCategories()
+    val categoryList = remember { getAllFoodCategories() }
     val selectedChipState = remember { mutableStateMapOf<FoodCategory, Boolean>() }
+    val lazyRowState = rememberLazyListState()
 
     LazyRow(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 10.dp)
+            .padding(top = 10.dp),
+        state = lazyRowState
     ) {
-        items(categoryList) { category ->
+        items(categoryList, key = { it.name.hashCode() }) { category ->
             FilterChip(
                 selected = selectedChipState[category] ?: false,
                 onClick = {
