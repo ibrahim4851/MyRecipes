@@ -107,7 +107,8 @@ fun RecipeDetail(
 
     LaunchedEffect(isFirstLaunch) {
         if (isFirstLaunch) {
-            Toast.makeText(context, "You can edit anything by clicking on it.", Toast.LENGTH_LONG).show()
+            Toast.makeText(context,
+                context.getString(R.string.you_can_edit_anything_by_clicking_on_it), Toast.LENGTH_LONG).show()
             viewModel.onFirstLaunchComplete()
         }
     }
