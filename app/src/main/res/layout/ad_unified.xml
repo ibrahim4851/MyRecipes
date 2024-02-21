@@ -45,7 +45,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="12dp"
             android:layout_marginTop="8dp"
-            android:text="Call to Action"
+            android:text="@string/call_to_action"
             tools:text="Install Now" />
     </LinearLayout>
 
