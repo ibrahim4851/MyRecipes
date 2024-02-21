@@ -52,7 +52,11 @@ fun RecipeItem(
         Uri.parse(recipe.recipePhotoUri)
     }
     val haptics = LocalHapticFeedback.current
+    val context = LocalContext.current
     var showDeleteButton by remember { mutableStateOf(false) }
+    val servings = remember { recipe.recipeServings.toString() }
+    val recipeTime = remember { recipe.recipeTime.minutesToHourMinuteString(context) }
+    val recipeTitle = remember { recipe.recipeTitle }
 
     ElevatedCard(
         modifier = modifier
@@ -107,7 +111,7 @@ fun RecipeItem(
             modifier = Modifier.padding(8.dp)
         ) {
             Text(
-                text = recipe.recipeTitle,
+                text = recipeTitle,
                 fontWeight = FontWeight.Bold,
                 style = Typography.titleLarge
             )
@@ -119,7 +123,7 @@ fun RecipeItem(
                     onClick = { },
                     label = {
                         Text(
-                            text = (recipe.recipeServings.toString() + stringResource(R.string.recipe_recipe_servings))
+                            text = (servings + stringResource(R.string.recipe_recipe_servings))
                         )
                     },
                     leadingIcon = {
@@ -135,7 +139,7 @@ fun RecipeItem(
                     onClick = { },
                     label = {
                         Text(
-                            text = (recipe.recipeTime.minutesToHourMinuteString(LocalContext.current))
+                            text = (recipeTime)
                         )
                     },
                     leadingIcon = {
