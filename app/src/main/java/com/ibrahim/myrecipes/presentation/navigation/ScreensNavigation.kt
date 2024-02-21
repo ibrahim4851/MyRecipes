@@ -11,8 +11,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
-import com.ibrahim.myrecipes.util.CheckExternalStoragePermission
-import com.ibrahim.myrecipes.util.CheckPermissionTiramisu
 import com.ibrahim.myrecipes.presentation.createrecipe.RecipeViewModel
 import com.ibrahim.myrecipes.presentation.createrecipe.ui.AddRecipeImage
 import com.ibrahim.myrecipes.presentation.createrecipe.ui.RecipeTitle
@@ -22,6 +20,8 @@ import com.ibrahim.myrecipes.presentation.createrecipe.ui.SetInstructions
 import com.ibrahim.myrecipes.presentation.home.ui.HomeScreen
 import com.ibrahim.myrecipes.presentation.onboarding.ui.OnBoardingScreen
 import com.ibrahim.myrecipes.presentation.recipedetail.ui.RecipeDetail
+import com.ibrahim.myrecipes.util.CheckExternalStoragePermission
+import com.ibrahim.myrecipes.util.CheckPermissionTiramisu
 
 @Composable
 fun ScreensNavigation() {
@@ -139,8 +139,6 @@ fun ScreensNavigation() {
         composable(route = Screen.OnBoardingScreen.route) {
             OnBoardingScreen(navController = navController)
         }
-
-
     }
 }
 
