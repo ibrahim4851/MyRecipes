@@ -84,4 +84,7 @@
     <string name="update_recipe_category">Update Recipe Category</string>
     <string name="update_time_servings"><![CDATA[Update Time & Servings]]></string>
     <string name="remove_rows_by_swipe">You can remove the rows by swiping to the left</string>
+    <string name="get_started">Get Started</string>
+    <string name="back">Back</string>
+    <string name="call_to_action">Visit</string>
 </resources>
