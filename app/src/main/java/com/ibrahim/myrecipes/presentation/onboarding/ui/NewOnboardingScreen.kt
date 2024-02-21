@@ -28,6 +28,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.ibrahim.myrecipes.R
 import com.ibrahim.myrecipes.presentation.navigation.Screen
 import com.ibrahim.myrecipes.presentation.onboarding.viewmodel.OnboardingViewModel
 import kotlinx.coroutines.launch
@@ -55,9 +56,9 @@ fun OnBoardingScreen(
         val buttonsState = remember {
             derivedStateOf {
                 when (pagerState.currentPage) {
-                    0 -> listOf("", "Next")
-                    1 -> listOf("Back", "Next")
-                    2 -> listOf("Back", "Get Started")
+                    0 -> listOf("", context.getString(R.string.next))
+                    1 -> listOf(context.getString(R.string.back), context.getString(R.string.next))
+                    2 -> listOf(context.getString(R.string.back), context.getString(R.string.get_started))
                     else -> listOf("", "")
                 }
             }
