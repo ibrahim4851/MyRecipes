@@ -88,5 +88,6 @@
     <string name="get_started">Başla</string>
     <string name="back">Geri</string>
     <string name="call_to_action">Ziyaret Et</string>
+    <string name="you_can_edit_anything_by_clicking_on_it">İstediğniz şeyin üstüne tıklayarak düzenleyebilirsiniz.</string>
 
 </resources>
