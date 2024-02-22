@@ -14,9 +14,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.Search
-import androidx.compose.material.icons.outlined.Settings
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -29,21 +26,17 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.ibrahim.myrecipes.MainActivity
 import com.ibrahim.myrecipes.R
 import com.ibrahim.myrecipes.presentation.home.viewmodel.HomeScreenEvent
-import com.ibrahim.myrecipes.presentation.home.viewmodel.HomeUiEffect
 import com.ibrahim.myrecipes.presentation.home.viewmodel.HomeViewModel
 import com.ibrahim.myrecipes.presentation.navigation.Screen
 
@@ -56,19 +49,7 @@ fun HomeScreen(
 
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     var expandSearchBar by remember { mutableStateOf(false) }
-    var expandLanguageDropdown by remember { mutableStateOf(false) }
     var searchQuery by remember { mutableStateOf("") }
-    val context = LocalContext.current
-
-    LaunchedEffect(key1 = viewModel) {
-        viewModel.uiEffect.collect { effect ->
-            when (effect) {
-                is HomeUiEffect.ChangeLanguage -> {
-                    (context as? MainActivity)?.changeLocaleAndRecreate(effect.languageCode)
-                }
-            }
-        }
-    }
 
     Surface(modifier = Modifier.fillMaxSize()) {
         Scaffold(
@@ -85,32 +66,6 @@ fun HomeScreen(
                                 imageVector = Icons.Filled.Search,
                                 contentDescription = null
                             )
-                        }
-                        DropdownMenu(
-                            expanded = expandLanguageDropdown,
-                            onDismissRequest = { expandLanguageDropdown = false },
-                        ) {
-                            DropdownMenuItem(
-                                text = {
-                                    Text("Türkçe")
-                                },
-                                onClick = {
-                                    viewModel.onEvent(HomeScreenEvent.UpdateLanguage(context, "tr"))
-                                    expandLanguageDropdown = false
-                                },
-                            )
-                            DropdownMenuItem(
-                                text = {
-                                    Text("English")
-                                },
-                                onClick = {
-                                    viewModel.onEvent(HomeScreenEvent.UpdateLanguage(context, "en"))
-                                    expandLanguageDropdown = false
-                                },
-                            )
-                        }
-                        IconButton(onClick = { expandLanguageDropdown = !expandLanguageDropdown }) {
-                            Icon(imageVector = Icons.Outlined.Settings, contentDescription = null)
                         }
                     },
                     scrollBehavior = scrollBehavior
