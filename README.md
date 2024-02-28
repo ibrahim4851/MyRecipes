@@ -16,7 +16,7 @@ Recipy is an innovative recipe management app designed for culinary enthusiasts,
 
 - Personalize Your Experience: Customize your recipe discovery with filters for dietary preferences and allergen information. The app supports multiple languages, catering to a global audience.
 
-- Interactive Elements: Rate recipes, leave comments, and engage with the Recipy community. Your feedback helps improve the app and the cooking experience for all users.
+- Interactive Elements: Rate recipes, leave comments and engage with the Recipy community. Your feedback helps improve the app and the cooking experience for all users.
 
 - Offline Access: Access your saved recipes and collections even without an internet connection, thanks to local data storage.
 
