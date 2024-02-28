@@ -3,8 +3,8 @@ Recipy is an innovative recipe management app designed for culinary enthusiasts,
 
 
 
-![Tux, the Linux mascot](photos/recipe.png)
-![Tux, the Linux mascot](photos/githubshowcase.jpg)
+![App Logo](photos/recipe.png)
+![App Showcase](photos/githubshowcase.jpg)
 
 
 ## Features
