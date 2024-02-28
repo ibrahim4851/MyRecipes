@@ -34,9 +34,21 @@ Recipy leverages the following technologies and practices to ensure a high-quali
 - Material3 Components: The app is designed with Material3 components, providing a modern and cohesive look and feel.
 
 ## About the App
-Recipe Management: Users can add, view, edit, and delete recipes, making it easy to manage their culinary collection.
-Initial Recipes: The app comes pre-loaded with 13 initial recipes to get users started on their cooking journey.
-Language Support: Recipy supports both Turkish (TR) and English (EN), making it accessible to a wider audience.
-Onboarding Page: New users are greeted with an onboarding page that highlights the app's features and guides them through the initial setup.
-Getting Started
+
+### Recipe Management:
+
+Users can add, view, edit, and delete recipes, making it easy to manage their culinary collection.
+
+### Initial Recipes:
+
+The app comes pre-loaded with 13 initial recipes to get users started on their cooking journey.
+
+### Language Support:
+
+Recipy supports both Turkish (TR) and English (EN), making it accessible to a wider audience.
+
+### Onboarding Page:
+New users are greeted with an onboarding page that highlights the app's features and guides them through the initial setup.
+
+### Getting Started
 To get started with Recipy, clone the repository to your local machine and open the project in Android Studio. Ensure you have the latest version of Android Studio and the Android SDK installed for the best development experience.
