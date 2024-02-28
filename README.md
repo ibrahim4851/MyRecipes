@@ -1,6 +1,14 @@
 # Recipy App
 Recipy is an innovative recipe management app designed for culinary enthusiasts, home cooks, and anyone who loves the art of cooking. Built with modern Android development tools and practices, Recipy offers a seamless user experience, allowing users to discover, create, organize, and share recipes with ease. The app's intuitive design and powerful features make cooking more accessible and enjoyable for everyone.
 
+
+![Tux, the Linux mascot](photos/en1.png)
+![Tux, the Linux mascot](photos/en2.png)
+![Tux, the Linux mascot](photos/en3.png)
+![Tux, the Linux mascot](photos/en4.png)
+![Tux, the Linux mascot](photos/recipe.png)
+
+
 ## Features
 - Discover Recipes: Explore a curated selection of recipes across various cuisines and categories. Each recipe includes detailed instructions, ingredient lists, preparation times, and serving sizes.
 
